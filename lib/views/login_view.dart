@@ -8,7 +8,6 @@ class LoginView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       //appBar: AppBar(backgroundColor: kSecondaryColor),
       backgroundColor: kPrimaryColor,
@@ -77,8 +76,8 @@ class LoginView extends StatelessWidget {
               ),
               SizedBox(height: 20.h),
               Container(
-                height: 562,
-                width: 341,
+                height: 562.h,
+                width: 341.w,
                 padding: EdgeInsets.symmetric(horizontal: 16.w),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(24.r),
