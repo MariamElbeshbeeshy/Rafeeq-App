@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:rafeeq_app/helper/constants.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:rafeeq_app/widgets/login_form.dart';
+import 'package:rafeeq_app/widgets/positioned_cloud_icon.dart';
 
 class LoginView extends StatelessWidget {
   const LoginView({super.key});
@@ -8,12 +10,11 @@ class LoginView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
-      //appBar: AppBar(backgroundColor: kSecondaryColor),
       backgroundColor: kPrimaryColor,
       body: Stack(
         children: [
+          //Background Screen Design
           Container(
             height: 487.h,
             decoration: BoxDecoration(
@@ -24,74 +25,63 @@ class LoginView extends StatelessWidget {
               color: kSecondaryColor,
             ),
           ),
-          Positioned(
-            left: -36.w,
-            top: 51.h,
-            child: Image.asset(
-              "assets/images/image.png",
-              height: 60.h,
-              width: 71.w,
-            ),
-          ),
-          Positioned(
-            left: 131.w,
-            top: 134.h,
-            child: Image.asset(
-              "assets/images/image.png",
-              height: 60.h,
-              width: 71.w,
-            ),
-          ),
-          Positioned(
-            left: 344.w,
-            top: 115.h,
-            child: Image.asset(
-              "assets/images/image.png",
-              height: 60.h,
-              width: 71.w,
-            ),
-          ),
-          Column(
+          PositionedCloudIcon(leftPosition: -36.w, topPosition: 51.h),
+          PositionedCloudIcon(leftPosition: 131.w, topPosition: 134.h),
+          PositionedCloudIcon(leftPosition: 344.w, topPosition: 115.h),
+
+          //Foreground Screen Design
+          ListView(
             children: [
-              SizedBox(height: 50.h),
-              Center(
-                child: Text(
-                  'أهلًا بك في رفيق',
-                  style: TextStyle(
-                    color: kPrimaryColor,
-                    fontWeight: FontWeight.w900,
-                    fontSize: 32.sp,
-                  ),
-                ),
-              ),
-              SizedBox(height: 10.h),
-              Center(
-                child: Text(
-                  "المساعد الذكي لتطوير مهارات طفلك",
-                  style: TextStyle(
-                    color: kPrimaryColor,
-                    fontWeight: FontWeight.w400,
-                    fontSize: 12.sp,
-                  ),
-                ),
-              ),
-              SizedBox(height: 20.h),
-              Container(
-                height: 562,
-                width: 341,
-                padding: EdgeInsets.symmetric(horizontal: 16.w),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(24.r),
-                  color: kWhiteBackground,
-                  boxShadow: [
-                    BoxShadow(
-                      color: kShadowColor,
-                      blurRadius: 4.r,
-                      spreadRadius: 0,
-                      offset: Offset(0.h, 4.h),
+              Column(
+                children: [
+                  SizedBox(height: 20.h),
+                  Center(
+                    child: Text(
+                      'أهلًا بك في رفيق',
+                      style: TextStyle(
+                        color: kPrimaryColor,
+                        fontWeight: FontWeight.w900,
+                        fontSize: 32.sp,
+                      ),
                     ),
-                  ],
-                ),
+                  ),
+                  SizedBox(height: 10.h),
+                  Center(
+                    child: Text(
+                      "المساعد الذكي لتطوير مهارات طفلك",
+                      style: TextStyle(
+                        color: kPrimaryColor,
+                        fontWeight: FontWeight.w400,
+                        fontSize: 12.sp,
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 20.h),
+
+                  //Form Card Design
+                  Container(
+                    height: 562.h,
+                    width: 341.w,
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 8.w,
+                      vertical: 16.h,
+                    ),
+                    margin: EdgeInsets.symmetric(horizontal: 8.w),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(24.r),
+                      color: kWhiteBackgroundColor,
+                      boxShadow: [
+                        BoxShadow(
+                          color: kShadowColor,
+                          blurRadius: 4.r,
+                          spreadRadius: 0,
+                          offset: Offset(0.h, 4.h),
+                        ),
+                      ],
+                    ),
+                    child: LogInForm(),
+                  ),
+                ],
               ),
             ],
           ),
