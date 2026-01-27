@@ -7,10 +7,10 @@ ThemeData AppTheme() {
     useMaterial3: true,
     brightness: Brightness.light,
     fontFamily: 'Cairo',
-    scaffoldBackgroundColor: kWhiteBackground,
+    scaffoldBackgroundColor: kWhiteBackgroundColor,
     appBarTheme: AppBarTheme(
-      backgroundColor: kWhiteBackground,
-      foregroundColor: kAppBarForeground,
+      backgroundColor: kWhiteBackgroundColor,
+      foregroundColor: Color(0xff191300),
     ),
     inputDecorationTheme: InputDecorationTheme(
       contentPadding: EdgeInsets.all(16.0),
@@ -21,19 +21,19 @@ ThemeData AppTheme() {
       ),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(8.0),
-        borderSide: BorderSide(color: kGreyBorder),
+        borderSide: BorderSide(color: Color(0xffB3B3B3)),
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(8.0),
         borderSide: BorderSide(color: kPrimaryColor),
       ),
-      hintStyle: TextStyle(color: Colors.grey[400]),
+      hintStyle: TextStyle(color: Color(0xff9CA3AF)),
     ),
     textSelectionTheme: const TextSelectionThemeData(
       cursorColor: kPrimaryColor,
     ),
     //textTheme: const TextTheme(titleMedium: TextStyle(color: Colors.black)),
-    outlinedButtonTheme: OutlinedButtonThemeData(
+    elevatedButtonTheme: ElevatedButtonThemeData(
       style: OutlinedButton.styleFrom(
         textStyle: TextStyle(
           fontSize: 16.sp,
@@ -41,9 +41,25 @@ ThemeData AppTheme() {
           fontFamily: "cairo",
         ),
         backgroundColor: kPrimaryColor,
-        foregroundColor: kWhiteBackground,
+        foregroundColor: kWhiteBackgroundColor,
+        disabledBackgroundColor: Color(0xffCCCCCC),
+        disabledForegroundColor: kWhiteBackgroundColor,
         minimumSize: const Size.fromHeight(50),
         side: BorderSide.none,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.r)),
+      ),
+    ),
+    outlinedButtonTheme: OutlinedButtonThemeData(
+      style: OutlinedButton.styleFrom(
+        textStyle: TextStyle(
+          fontSize: 16.sp,
+          fontWeight: FontWeight.w600,
+          fontFamily: "cairo",
+        ),
+        backgroundColor: kWhiteBackgroundColor,
+        foregroundColor: kPrimaryColor,
+        minimumSize: const Size.fromHeight(50),
+        side: BorderSide(color: kPrimaryColor),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.r)),
       ),
     ),
