@@ -6,4 +6,5 @@ const Color kWhiteBackground = Color(0xffFAFAFA);
 const Color kYellowBorder = Color(0xffFFD817);
 const Color kGreyBorder = Color(0xffB3B3B3);
 const Color kShadowColor = Color.fromARGB(61, 0, 0, 0);
+const Color kAppBarForeground = Color(0xff191300);
 const int kBorderThickness = 1;

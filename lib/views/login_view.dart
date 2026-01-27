@@ -78,7 +78,8 @@ class LoginView extends StatelessWidget {
               Container(
                 height: 562.h,
                 width: 341.w,
-                padding: EdgeInsets.symmetric(horizontal: 16.w),
+                padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 16.h),
+                margin: EdgeInsets.symmetric(horizontal: 8.w),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(24.r),
                   color: kWhiteBackground,
@@ -90,6 +91,96 @@ class LoginView extends StatelessWidget {
                       offset: Offset(0.h, 4.h),
                     ),
                   ],
+                ),
+                child: Form(
+                  child: Column(
+                    //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Spacer(),
+                      Center(
+                        child: Text(
+                          'تسجيل الدخول',
+                          style: TextStyle(
+                            color: Color(0xff0B2728),
+                            fontSize: 24.sp,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ),
+                      Spacer(flex: 3),
+                      //SizedBox(height: 30.h),
+                      Text(
+                        'البريد الإلكتروني',
+                        style: TextStyle(
+                          color: Color(0xff0B2728),
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      Spacer(),
+                      TextFormField(),
+                      Spacer(flex: 2),
+                      Text(
+                        'الرقم القومي للطفل',
+                        style: TextStyle(
+                          color: Color(0xff0B2728),
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      Spacer(),
+                      TextFormField(),
+                      Spacer(flex: 2),
+                      OutlinedButton(
+                        onPressed: () {},
+                        child: Text('تسجيل الدخول'),
+                      ),
+                      Spacer(flex: 2),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Expanded(
+                            child: Divider(
+                              endIndent: 20.w,
+                              thickness: 1.h,
+                              height: 1.h,
+                              color: Color.fromARGB(255, 212, 215, 220),
+                            ),
+                          ),
+                          Text('أو'),
+                          Expanded(
+                            child: Divider(
+                              indent: 20.w,
+                              thickness: 1.h,
+                              height: 1.h,
+                              color: Color.fromARGB(255, 212, 215, 220),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Spacer(flex: 2),
+                      OutlinedButton(
+                        onPressed: () {},
+                        child: Text('تسجيل الدخول'),
+                      ),
+                      Spacer(flex: 3),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text('لا يوجد لديك حساب؟ '),
+                          GestureDetector(
+                            child: Text(
+                              'أنشئ حسابًا الآن',
+                              style: TextStyle(
+                                decoration: TextDecoration.underline,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ],

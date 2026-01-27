@@ -10,6 +10,8 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_screenutil: ^5.9.3
+  flutter_localizations: 
+    sdk: flutter
 
 dev_dependencies:
   flutter_test:
