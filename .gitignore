@@ -43,3 +43,22 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Gradle files (The main cause of your issues)
+.gradle/
+build/
+android/app/build.gradle.kts
+android/gradle.properties
+android/gradle/wrapper/gradle-wrapper.properties
+android/settings.gradle.kts
+android/local.properties
+
+# Android Studio & IDE files
+.idea/
+.vscode/
+*.iml
+.flutter-plugins
+.flutter-plugins-dependencies
+
+# Specific Gradle Cache
+android/.gradle/
