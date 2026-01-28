@@ -49,7 +49,7 @@ class OtpView extends StatelessWidget {
 
                   //otp Card Design
                   Container(
-                    height: 407.h,
+                    //height: 407.h,
                     width: 341.w,
                     padding: EdgeInsets.symmetric(
                       horizontal: 16.w,
