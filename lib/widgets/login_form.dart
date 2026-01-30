@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:rafeeq_app/views/qr_scan_view.dart';
 import 'package:rafeeq_app/widgets/or_divider.dart';
 import 'package:rafeeq_app/widgets/register_now_section.dart';
 
@@ -61,7 +62,7 @@ class LogInForm extends StatelessWidget {
           OrDivider(),
           Spacer(flex: 2),
           OutlinedButton(
-            onPressed: () {},
+            onPressed: () => Navigator.pushNamed(context, QRScanView.id),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -78,7 +79,3 @@ class LogInForm extends StatelessWidget {
     );
   }
 }
-
-
-
-
