@@ -19,6 +19,7 @@ class OtpForm extends StatelessWidget {
               fontSize: 24.sp,
             ),
           ),
+          
           SizedBox(height: 8.h),
           Text(
             "لقد أرسلنا إليك رمز التأكيد عبر البريد الإلكترونى",
