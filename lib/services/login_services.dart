@@ -7,13 +7,13 @@ class LoginServices {
 
   String baseUrl ="https://api-rafiq.premiumasp.net/api/v1";
 
-   Future logIn ({ required String id, required String nationalityId, required String deviceId, required String deviceName, required String projectName, }) async{
+   Future logIn ({String? id,String? nationalityId, required String deviceId, required String deviceName, required String projectName }) async{
 
     try {
   final Response response = await dio.post(
     "$baseUrl/Login",
     data: {
-      "id" :id,
+      "id" :id ,
       "nationalityId": nationalityId,
       "device": {
          "deviceId": deviceId,

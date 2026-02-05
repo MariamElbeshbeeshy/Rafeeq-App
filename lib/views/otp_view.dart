@@ -6,6 +6,7 @@ import 'package:rafeeq_app/widgets/background_widget.dart';
 
 class OtpView extends StatelessWidget {
   const OtpView({super.key});
+  static String id = "OTP view";
    
 
   @override

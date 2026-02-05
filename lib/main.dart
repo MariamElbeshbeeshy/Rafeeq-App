@@ -28,7 +28,7 @@ class MainApp extends StatelessWidget {
           ],
           theme: AppTheme(),
           debugShowCheckedModeBanner: false,
-          // routes: {LoginView.id: (context) => LoginView()},
+          routes: {LoginView.id: (context) => LoginView() , OtpView.id:(context) => OtpView() },
           // initialRoute: LoginView.id,
           home:OtpView()
         );

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:rafeeq_app/views/otp_view.dart';
 import 'package:rafeeq_app/widgets/or_divider.dart';
 import 'package:rafeeq_app/widgets/register_now_section.dart';
 
@@ -54,7 +55,7 @@ class LogInForm extends StatelessWidget {
           ),
           Spacer(flex: 2),
           ElevatedButton(
-            onPressed: isEnabled ? () {} : null,
+            onPressed: isEnabled ? () { Navigator.pushNamed(context, OtpView.id);} : null,
             child: Text('تسجيل الدخول'),
           ),
           Spacer(flex: 2),
