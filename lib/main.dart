@@ -3,6 +3,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:rafeeq_app/views/login_view.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:rafeeq_app/views/otp_view.dart';
+import 'package:rafeeq_app/views/qr_scan_view.dart';
 import 'package:rafeeq_app/widgets/app_theme.dart';
 
 void main() {
@@ -28,9 +29,11 @@ class MainApp extends StatelessWidget {
           ],
           theme: AppTheme(),
           debugShowCheckedModeBanner: false,
-          routes: {LoginView.id: (context) => LoginView() , OtpView.id:(context) => OtpView() },
-          // initialRoute: LoginView.id,
-          home:OtpView()
+          routes: {LoginView.id: (context) => LoginView(),
+            QRScanView.id: (context)=> QRScanView(),
+            OtpView.id:(context) => OtpView(),
+          },
+          initialRoute: LoginView.id,
         );
       },
     );
