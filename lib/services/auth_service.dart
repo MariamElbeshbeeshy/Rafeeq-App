@@ -1,7 +1,6 @@
-import 'dart:nativewrappers/_internal/vm/lib/developer.dart';
+//import 'dart:nativewrappers/_internal/vm/lib/developer.dart';
 import 'package:dio/dio.dart';
 import 'package:rafeeq_app/models/auth_response_model.dart';
-import 'package:rafeeq_app/models/login_response_model.dart';
 
 class AuthService {
   final Dio dio = Dio();
@@ -30,9 +29,7 @@ class AuthService {
       );
       return AuthResponseModel.logInResponse(response.data);
     } on DioException catch (e) {
-      log(e.toString());
-      final String errorMessage = e.response?.data;
-      throw Exception(errorMessage);
+      final String errorMessage = e.response?.data["message"];
     } catch (e) {
       print("Unexpected Error: $e");
     }
@@ -58,7 +55,7 @@ class AuthService {
       );
       return AuthResponseModel.logInResponse(response.data);
     } on DioException catch (e) {
-      log(e.toString());
+      //log(e.toString());
       final String errorMessage = e.response?.data;
       throw Exception(errorMessage);
     } catch (e) {
