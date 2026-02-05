@@ -1,10 +1,9 @@
-import 'package:rafeeq_app/models/user_data_model.dart';
 
 class LoginResponseModel {
   final int statusCode;
   final String key; 
   final String message;
-  final UserDataModel data;
+  final bool? data;
 
   LoginResponseModel({required this.statusCode, required this.key, required this.message, required this.data});
 
@@ -14,7 +13,7 @@ class LoginResponseModel {
       statusCode: json["statusCode"],
       key: json["key"],
       message : json["message"],
-      data:  UserDataModel.fromJson(json["data"])
+      data: json["data"]
      );
 
   }
