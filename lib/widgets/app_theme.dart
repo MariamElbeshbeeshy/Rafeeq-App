@@ -59,7 +59,7 @@ ThemeData AppTheme() {
         backgroundColor: kWhiteBackgroundColor,
         foregroundColor: kPrimaryColor,
         minimumSize: const Size.fromHeight(50),
-        side: BorderSide(color: kPrimaryColor),
+        side: BorderSide(color: kYellowSecondaryColor),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.r)),
       ),
     ),
