@@ -31,6 +31,7 @@ class MainApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           routes: {LoginView.id: (context) => LoginView(),
             QRScanView.id: (context)=> QRScanView(),
+            OtpView.id:(context) => OtpView(),
           },
           initialRoute: LoginView.id,
         );
