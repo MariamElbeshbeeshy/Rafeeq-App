@@ -34,7 +34,7 @@ class MainApp extends StatelessWidget {
             QRScanView.id: (context) => QRScanView(),
             OtpView.id: (context) => OtpView(),
           },
-          initialRoute: QRScanView.id,
+          initialRoute: OtpView.id,
         );
       },
     );

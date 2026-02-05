@@ -14,26 +14,26 @@ class AuthService {
     required String deviceName,
     required String projectName,
   }) async {
-    try {
-      final Response response = await dio.post(
-        "$baseUrl/Login",
-        data: {
-          "id": id,
-          "nationalityId": nationalityId,
-          "device": {
-            "deviceId": deviceId,
-            "deviceName": deviceName,
-            "projectName": projectName,
-          },
-        },
-      );
-      return AuthResponseModel.logInResponse(response.data);
-    } on DioException catch (e) {
-      final String errorMessage = e.response?.data["message"];
-    } catch (e) {
-      print("Unexpected Error: $e");
-    }
+      try {
+  final Response response = await dio.post(
+    "$baseUrl/Login",
+    data: {
+      "id": id,
+      "nationalityId": nationalityId,
+      "device": {
+        "deviceId": deviceId,
+        "deviceName": deviceName,
+        "projectName": projectName,
+      },
+    },
+  );
+  return AuthResponseModel.logInResponse(response.data);
+} on DioException catch (e) {
+  rethrow;
+}
   }
+
+
 
   Future confirmCodeService({
     String? nationalityId,
