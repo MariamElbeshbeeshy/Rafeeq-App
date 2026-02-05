@@ -4,7 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
-import 'package:rafeeq_app/cubits/auth%20cubit/qr_cubit.dart';
+import 'package:rafeeq_app/cubits/qr%20cubit/qr_cubit.dart';
 import 'package:rafeeq_app/helper/show_alert_dialog.dart';
 import 'package:rafeeq_app/models/auth_response_model.dart';
 import 'package:rafeeq_app/services/auth_service.dart';

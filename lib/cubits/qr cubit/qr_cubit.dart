@@ -5,7 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:meta/meta.dart';
 import 'package:rafeeq_app/services/auth_service.dart';
 
-part 'auth_cubit_state.dart';
+part 'qr_cubit_state.dart';
 
 class QRCubit extends Cubit<QRCubitState> {
   final AuthService authService = AuthService();
