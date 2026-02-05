@@ -53,7 +53,7 @@ class AuthService {
           },
         },
       );
-      return AuthResponseModel.logInResponse(response.data);
+      return AuthResponseModel.confirmCodeResponse(response.data);
     } on DioException catch (e) {
       //log(e.toString());
       final String errorMessage = e.response?.data;
