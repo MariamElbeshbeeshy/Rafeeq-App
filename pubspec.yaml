@@ -13,6 +13,7 @@ dependencies:
   flutter_localizations: 
     sdk: flutter
   flutter_timer_countdown: ^1.0.7
+  dio: ^5.9.1
 
 dev_dependencies:
   flutter_test:
