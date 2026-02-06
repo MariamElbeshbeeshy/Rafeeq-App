@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_timer_countdown/flutter_timer_countdown.dart';
+import 'package:rafeeq_app/cubits/otp%20cubit/otp_cubit.dart';
+import 'package:rafeeq_app/helper/constants.dart';
+import 'package:rafeeq_app/helper/show_alert_dialog.dart';
+import 'package:rafeeq_app/views/otp_view.dart';
 import 'package:pinput/pinput.dart';
 
 class OtpForm extends StatefulWidget {
   const OtpForm({super.key});
 
+  //String? OtpCode;
   @override
   State<OtpForm> createState() => _OtpFormState();
 }
@@ -15,6 +21,26 @@ class _OtpFormState extends State<OtpForm> {
   TextEditingController otpCode =TextEditingController();
   @override
   Widget build(BuildContext context) {
+    return BlocListener<OtpCubit, OtpState>(
+      listener: (context, state) {
+        if (state is OtpVervicationSuccess) {
+          ShowMessage(context, state.message, [
+            ElevatedButton(onPressed: () {}, child: Text("التالي")),
+          ]);
+        } else if (state is OtpVervicationError) {
+          ShowMessage(context, state.message, []);
+        }
+      },
+      child: Container(
+        child: Column(
+          children: [
+            Text(
+              "راجع بريدك الإلكترونى",
+              style: TextStyle(
+                fontWeight: FontWeight.w700,
+                color: Colors.black,
+                fontSize: 24.sp,
+              ),
 
     final defaultPinTheme = PinTheme(
       width: 56,
@@ -56,17 +82,16 @@ class _OtpFormState extends State<OtpForm> {
               color: Colors.black,
               fontSize: 24.sp,
             ),
-          ),
-          SizedBox(height: 8.h),
-          Text(
-            "لقد أرسلنا إليك رمز التأكيد عبر البريد الإلكترونى",
-            style: TextStyle(
-              fontWeight: FontWeight.w400,
-              color: Colors.grey,
-              fontSize: 12.sp,
+            SizedBox(height: 8.h),
+            Text(
+              "لقد أرسلنا إليك رمز التأكيد عبر البريد الإلكترونى",
+              style: TextStyle(
+                fontWeight: FontWeight.w400,
+                color: Colors.grey,
+                fontSize: 12.sp,
+              ),
             ),
-          ),
-          SizedBox(height: 18.h),
+            SizedBox(height: 18.h),
 
           //// otp  confirmation ////
            Directionality(
@@ -118,7 +143,9 @@ class _OtpFormState extends State<OtpForm> {
           SizedBox(height: 24.h),
 
           /// buttons/ ///
-          ElevatedButton(onPressed: () {}, child: Text("تأكيد")),
+          ElevatedButton(onPressed: () {
+          String? OtpCode;
+           BlocProvider.of<OtpCubit>(context).otpVerify(OtpCode);}, child: Text("تأكيد")),
           SizedBox(height: 16.h),
           OutlinedButton(onPressed: () {}, child: Text("أرسل الرمز مرة أخرى")),
         ],
