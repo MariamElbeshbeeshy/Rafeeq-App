@@ -20,19 +20,16 @@ class _LogInFormState extends State<LogInForm> {
   bool isButtonEnabled = false;
   String? wrongNationalId = null;
   AuthService authService = AuthService();
-  AuthResponseModel? authLogInResponse  ;
+  AuthResponseModel? authLogInResponse;
 
   void checkFormFilled() {
     setState(() {
-
-       if (nationalId.text.isEmpty){
+      if (nationalId.text.isEmpty) {
         wrongNationalId = null;
-        isButtonEnabled =false;
-       }
-       else{
+        isButtonEnabled = false;
+      } else {
         isButtonEnabled = true;
-       }
-       
+      }
     });
   }
 
@@ -42,30 +39,26 @@ class _LogInFormState extends State<LogInForm> {
     nationalId.addListener(checkFormFilled);
   }
 
-  _submitForm() async{
-   authLogInResponse = await authService.logIn(
+  _submitForm() async {
+    authLogInResponse = await authService.emailLogIn(
       nationalityId: nationalId.text,
       deviceId: "123",
-       deviceName: "iphone",
-        projectName: "Rafiq"
-        );
-          
-     if(authLogInResponse!.key == "success"){
-      Navigator.pushNamed( context ,OtpView.id);
-     }
-    else{
+      deviceName: "iphone",
+      projectName: "Rafiq",
+    );
+
+    if (authLogInResponse!.key == "success") {
+      Navigator.pushNamed(context, OtpView.id);
+    } else {
       setState(() {
-        wrongNationalId ="الرقم القومى غير صحيح ";
+        wrongNationalId = "الرقم القومى غير صحيح ";
       });
     }
-      
-    
   }
 
   @override
   Widget build(BuildContext context) {
     return Form(
-      
       key: _formKey,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -97,20 +90,21 @@ class _LogInFormState extends State<LogInForm> {
             decoration: InputDecoration(
               hintText: "3015518094994*",
               errorText: wrongNationalId,
-              ),
-            validator: (value) {
-            },
+            ),
+            validator: (value) {},
           ),
           Spacer(flex: 2),
           ElevatedButton(
-            onPressed: isButtonEnabled?  _submitForm : null,     
+            onPressed: isButtonEnabled ? _submitForm : null,
             child: Text('تسجيل الدخول'),
           ),
           Spacer(flex: 2),
           OrDivider(),
           Spacer(flex: 2),
           OutlinedButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pushNamed(context, QRScanView.id);
+            },
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [

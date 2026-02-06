@@ -14,14 +14,13 @@ class OtpCubit extends Cubit<OtpState> {
 
   Future<void> otpVerify(String? otpCode) async {
     String? childId = "5a8c2607-dc69-4131-9662-4078a30ecb1b";
-    String? nationalityId;
-    //String? otpCode;
-
+    String? nationalityId = "3032158777";
+    
     try {
       final AuthResponseModel response = await authService.confirmCode(
         id: childId,
         nationalityId: nationalityId,
-        otpCode: "1222",
+        otpCode: otpCode,
       );
       emit(OtpVervicationSuccess(response.message));
     } on DioException catch (e) {

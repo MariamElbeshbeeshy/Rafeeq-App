@@ -31,10 +31,10 @@ class MainApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           routes: {
             LoginView.id: (context) => LoginView(),
-            //QRScanView.id: (context) => QRScanView(),
+            QRScanView.id: (context) => QRScanView(),
             OtpView.id: (context) => OtpView(),
           },
-          initialRoute: OtpView.id,
+          initialRoute: LoginView.id,
         );
       },
     );

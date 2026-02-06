@@ -2,46 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_timer_countdown/flutter_timer_countdown.dart';
-import 'package:rafeeq_app/cubits/otp%20cubit/otp_cubit.dart';
-import 'package:rafeeq_app/helper/constants.dart';
-import 'package:rafeeq_app/helper/show_alert_dialog.dart';
-import 'package:rafeeq_app/views/otp_view.dart';
 import 'package:pinput/pinput.dart';
+import 'package:rafeeq_app/cubits/otp%20cubit/otp_cubit.dart';
+import 'package:rafeeq_app/helper/show_alert_dialog.dart';
 
 class OtpForm extends StatefulWidget {
   const OtpForm({super.key});
 
-  //String? OtpCode;
   @override
   State<OtpForm> createState() => _OtpFormState();
 }
 
 class _OtpFormState extends State<OtpForm> {
+  TextEditingController _controller = TextEditingController();
+  String? otpCode;
+  bool? isCorrectOtp;
 
-  TextEditingController otpCode =TextEditingController();
   @override
   Widget build(BuildContext context) {
-    return BlocListener<OtpCubit, OtpState>(
-      listener: (context, state) {
-        if (state is OtpVervicationSuccess) {
-          ShowMessage(context, state.message, [
-            ElevatedButton(onPressed: () {}, child: Text("التالي")),
-          ]);
-        } else if (state is OtpVervicationError) {
-          ShowMessage(context, state.message, []);
-        }
-      },
-      child: Container(
-        child: Column(
-          children: [
-            Text(
-              "راجع بريدك الإلكترونى",
-              style: TextStyle(
-                fontWeight: FontWeight.w700,
-                color: Colors.black,
-                fontSize: 24.sp,
-              ),
-
     final defaultPinTheme = PinTheme(
       width: 56,
       height: 56,
@@ -62,9 +40,7 @@ class _OtpFormState extends State<OtpForm> {
     );
 
     final submittedPinTheme = defaultPinTheme.copyWith(
-      decoration: defaultPinTheme.decoration!.copyWith(
-        color: Colors.grey[200],
-      ),
+      decoration: defaultPinTheme.decoration!.copyWith(color: Colors.grey[200]),
     );
 
     final errorPinTheme = defaultPinTheme.copyDecorationWith(
@@ -72,15 +48,29 @@ class _OtpFormState extends State<OtpForm> {
       borderRadius: BorderRadius.circular(8),
     );
 
-    return Container(
-      child: Column(
-        children: [
-          Text(
-            "راجع بريدك الإلكترونى",
-            style: TextStyle(
-              fontWeight: FontWeight.w700,
-              color: Colors.black,
-              fontSize: 24.sp,
+    return BlocListener<OtpCubit, OtpState>(
+      listener: (context, state) {
+        if (state is OtpVervicationSuccess) {
+          setState(() {
+            isCorrectOtp = true;
+          });
+          ShowMessage(context, state.message, []);
+        } else if (state is OtpVervicationError) {
+          setState(() {
+            isCorrectOtp = false;
+          });
+        }
+      },
+      child: Container(
+        child: Column(
+          children: [
+            Text(
+              "راجع بريدك الإلكترونى",
+              style: TextStyle(
+                fontWeight: FontWeight.w700,
+                color: Colors.black,
+                fontSize: 24.sp,
+              ),
             ),
             SizedBox(height: 8.h),
             Text(
@@ -93,62 +83,83 @@ class _OtpFormState extends State<OtpForm> {
             ),
             SizedBox(height: 18.h),
 
-          //// otp  confirmation ////
-           Directionality(
-            textDirection: TextDirection.ltr,
-             child: Pinput(
+            //// otp  confirmation ////
+            Directionality(
+              textDirection: TextDirection.ltr,
+              child: Pinput(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 defaultPinTheme: defaultPinTheme,
                 focusedPinTheme: focusedPinTheme,
                 submittedPinTheme: submittedPinTheme,
                 errorPinTheme: errorPinTheme,
-                controller: otpCode,
-                
-                validator: (s) {
-                  return s == '1234' ? null : 'رمز التأكيد غير صحيح';
+                controller: _controller,
+                forceErrorState: isCorrectOtp == false,
+                errorText: 'رمز التأكيد غير صحيح',
+                // validator: (s) {
+                //   otpCode = s;
+                //   BlocProvider.of<OtpCubit>(context).otpVerify(otpCode);
+                //   return isCorrectOtp == true ? 'رمز التأكيد غير صحيح' : null;
+                // },
+                onChanged: (value) {
+                  setState(() {
+                    isCorrectOtp = null;
+                  });
                 },
+                onCompleted: (pin) {
+                  BlocProvider.of<OtpCubit>(context).otpVerify(pin);
+                },
+
                 pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
                 showCursor: true,
-                onCompleted: (pin) => print(pin),
               ),
-           ),
-          
-          SizedBox(height: 24.h),
+            ),
 
-          ///timer///
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                "تنتهي صلاحية الدخول خلال   ",
-                style: TextStyle(
-                  fontWeight: FontWeight.w400,
-                  color: Colors.grey,
-                  fontSize: 14.sp,
+            SizedBox(height: 24.h),
+
+            ///timer///
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "تنتهي صلاحية الدخول خلال   ",
+                  style: TextStyle(
+                    fontWeight: FontWeight.w400,
+                    color: Colors.grey,
+                    fontSize: 14.sp,
+                  ),
                 ),
-              ),
-              TimerCountdown(
-                enableDescriptions: false,
-                format: CountDownTimerFormat.minutesSeconds,
-                endTime: DateTime.now().add(Duration(minutes: 3, seconds: 0)),
-                timeTextStyle: TextStyle(
-                  fontWeight: FontWeight.w400,
-                  color: Colors.grey,
-                  fontSize: 14.sp,
+                TimerCountdown(
+                  enableDescriptions: false,
+                  format: CountDownTimerFormat.minutesSeconds,
+                  endTime: DateTime.now().add(Duration(minutes: 3, seconds: 0)),
+                  timeTextStyle: TextStyle(
+                    fontWeight: FontWeight.w400,
+                    color: Colors.grey,
+                    fontSize: 14.sp,
+                  ),
                 ),
-              ),
-            ],
-          ),
+              ],
+            ),
 
-          SizedBox(height: 24.h),
+            SizedBox(height: 24.h),
 
-          /// buttons/ ///
-          ElevatedButton(onPressed: () {
-          String? OtpCode;
-           BlocProvider.of<OtpCubit>(context).otpVerify(OtpCode);}, child: Text("تأكيد")),
-          SizedBox(height: 16.h),
-          OutlinedButton(onPressed: () {}, child: Text("أرسل الرمز مرة أخرى")),
-        ],
+            /// buttons/ ///
+            // ElevatedButton(
+            //   onPressed: () {
+            //     BlocProvider.of<OtpCubit>(context).otpVerify("1234");
+            //   },
+            //   child: Text("تأكيد"),
+            // ),
+            //SizedBox(height: 16.h),
+            OutlinedButton(
+              onPressed: () {
+                _controller.clear();
+                isCorrectOtp = null;
+              },
+              child: Text("أرسل الرمز مرة أخرى"),
+            ),
+          ],
+        ),
       ),
     );
   }
