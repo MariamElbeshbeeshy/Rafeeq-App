@@ -14,37 +14,11 @@ class AuthService {
     required String deviceName,
     required String projectName,
   }) async {
-      try {
-  final Response response = await dio.post(
-    "$baseUrl/Login",
-    data: {
-      "id": id,
-      "nationalityId": nationalityId,
-      "device": {
-        "deviceId": deviceId,
-        "deviceName": deviceName,
-        "projectName": projectName,
-      },
-    },
-  );
-  return AuthResponseModel.logInResponse(response.data);
-} on DioException catch (e) {
-  rethrow;
-}
-  }
-
-
-
-  Future confirmCodeService({
-    String? nationalityId,
-    required String deviceId,
-    required String deviceName,
-    required String projectName,
-  }) async {
     try {
       final Response response = await dio.post(
         "$baseUrl/Login",
         data: {
+          "id": id,
           "nationalityId": nationalityId,
           "device": {
             "deviceId": deviceId,
@@ -54,12 +28,24 @@ class AuthService {
         },
       );
       return AuthResponseModel.logInResponse(response.data);
-    } on DioException catch (e) {
-      //log(e.toString());
-      final String errorMessage = e.response?.data;
-      throw Exception(errorMessage);
-    } catch (e) {
-      print("Unexpected Error: $e");
+    } on DioException {
+      rethrow;
+    }
+  }
+
+  Future confirmCode({
+    String? id,
+    String? nationalityId,
+    String? otpCode,
+  }) async {
+    try {
+      final Response response = await dio.post(
+        "$baseUrl/ConfirmCode",
+        data: {"id": id, "nationalityId": nationalityId, "code": otpCode},
+      );
+      return AuthResponseModel.logInResponse(response.data);
+    } on DioException {
+      rethrow;
     }
   }
 }

@@ -1,13 +1,12 @@
-import 'dart:convert';
-
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:rafeeq_app/cubits/qr%20cubit/qr_cubit.dart';
+import 'package:rafeeq_app/helper/constants.dart';
 import 'package:rafeeq_app/helper/show_alert_dialog.dart';
-import 'package:rafeeq_app/models/auth_response_model.dart';
 import 'package:rafeeq_app/services/auth_service.dart';
+import 'package:rafeeq_app/views/login_view.dart';
+import 'package:rafeeq_app/views/otp_view.dart';
 
 class CameraPreview extends StatefulWidget {
   const CameraPreview({super.key});
@@ -21,8 +20,7 @@ class _CameraPreviewState extends State<CameraPreview> {
     detectionTimeoutMs: 1000,
   );
   String? qrData;
-  late String childId;
-  AuthService authService = AuthService();
+  String? childId;
 
   @override
   void dispose() {
@@ -35,21 +33,19 @@ class _CameraPreviewState extends State<CameraPreview> {
     return BlocListener<QRCubit, QRCubitState>(
       listener: (context, state) {
         if (state is QrScanSuccess) {
-          ShowMessage(context, '✅', state.message, [
-            // TextButton(
-            //   onPressed: () =>
-            //       Navigator.pushNamedAndRemoveUntil(
-            //         context,
-            //         ProductDetailsScreen.id,
-            //         (Route<dynamic> route) =>
-            //             route.settings.name == HomeScreen.id,
-            //         arguments: addedProduct,
-            //       ),
-            //   child: Text('Show'),
-            // ),
+          ShowMessage(context, state.message, [
+            ElevatedButton(
+              onPressed: () => Navigator.pushNamedAndRemoveUntil(
+                context,
+                OtpView.id,
+                (Route<dynamic> route) => route.settings.name == LoginView.id,
+                arguments: childId,
+              ),
+              child: Text("التالي"),
+            ),
           ]);
         } else if (state is QrScanError) {
-          ShowMessage(context, '❌', state.message, []);
+          ShowMessage(context, state.message, []);
         }
       },
       child: Transform.scale(
@@ -60,6 +56,7 @@ class _CameraPreviewState extends State<CameraPreview> {
           tapToFocus: true,
           onDetect: (result) async {
             final String? qrRawData = result.barcodes.first.rawValue;
+            debugPrint(result.barcodes.first.rawValue);
             await BlocProvider.of<QRCubit>(context).qrScanLogin(qrRawData);
           },
         ),
@@ -67,37 +64,3 @@ class _CameraPreviewState extends State<CameraPreview> {
     );
   }
 }
-
-//   Future<void> sendQRcode(BarcodeCapture result, BuildContext context) async {
-//
-//     if (qrRawData != null) {
-//       Map<String, dynamic> qrMappedData = jsonDecode(qrRawData);
-//       childId = qrMappedData["child_id"];
-//     }
-//     debugPrint(result.barcodes.first.rawValue);
-//     debugPrint(childId);
-//     AuthResponseModel response = await authService.logIn(
-//       id: childId,
-//       deviceId: "11-22-33",
-//       deviceName: "Android",
-//       projectName: "Rafiq",
-//     );
-//     if (response.key == "fail") {
-//       ShowMessage(context, '❌', response.message, []);
-//     } else {
-//       ShowMessage(context, '✅', response.message, [
-//         // TextButton(
-//         //   onPressed: () =>
-//         //       Navigator.pushNamedAndRemoveUntil(
-//         //         context,
-//         //         ProductDetailsScreen.id,
-//         //         (Route<dynamic> route) =>
-//         //             route.settings.name == HomeScreen.id,
-//         //         arguments: addedProduct,
-//         //       ),
-//         //   child: Text('Show'),
-//         // ),
-//       ]);
-//     }
-//   }
-// }
