@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:rafeeq_app/helper/constants.dart';
+ 
 
 ThemeData AppTheme() {
   return ThemeData(
@@ -62,6 +63,7 @@ ThemeData AppTheme() {
         side: BorderSide(color: kPrimaryColor),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.r)),
       ),
+
     ),
   );
 }

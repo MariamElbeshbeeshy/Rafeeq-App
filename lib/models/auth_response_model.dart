@@ -18,7 +18,7 @@ class AuthResponseModel {
       statusCode: json["statusCode"],
       key: json["key"],
       message: json["message"],
-      data: UserDataModel.fromJson(json["data"]),
+      data: json["data"] ,   // data is bool and could be null in login response
     );
   }
 
