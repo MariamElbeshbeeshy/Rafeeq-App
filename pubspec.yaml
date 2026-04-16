@@ -34,3 +34,17 @@ flutter:
     - family: Cairo
       fonts:
         - asset: assets/fonts/Cairo-VariableFont_slnt,wght.ttf
+    - family: Arial
+      fonts:
+        - asset: assets/fonts/ARIAL.TTF
+    - family: Inter
+      fonts:
+        - asset: assets/fonts/Inter-Italic-VariableFont_opsz,wght.ttf
+
+    - family: PlaypenSansArabic
+      fonts:
+        - asset: assets/fonts/PlaypenSansArabic-VariableFont_wght.ttf
+
+    - family: Poppins
+      fonts:
+        - asset: assets/fonts/Poppins-Regular.ttf

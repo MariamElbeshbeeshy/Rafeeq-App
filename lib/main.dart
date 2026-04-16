@@ -3,6 +3,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:rafeeq_app/views/login_view.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:rafeeq_app/views/otp_view.dart';
+import 'package:rafeeq_app/views/profile_view.dart';
 import 'package:rafeeq_app/views/qr_scan_view.dart';
 import 'package:rafeeq_app/widgets/app_theme.dart';
 
@@ -34,7 +35,8 @@ class MainApp extends StatelessWidget {
             QRScanView.id: (context) => QRScanView(),
             OtpView.id: (context) => OtpView(),
           },
-          initialRoute: LoginView.id,
+          //initialRoute: ProfileView.id,
+          home: ProfileView(),
         );
       },
     );
