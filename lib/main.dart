@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:hive/hive.dart';
 import 'package:rafeeq_app/cubits/font%20settings%20cubit/font_settings_cubit.dart';
+import 'package:rafeeq_app/models/user_data_model.dart';
 import 'package:rafeeq_app/views/login_view.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:rafeeq_app/views/otp_view.dart';
@@ -9,7 +11,10 @@ import 'package:rafeeq_app/views/profile_view.dart';
 import 'package:rafeeq_app/views/qr_scan_view.dart';
 import 'package:rafeeq_app/widgets/app_theme.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  Hive.registerAdapter(UserDataModelAdapter());
+  await Hive.openBox<UserDataModel>('userBox');
   runApp(
     BlocProvider(
       create: (context) => FontSettingsCubit(),

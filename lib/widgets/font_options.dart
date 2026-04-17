@@ -44,6 +44,7 @@ class FontOptions extends StatelessWidget {
                     max: 150,
                     onChanged: (value) {
                       context.read<FontSettingsCubit>().changeFontSize(value);
+                      context.read<FontSettingsCubit>().updateFontOnBackend();
                     },
                   ),
                 ],
@@ -78,6 +79,7 @@ class FontOptions extends StatelessWidget {
                         context.read<FontSettingsCubit>().changeFontFamily(
                           value,
                         );
+                        context.read<FontSettingsCubit>().updateFontOnBackend();
                       }
                     },
                     dropdownMenuEntries: kFontOptions,

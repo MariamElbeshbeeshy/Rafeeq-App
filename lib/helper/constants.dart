@@ -40,3 +40,19 @@ const List<DropdownMenuEntry<String>> kFontOptions = [
     labelWidget: Text('Poppins', style: TextStyle(fontFamily: 'Poppins')),
   ),
 ];
+
+const Map<String, int> kFontToIdMap = {
+  'Cairo': 1,
+  'Arial': 2,
+  'Inter': 3,
+  'PlaypenSansArabic': 4,
+  'Poppins': 5,
+};
+
+const Map<int, String> kIdToFontMap = {
+  1: 'Cairo',
+  2: 'Arial',
+  3: 'Inter',
+  4: 'PlaypenSansArabic',
+  5: 'Poppins',
+};

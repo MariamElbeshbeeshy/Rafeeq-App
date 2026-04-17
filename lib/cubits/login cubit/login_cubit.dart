@@ -6,14 +6,16 @@ import 'package:meta/meta.dart';
 import 'package:rafeeq_app/models/auth_response_model.dart';
 import 'package:rafeeq_app/services/auth_service.dart';
 
-part 'qr_cubit_state.dart';
+part 'login_state.dart';
 
-class QRCubit extends Cubit<QRCubitState> {
+class LoginCubit extends Cubit<LoginState> {
   final AuthService authService = AuthService();
-  QRCubit() : super(QRCubitInitial());
+  LoginCubit() : super(LoginInitial());
+    static String? childId;
+    static String? nationalityId;
+    //static String? nationalityId = "3032158777";
 
   Future<void> qrScanLogin(String? qrRawData) async {
-    String? childId;
     if (qrRawData != null) {
       Map<String, dynamic> qrMappedData = jsonDecode(qrRawData);
       childId = qrMappedData["child_id"];
@@ -25,12 +27,12 @@ class QRCubit extends Cubit<QRCubitState> {
         deviceName: "Android",
         projectName: "Rafiq",
       );
-      emit(QrScanSuccess(response.message));
+      emit(LoginSuccess(response.message));
     } on DioException catch (e) {
       final String errorMessage = e.response?.data["message"];
-      emit(QrScanError(errorMessage));
+      emit(LoginError(errorMessage));
     } catch (err) {
-      emit(QrScanError("Unexpected Error: $err"));
+      emit(LoginError("Unexpected Error: $err"));
     }
   }
 }
