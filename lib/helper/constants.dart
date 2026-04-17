@@ -27,7 +27,7 @@ const List<DropdownMenuEntry<String>> kFontOptions = [
     labelWidget: Text('Inter', style: TextStyle(fontFamily: 'Inter')),
   ),
   DropdownMenuEntry(
-    value: 'Playpen Sans Arabic',
+    value: 'PlaypenSansArabic',
     label: 'Playpen Sans Arabic',
     labelWidget: Text(
       'Playpen sans Arabic',

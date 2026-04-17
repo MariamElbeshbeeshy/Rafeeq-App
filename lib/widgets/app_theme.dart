@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:rafeeq_app/helper/constants.dart';
 
-ThemeData AppTheme() {
+ThemeData AppTheme({required String fontFamily}) {
   return ThemeData(
     useMaterial3: true,
     brightness: Brightness.light,
-    fontFamily: 'Cairo',
+    fontFamily: fontFamily,
     scaffoldBackgroundColor: kWhiteBackgroundColor,
     appBarTheme: AppBarTheme(
       backgroundColor: kWhiteBackgroundColor,
@@ -38,7 +38,7 @@ ThemeData AppTheme() {
         textStyle: TextStyle(
           fontSize: 16.sp,
           fontWeight: FontWeight.w600,
-          fontFamily: "cairo",
+          fontFamily: fontFamily,
         ),
         backgroundColor: kPrimaryColor,
         foregroundColor: kWhiteBackgroundColor,
@@ -54,7 +54,7 @@ ThemeData AppTheme() {
         textStyle: TextStyle(
           fontSize: 16.sp,
           fontWeight: FontWeight.w600,
-          fontFamily: "cairo",
+          fontFamily: fontFamily,
         ),
         backgroundColor: kWhiteBackgroundColor,
         foregroundColor: kPrimaryColor,
@@ -67,7 +67,7 @@ ThemeData AppTheme() {
       textStyle: TextStyle(
         fontSize: 16.sp,
         fontWeight: FontWeight.w600,
-        fontFamily: "cairo",
+        fontFamily: fontFamily,
         color: Color(0xff101828),
       ),
     ),
