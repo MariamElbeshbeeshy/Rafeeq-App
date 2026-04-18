@@ -37,7 +37,7 @@ class AuthService {
     }
   }
 
-  Future emailLogIn({
+  Future nationalIdLogIn({
     String? id,
     String? nationalityId,
     required String deviceId,
@@ -60,16 +60,8 @@ class AuthService {
         options: Options(headers: {"Content-Type": "application/json"}),
       );
       return AuthResponseModel.logInResponse(response.data);
-    } on DioException catch (e) {
-      if (e.response?.statusCode == 400) {
-        return AuthResponseModel.logInResponse(e.response?.data);
-      } else {
-        print("Unexpected Error: ${e.toString()}");
-        throw Exception("unexpected error try again later");
-      }
-    } catch (e) {
-      print("Unexpected Error: ${e.toString()}");
-      throw Exception("unexpected error try again later");
+    } on DioException {
+      rethrow;
     }
   }
 
