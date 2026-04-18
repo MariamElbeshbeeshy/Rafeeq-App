@@ -2,7 +2,6 @@
 import 'package:dio/dio.dart';
 import 'package:rafeeq_app/models/auth_response_model.dart';
 
-
 /// 3032158777
 
 class AuthService {
@@ -11,7 +10,7 @@ class AuthService {
   String baseUrl = "https://api-rafiq.premiumasp.net/api/v1";
 
   Future logIn({
-    String? id ,
+    String? id,
     String? nationalityId,
     required String deviceId,
     required String deviceName,
@@ -21,7 +20,7 @@ class AuthService {
       final Response response = await dio.post(
         "$baseUrl/Login",
         data: {
-          "id":id,
+          "id": id,
           "nationalityId": nationalityId,
           "device": {
             "deviceId": deviceId,
@@ -37,9 +36,9 @@ class AuthService {
       rethrow;
     }
   }
-  
-  Future emailLogIn({
-    String? id ,
+
+  Future nationalIdLogIn({
+    String? id,
     String? nationalityId,
     required String deviceId,
     required String deviceName,
@@ -49,7 +48,7 @@ class AuthService {
       final Response response = await dio.post(
         "$baseUrl/Login",
         data: {
-          "id":id,
+          "id": id,
           "nationalityId": nationalityId,
           "device": {
             "deviceId": deviceId,
@@ -61,23 +60,10 @@ class AuthService {
         options: Options(headers: {"Content-Type": "application/json"}),
       );
       return AuthResponseModel.logInResponse(response.data);
-    }on DioException catch (e) {
-      
-     if (e.response?.statusCode  == 400){
-      return AuthResponseModel.logInResponse(e.response?.data);
-     }else{
-      print("Unexpected Error: ${e.toString()}");
-      throw Exception("unexpected error try again later");
-     }
-      
-    } catch (e) {
-      print("Unexpected Error: ${e.toString()}");
-      throw Exception("unexpected error try again later");
+    } on DioException {
+      rethrow;
     }
   }
-  
-  
-  
 
   Future confirmCode({
     String? id,
