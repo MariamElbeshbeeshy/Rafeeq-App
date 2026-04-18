@@ -21,7 +21,7 @@ class UserDataModelAdapter extends TypeAdapter<UserDataModel> {
       firstName: fields[1] as String,
       lastName: fields[2] as String,
       birthDate: fields[3] as String,
-      gender: fields[4] as String?,
+      gender: fields[4] as int?,
       nationalityId: fields[5] as String,
       image: fields[6] as String?,
       level: fields[7] as int,

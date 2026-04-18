@@ -1,3 +1,4 @@
+import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
@@ -16,17 +17,17 @@ class OtpCubit extends Cubit<OtpState> {
   Future<void> otpVerify(String? otpCode) async {
     String? childId = LoginCubit.childId;
     String? nationalityId = LoginCubit.nationalityId;
-    
+
     try {
       final AuthResponseModel response = await authService.confirmCode(
         id: childId,
         nationalityId: nationalityId,
-        otpCode: "1234",
+        otpCode: otpCode,
       );
       UserLocalServices().saveUserData(response.data);
       emit(OtpVervicationSuccess(response.message));
     } on DioException catch (e) {
-      final String errorMessage = e.response?.data["message"];
+      final String errorMessage = e.response?.data["message"].toString() ?? "Unknown error";
       emit(OtpVervicationError(errorMessage));
     } catch (err) {
       emit(OtpVervicationError("Unexpected Error: $err"));
