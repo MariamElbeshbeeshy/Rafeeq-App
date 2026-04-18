@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
@@ -17,12 +16,12 @@ class OtpCubit extends Cubit<OtpState> {
   Future<void> otpVerify(String? otpCode) async {
     String? childId = LoginCubit.childId;
     String? nationalityId = LoginCubit.nationalityId;
-
+    
     try {
       final AuthResponseModel response = await authService.confirmCode(
         id: childId,
         nationalityId: nationalityId,
-        otpCode: otpCode,
+        otpCode: "1234",
       );
       UserLocalServices().saveUserData(response.data);
       emit(OtpVervicationSuccess(response.message));

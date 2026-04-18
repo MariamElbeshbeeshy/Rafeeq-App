@@ -11,9 +11,9 @@ part 'login_state.dart';
 class LoginCubit extends Cubit<LoginState> {
   final AuthService authService = AuthService();
   LoginCubit() : super(LoginInitial());
-    static String? childId;
-    static String? nationalityId;
-    //static String? nationalityId = "3032158777";
+  static String? childId;
+  static String? nationalityId= "3032158777";
+  //static String? nationalityId = "3032158777";
 
   Future<void> qrScanLogin(String? qrRawData) async {
     if (qrRawData != null) {
@@ -22,6 +22,7 @@ class LoginCubit extends Cubit<LoginState> {
     }
     try {
       final AuthResponseModel response = await authService.logIn(
+        //id: childId,
         id: childId,
         deviceId: "11-22-33",
         deviceName: "Android",

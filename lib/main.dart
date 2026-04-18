@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:rafeeq_app/cubits/font%20settings%20cubit/font_settings_cubit.dart';
 import 'package:rafeeq_app/models/user_data_model.dart';
+import 'package:rafeeq_app/services/user_local_services.dart';
 import 'package:rafeeq_app/views/login_view.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:rafeeq_app/views/otp_view.dart';
@@ -13,6 +15,7 @@ import 'package:rafeeq_app/widgets/app_theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Hive.initFlutter();
   Hive.registerAdapter(UserDataModelAdapter());
   await Hive.openBox<UserDataModel>('userBox');
   runApp(
@@ -28,6 +31,7 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    UserLocalServices userLocalServices = UserLocalServices();
     return BlocBuilder<FontSettingsCubit, FontSettingsState>(
       builder: (context, state) {
         return ScreenUtilInit(
@@ -60,7 +64,10 @@ class MainApp extends StatelessWidget {
                   child: child!,
                 );
               },
-              initialRoute: ProfileView.id,
+              //initialRoute: ProfileView.id,
+              initialRoute: userLocalServices.getUserData() == null
+                  ? LoginView.id
+                  : ProfileView.id,
             );
           },
         );
