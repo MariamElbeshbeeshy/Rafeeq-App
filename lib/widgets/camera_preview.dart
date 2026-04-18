@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
-import 'package:rafeeq_app/cubits/qr%20cubit/qr_cubit.dart';
+import 'package:rafeeq_app/cubits/Qr%20cubit/qr_cubit.dart';
 import 'package:rafeeq_app/helper/constants.dart';
 import 'package:rafeeq_app/helper/show_alert_dialog.dart';
 import 'package:rafeeq_app/services/auth_service.dart';
@@ -19,7 +19,7 @@ class _CameraPreviewState extends State<CameraPreview> {
   final MobileScannerController scannerController = MobileScannerController(
     detectionTimeoutMs: 1000,
   );
-  String? qrData;
+  String? LoginData;
   String? childId;
 
   @override
@@ -30,9 +30,9 @@ class _CameraPreviewState extends State<CameraPreview> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<QRCubit, QRCubitState>(
+    return BlocListener<QrCubit, QrState>(
       listener: (context, state) {
-        if (state is QrScanSuccess) {
+        if (state is QrSuccess) {
           ShowMessage(context, state.message, [
             ElevatedButton(
               onPressed: () => Navigator.pushNamedAndRemoveUntil(
@@ -44,7 +44,7 @@ class _CameraPreviewState extends State<CameraPreview> {
               child: Text("التالي"),
             ),
           ]);
-        } else if (state is QrScanError) {
+        } else if (state is QrError) {
           ShowMessage(context, state.message, []);
         }
       },
@@ -57,7 +57,7 @@ class _CameraPreviewState extends State<CameraPreview> {
           onDetect: (result) async {
             final String? qrRawData = result.barcodes.first.rawValue;
             debugPrint(result.barcodes.first.rawValue);
-            await BlocProvider.of<QRCubit>(context).qrScanLogin(qrRawData);
+            await BlocProvider.of<QrCubit>(context).qrScanLogin(qrRawData);
           },
         ),
       ),

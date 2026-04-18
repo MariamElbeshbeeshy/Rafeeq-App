@@ -5,6 +5,8 @@ import 'package:flutter_timer_countdown/flutter_timer_countdown.dart';
 import 'package:pinput/pinput.dart';
 import 'package:rafeeq_app/cubits/otp%20cubit/otp_cubit.dart';
 import 'package:rafeeq_app/helper/show_alert_dialog.dart';
+import 'package:rafeeq_app/views/otp_view.dart';
+import 'package:rafeeq_app/views/profile_view.dart';
 
 class OtpForm extends StatefulWidget {
   const OtpForm({super.key});
@@ -54,7 +56,16 @@ class _OtpFormState extends State<OtpForm> {
           setState(() {
             isCorrectOtp = true;
           });
-          ShowMessage(context, state.message, []);
+          ShowMessage(context, state.message, [
+            ElevatedButton(
+              onPressed: () => Navigator.pushNamedAndRemoveUntil(
+                context,
+                ProfileView.id,
+                (Route<dynamic> route) => route.settings.name == OtpView.id,
+              ),
+              child: Text("التالي"),
+            ),
+          ]);
         } else if (state is OtpVervicationError) {
           setState(() {
             isCorrectOtp = false;

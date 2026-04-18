@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:rafeeq_app/helper/constants.dart';
- 
 
-ThemeData AppTheme() {
+ThemeData AppTheme({required String fontFamily}) {
   return ThemeData(
     useMaterial3: true,
     brightness: Brightness.light,
-    fontFamily: 'Cairo',
+    fontFamily: fontFamily,
     scaffoldBackgroundColor: kWhiteBackgroundColor,
     appBarTheme: AppBarTheme(
       backgroundColor: kWhiteBackgroundColor,
@@ -39,7 +38,7 @@ ThemeData AppTheme() {
         textStyle: TextStyle(
           fontSize: 16.sp,
           fontWeight: FontWeight.w600,
-          fontFamily: "cairo",
+          fontFamily: fontFamily,
         ),
         backgroundColor: kPrimaryColor,
         foregroundColor: kWhiteBackgroundColor,
@@ -55,7 +54,7 @@ ThemeData AppTheme() {
         textStyle: TextStyle(
           fontSize: 16.sp,
           fontWeight: FontWeight.w600,
-          fontFamily: "cairo",
+          fontFamily: fontFamily,
         ),
         backgroundColor: kWhiteBackgroundColor,
         foregroundColor: kPrimaryColor,
@@ -63,7 +62,22 @@ ThemeData AppTheme() {
         side: BorderSide(color: kPrimaryColor),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.r)),
       ),
-
+    ),
+    dropdownMenuTheme: DropdownMenuThemeData(
+      textStyle: TextStyle(
+        fontSize: 16.sp,
+        fontWeight: FontWeight.w600,
+        fontFamily: fontFamily,
+        color: Color(0xff101828),
+      ),
+    ),
+    sliderTheme: SliderThemeData(
+      trackHeight: 7,
+      thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 10),
+      overlayShape: const RoundSliderOverlayShape(overlayRadius: 20),
+      activeTrackColor: kPrimaryColor, // The yellow from your image
+      inactiveTrackColor: Color(0xffE0E0E0),
+      thumbColor: Colors.white, // White thumb like the image
     ),
   );
 }
