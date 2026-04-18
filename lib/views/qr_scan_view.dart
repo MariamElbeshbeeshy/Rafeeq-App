@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:qr_scanner_overlay/qr_scanner_overlay.dart';
-import 'package:rafeeq_app/cubits/qr%20cubit/qr_cubit.dart';
+import 'package:rafeeq_app/cubits/Qr%20cubit/qr_cubit.dart';
 import 'package:rafeeq_app/helper/constants.dart';
 import 'package:rafeeq_app/widgets/camera_preview.dart';
 import 'package:rafeeq_app/widgets/custom_camera_button.dart';
@@ -19,8 +19,8 @@ class QRScanView extends StatefulWidget {
 class _QRScanViewState extends State<QRScanView> {
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<QRCubit>(
-      create: (context) => QRCubit(),
+    return BlocProvider<QrCubit>(
+      create: (context) => QrCubit(),
       child: Scaffold(
         extendBodyBehindAppBar: true,
 

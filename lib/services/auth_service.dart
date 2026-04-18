@@ -75,7 +75,7 @@ class AuthService {
         "$baseUrl/ConfirmCode",
         data: {"id": id, "nationalityId": nationalityId, "code": otpCode},
       );
-      return AuthResponseModel.logInResponse(response.data);
+      return AuthResponseModel.confirmCodeResponse(response.data);
     } on DioException {
       rethrow;
     }
