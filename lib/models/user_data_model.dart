@@ -7,6 +7,7 @@ class UserDataModel {
   final String nationalityId;
   final String? image;
   final int level;
+  final int points;
   final String token;
 
   UserDataModel(
@@ -18,7 +19,7 @@ class UserDataModel {
     required this.nationalityId,
     this.image,
     required this.level,
-    required this.token}
+    required this.token, required this.points}
     );
 
     factory UserDataModel.fromJson(Map<String , dynamic>json){
@@ -31,7 +32,8 @@ class UserDataModel {
       nationalityId: json['nationalityId'],
       image: json['image'] ?? '',
       level: json['level'],
-      token: json['token'],
+      token: json['token'], 
+      points: json['points'],
 
       );
     }
