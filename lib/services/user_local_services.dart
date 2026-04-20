@@ -10,7 +10,7 @@ class UserLocalServices {
     box.put(_userKey, user);
   }
 
-  UserDataModel? getUserData() {
+    UserDataModel? getUserData() {
     var box = Hive.box<UserDataModel>(_userBoxName);
     return box.get(_userKey);
   }

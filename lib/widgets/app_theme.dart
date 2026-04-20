@@ -79,5 +79,52 @@ ThemeData AppTheme({required String fontFamily}) {
       inactiveTrackColor: Color(0xffE0E0E0),
       thumbColor: Colors.white, // White thumb like the image
     ),
+
+    bottomNavigationBarTheme: BottomNavigationBarThemeData(
+      type: BottomNavigationBarType.fixed,
+      backgroundColor: Colors.white,
+      elevation: 8,
+      selectedItemColor: kPrimaryColor,
+      unselectedItemColor: Color(0xffCCCCCC),
+      selectedLabelStyle: TextStyle(fontSize: 12.sp),
+      unselectedLabelStyle: TextStyle(fontSize: 12.sp),
+      showSelectedLabels: false,
+      showUnselectedLabels: false,
+    ),
+
+    tabBarTheme: TabBarThemeData(
+      labelColor: Colors.white,
+      unselectedLabelColor: Color(0xff999999),
+      labelStyle: TextStyle(fontWeight: FontWeight.w500, fontSize: 16.sp),
+      indicator: BoxDecoration(
+        borderRadius: BorderRadius.circular(17),
+        color: kPrimaryColor,
+      ),
+      indicatorSize: TabBarIndicatorSize.tab,
+      dividerColor: Colors.transparent,
+    ),
   );
+}
+
+Widget navigationIconTheme({required String image, required bool selected}) {
+  return selected
+      ? Container(
+          decoration: BoxDecoration(
+            boxShadow: [
+              BoxShadow(
+                color: Colors.yellow.shade50,
+                blurRadius: 12,
+                spreadRadius: 2,
+              ),
+            ],
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Image.asset(
+            image,
+            width: 28.w,
+            height: 28.h,
+            color: kPrimaryColor,
+          ),
+        )
+      : Image.asset(image, width: 28.w, height: 28.h, color: Color(0xffCCCCCC));
 }
