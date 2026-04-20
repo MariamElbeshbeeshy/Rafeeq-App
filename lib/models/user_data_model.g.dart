@@ -26,13 +26,16 @@ class UserDataModelAdapter extends TypeAdapter<UserDataModel> {
       image: fields[6] as String?,
       level: fields[7] as int,
       token: fields[8] as String,
+      points: fields[9] as int,
+      fontSize: fields[10] as int,
+      fontType: fields[11] as int,
     );
   }
 
   @override
   void write(BinaryWriter writer, UserDataModel obj) {
     writer
-      ..writeByte(9)
+      ..writeByte(12)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -50,7 +53,13 @@ class UserDataModelAdapter extends TypeAdapter<UserDataModel> {
       ..writeByte(7)
       ..write(obj.level)
       ..writeByte(8)
-      ..write(obj.token);
+      ..write(obj.token)
+      ..writeByte(9)
+      ..write(obj.points)
+      ..writeByte(10)
+      ..write(obj.fontSize)
+      ..writeByte(11)
+      ..write(obj.fontType);
   }
 
   @override
