@@ -8,6 +8,7 @@ import 'package:rafeeq_app/models/user_data_model.dart';
 import 'package:rafeeq_app/services/user_local_services.dart';
 import 'package:rafeeq_app/views/login_view.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:rafeeq_app/views/ocr_camera_view.dart';
 import 'package:rafeeq_app/views/otp_view.dart';
 import 'package:rafeeq_app/views/profile_view.dart';
 import 'package:rafeeq_app/views/qr_scan_view.dart';
@@ -53,6 +54,7 @@ class MainApp extends StatelessWidget {
                 QRScanView.id: (context) => QRScanView(),
                 OtpView.id: (context) => OtpView(),
                 ProfileView.id: (context) => ProfileView(),
+                OcrCameraView.id: (context) => OcrCameraView(),
               },
               builder: (context, child) {
                 return MediaQuery(
@@ -64,7 +66,7 @@ class MainApp extends StatelessWidget {
                   child: child!,
                 );
               },
-              //initialRoute: ProfileView.id,
+              //initialRoute: OcrCameraView.id,
               initialRoute: userLocalServices.getUserData() == null
                   ? LoginView.id
                   : ProfileView.id,

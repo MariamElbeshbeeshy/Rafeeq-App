@@ -5,7 +5,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:qr_scanner_overlay/qr_scanner_overlay.dart';
 import 'package:rafeeq_app/cubits/Qr%20cubit/qr_cubit.dart';
 import 'package:rafeeq_app/helper/constants.dart';
-import 'package:rafeeq_app/widgets/camera_preview.dart';
+import 'package:rafeeq_app/widgets/QR_camera_preview.dart';
 import 'package:rafeeq_app/widgets/custom_camera_button.dart';
 
 class QRScanView extends StatefulWidget {
@@ -28,7 +28,7 @@ class _QRScanViewState extends State<QRScanView> {
         body: Stack(
           fit: StackFit.expand,
           children: [
-            CameraPreview(),
+            QRCameraPreview(),
             QRScannerOverlay(
               overlayColor: const Color.fromARGB(183, 0, 0, 0),
               scanAreaSize: Size(295.w, 385.h),
