@@ -9,7 +9,10 @@ class PasteTextView extends StatefulWidget {
   State<PasteTextView> createState() => _PasteTextViewState();
 }
 
-class _PasteTextViewState extends State<PasteTextView> {
+class _PasteTextViewState extends State<PasteTextView> with AutomaticKeepAliveClientMixin<PasteTextView> {
+  @override
+  bool get wantKeepAlive => true;
+ 
   late TextEditingController _textController;
 
   @override
@@ -26,6 +29,7 @@ class _PasteTextViewState extends State<PasteTextView> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Column(
       children: [
         Expanded(
