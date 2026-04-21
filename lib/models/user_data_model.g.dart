@@ -26,9 +26,9 @@ class UserDataModelAdapter extends TypeAdapter<UserDataModel> {
       image: fields[6] as String?,
       level: fields[7] as int,
       token: fields[8] as String,
-      points: fields[9] as int,
-      fontSize: fields[10] as int,
-      fontType: fields[11] as int,
+      points: fields[9] as int?,
+      fontSize: fields[10] as int?,
+      fontType: fields[11] as int?,
     );
   }
 

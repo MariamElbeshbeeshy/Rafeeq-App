@@ -27,7 +27,9 @@ class OcrCameraPreview extends StatelessWidget {
           right: 139.w,
           child: Padding(
             padding: EdgeInsets.all(16.w),
-            child: CustomCameraButton(onPressed: () {}),
+            child: CustomCameraButton(onPressed: () {
+              context.read<CameraCubit>().captureImage();
+            }),
           ),
         ),
       ],
