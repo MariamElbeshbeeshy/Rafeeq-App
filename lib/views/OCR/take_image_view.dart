@@ -49,12 +49,12 @@ class _TakeImageViewState extends State<TakeImageView>
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Row(),
-                Image.asset(
-                  "assets/images/upload.png",
-                  width: 80.w,
-                  height: 80.h,
-                  fit: BoxFit.contain,
+                Center(
+                  child: Icon(
+                    Icons.camera_alt,
+                    size: 80.w,
+                    color: kPrimaryColor,
+                  ),
                 ),
                 SizedBox(height: 16.h),
                 const Text(
