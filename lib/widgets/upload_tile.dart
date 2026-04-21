@@ -88,7 +88,7 @@ class UploadTile extends StatelessWidget {
               width: 94.w,
               child: ElevatedButton(
                 onPressed: () => isButtonEnabled ? () {} : null,
-                child: Text("استمرار"),
+                child: Text("استمر"),
               ),
             ),
             SizedBox(width: 16.w),

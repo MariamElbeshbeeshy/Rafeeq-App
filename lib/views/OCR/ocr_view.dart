@@ -50,9 +50,8 @@ class _OcrViewState extends State<OcrView> {
               children: [
                 SizedBox(height: 20.h),
                 Container(
+                  constraints: BoxConstraints(minHeight: 56.h),
                   padding: EdgeInsets.symmetric(horizontal: 8, vertical: 10),
-                  width: 343.w,
-                  height: 56.h,
                   decoration: BoxDecoration(
                     color: Colors.white,
 
@@ -74,15 +73,14 @@ class _OcrViewState extends State<OcrView> {
                   child: BlocBuilder<UploadCubit, UploadState>(
                     builder: (context, state) {
                       return TabBarView(
-                                      children: [
-                                        if(state is UploadInProgress)
-                                        UploadScreen(),
+                        children: [
+                          if (state is UploadInProgress) UploadScreen(),
 
-                                        UploadFileView(),
-                                        TakeImageView(),
-                                        PasteTextView(),
-                                      ],
-                                    );
+                          UploadFileView(),
+                          TakeImageView(),
+                          PasteTextView(),
+                        ],
+                      );
                     },
                   ),
                 ),
