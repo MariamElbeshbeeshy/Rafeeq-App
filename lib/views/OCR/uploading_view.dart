@@ -16,48 +16,25 @@ class _UploadScreenState extends State<UploadScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<UploadCubit, UploadState>(
-      listener: (context, state) {
-        if (state is UploadSuccess) {
-          isButtonEnabled = true;
-        }
-      },
+    return BlocBuilder<UploadCubit, UploadState>(
       builder: (context, state) {
-        return Scaffold(
-          body: Column(
-            children: [
-              // Text(widget.file.path.split('/').last),
-              if (state is UploadInProgress)
-                UploadTile(progress: state.progress, file: state.file,)
-              else if (state is UploadSuccess)
-                UploadTile(progress: 1.0, file: state.file,)
-              else if (state is UploadFailure)
-                Text(
-                  "فشل الرفع: ${state.errorMessage}",
-                  style: TextStyle(color: Colors.red),
-                ),
-
-              Row(
-                children: [
-                  SizedBox(
-                    width: 94.w,
-                    child: ElevatedButton(
-                      onPressed: () => isButtonEnabled ? () {} : null,
-                      child: Text("استمرار"),
-                    ),
-                  ),
-                  SizedBox(width: 16.w),
-                  SizedBox(
-                    width: 94.w,
-                    child: OutlinedButton(
-                      onPressed: () {},
-                      child: Text("إلغاء"),
-                    ),
-                  ),
-                ],
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (state is UploadInProgress)
+              UploadTile(
+                progress: state.progress,
+                file: state.file,
+                isButtonEnabled: false,
+              )
+            else if (state is UploadSuccess)
+              UploadTile(progress: 1.0, file: state.file, isButtonEnabled: true)
+            else if (state is UploadFailure)
+              Text(
+                "فشل الرفع: ${state.errorMessage}",
+                style: TextStyle(color: Colors.red),
               ),
-            ],
-          ),
+          ],
         );
       },
     );
