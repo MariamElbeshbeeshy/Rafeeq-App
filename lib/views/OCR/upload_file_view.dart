@@ -7,10 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:rafeeq_app/cubits/upload%20cubit/upload_cubit.dart';
 import 'package:rafeeq_app/helper/constants.dart';
-import 'package:rafeeq_app/models/user_data_model.dart';
-import 'package:rafeeq_app/services/user_local_services.dart';
 import 'package:rafeeq_app/views/OCR/uploading_view.dart';
-import 'package:rafeeq_app/widgets/upload_tile.dart';
 
 class UploadFileView extends StatefulWidget {
   const UploadFileView({super.key});

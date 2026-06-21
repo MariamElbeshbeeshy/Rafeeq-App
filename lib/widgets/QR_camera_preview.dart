@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:rafeeq_app/cubits/Qr%20cubit/qr_cubit.dart';
-import 'package:rafeeq_app/helper/constants.dart';
 import 'package:rafeeq_app/helper/show_alert_dialog.dart';
-import 'package:rafeeq_app/services/auth_service.dart';
 import 'package:rafeeq_app/views/login_view.dart';
 import 'package:rafeeq_app/views/otp_view.dart';
 

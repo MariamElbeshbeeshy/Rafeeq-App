@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 import 'package:rafeeq_app/helper/constants.dart';
 import 'package:rafeeq_app/models/font_settings_model.dart';
-import 'package:rafeeq_app/services/user_local_services.dart';
 
 part 'font_settings_state.dart';
 

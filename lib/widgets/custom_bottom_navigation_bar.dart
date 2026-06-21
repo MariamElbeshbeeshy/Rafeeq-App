@@ -22,13 +22,13 @@ class CustomBottomNavigationBar extends StatelessWidget {
       'assets/images/nav_menu.png',
     ];
 
-    final List<String> navLabels = [
-      'الرئيسية',
-      'المسح',
-      'البحث',
-      'الملف الشخصي',
-      'المزيد',
-    ];
+    // final List<String> navLabels = [
+    //   'الرئيسية',
+    //   'المسح',
+    //   'البحث',
+    //   'الملف الشخصي',
+    //   'المزيد',
+    // ];
 
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 12.h),
