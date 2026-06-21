@@ -32,13 +32,13 @@ class UserDataModel extends HiveObject {
   final String token;
 
   @HiveField(9)
-  final int points;
+  final int? points;
 
   @HiveField(10)
-  final int fontSize;
+  final int? fontSize;
 
   @HiveField(11)
-  final int fontType;
+  final int? fontType;
 
   UserDataModel({
     required this.id,
@@ -50,9 +50,9 @@ class UserDataModel extends HiveObject {
     this.image,
     required this.level,
     required this.token,
-    required this.points,
-    required this.fontSize,
-    required this.fontType,
+    this.points,
+    this.fontSize,
+    this.fontType,
   });
 
   factory UserDataModel.fromJson(Map<String, dynamic> json) {

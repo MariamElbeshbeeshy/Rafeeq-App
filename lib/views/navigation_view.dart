@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:rafeeq_app/helper/constants.dart';
 import 'package:rafeeq_app/views/OCR/ocr_view.dart';
 import 'package:rafeeq_app/views/profile_view.dart';
 import 'package:rafeeq_app/widgets/app_theme.dart';
-import 'package:rafeeq_app/widgets/coins_widget.dart';
-import 'package:rafeeq_app/widgets/level_widget.dart';
 
 class NavigationView extends StatefulWidget {
 

@@ -8,18 +8,18 @@ import 'package:rafeeq_app/services/auth_service.dart';
 import 'package:rafeeq_app/views/login_view.dart';
 import 'package:rafeeq_app/views/otp_view.dart';
 
-class CameraPreview extends StatefulWidget {
-  const CameraPreview({super.key});
+class QRCameraPreview extends StatefulWidget {
+  const QRCameraPreview({super.key});
 
   @override
-  State<CameraPreview> createState() => _CameraPreviewState();
+  State<QRCameraPreview> createState() => _QRCameraPreviewState();
 }
 
-class _CameraPreviewState extends State<CameraPreview> {
+class _QRCameraPreviewState extends State<QRCameraPreview> {
   final MobileScannerController scannerController = MobileScannerController(
     detectionTimeoutMs: 1000,
   );
-  String? LoginData;
+  String? loginData;
   String? childId;
 
   @override
