@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:rafeeq_app/cubits/quiz%20cubit/quiz_cubit.dart';
 import 'package:rafeeq_app/helper/constants.dart';
+import 'package:rafeeq_app/models/option_model.dart';
 
 class Mcq extends StatefulWidget {
-  const Mcq({super.key});
+  final List<OptionModel> options;
+  final String question;
+  const Mcq({super.key, required this.options, required this.question});
 
   @override
   State<Mcq> createState() => _McqState();
 }
 
 class _McqState extends State<Mcq> {
-  final List<String> options = ["البيت", "حقيبته", "المدرسة", "حقيبته الكبيرة"];
-
   int? selectedIndex;
 
   @override
@@ -21,7 +24,7 @@ class _McqState extends State<Mcq> {
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
-            'ماذا نسى مازن؟',
+            widget.question,
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 22,
@@ -32,10 +35,10 @@ class _McqState extends State<Mcq> {
           SizedBox(height: 20.h),
           Expanded(
             child: ListView.builder(
-              itemCount: options.length,
+              itemCount: widget.options.length,
               itemBuilder: (context, index) {
                 bool isSelected = selectedIndex == index;
-      
+
                 return GestureDetector(
                   onTap: () {
                     setState(() {
@@ -89,7 +92,7 @@ class _McqState extends State<Mcq> {
                         SizedBox(width: 12.w),
                         Expanded(
                           child: Text(
-                            options[index],
+                            widget.options[index].text,
                             textAlign: TextAlign.right,
                             style: TextStyle(
                               fontSize: 18,
@@ -106,6 +109,22 @@ class _McqState extends State<Mcq> {
                 );
               },
             ),
+          ),
+
+          ElevatedButton(
+            onPressed: selectedIndex != null
+                ? () {
+                    final selectedAnswerId = widget.options[selectedIndex!].id;
+                    context.read<QuizCubit>().submitAnswerAndNext(
+                      selectedAnswerId,
+                    );
+
+                    setState(() {
+                      selectedIndex = null;
+                    });
+                  }
+                : null,
+            child: Text("التالي"),
           ),
         ],
       ),
