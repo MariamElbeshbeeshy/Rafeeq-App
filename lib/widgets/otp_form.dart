@@ -7,6 +7,7 @@ import 'package:rafeeq_app/cubits/otp%20cubit/otp_cubit.dart';
 import 'package:rafeeq_app/helper/show_alert_dialog.dart';
 import 'package:rafeeq_app/views/otp_view.dart';
 import 'package:rafeeq_app/views/profile_view.dart';
+import 'package:rafeeq_app/views/quistions/mcq_view.dart';
 
 class OtpForm extends StatefulWidget {
   const OtpForm({super.key});
@@ -60,7 +61,7 @@ class _OtpFormState extends State<OtpForm> {
             ElevatedButton(
               onPressed: () => Navigator.pushNamedAndRemoveUntil(
                 context,
-                ProfileView.id,
+                McqView.id,
                 (Route<dynamic> route) => route.settings.name == OtpView.id,
               ),
               child: Text("التالي"),

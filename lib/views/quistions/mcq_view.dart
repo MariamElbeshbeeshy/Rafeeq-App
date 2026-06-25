@@ -4,17 +4,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:rafeeq_app/cubits/quiz%20cubit/quiz_cubit.dart';
 import 'package:rafeeq_app/helper/constants.dart';
 import 'package:rafeeq_app/helper/show_alert_dialog.dart';
+import 'package:rafeeq_app/views/navigation_view.dart';
 import 'package:rafeeq_app/widgets/mcq.dart';
 import 'package:rafeeq_app/widgets/quiz_progress_bar.dart';
 
-class McqView extends StatefulWidget {
+class McqView extends StatelessWidget {
   const McqView({super.key});
+  static String id = "MCQ view";
 
-  @override
-  State<McqView> createState() => _McqViewState();
-}
-
-class _McqViewState extends State<McqView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,7 +26,17 @@ class _McqViewState extends State<McqView> {
                   "لقد أكملت الاختبار بنجاح وتم وضع خطة مناسبة لمستواك!",
                   [
                     TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pushNamedAndRemoveUntil(
+                          context,
+                          NavigationView.id,
+                          (Route<dynamic> route) =>
+                              route.settings.name == McqView.id,
+                        );
+                      },
+                      style: TextButton.styleFrom(
+                        foregroundColor: kPrimaryColor,
+                      ),
                       child: Text("ابدأ رحلتك مع رفيق"),
                     ),
                   ],
