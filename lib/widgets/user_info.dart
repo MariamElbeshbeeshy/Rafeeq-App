@@ -10,7 +10,6 @@ class UserInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<ChildCubit, ChildState>(
       builder: (context, state) {
-        
         if (state is ChildDataError) {
           return Center(
             child: Text(
