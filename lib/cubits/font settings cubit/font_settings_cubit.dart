@@ -40,7 +40,9 @@ class FontSettingsCubit extends Cubit<FontSettingsState> {
         options: Options(
           headers: {
             "Authorization":
-                "Bearer ${UserLocalServices().getUserData()?.token}",
+                "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjYzNDJkMjg3LTllNmYtNDBlNy1hNjA5LTI3NzE4ZjA0M2U5ZiIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWUiOiLZitin2LPZitmGIiwidHlwZVVzZXIiOiJQYXJlbnQiLCJleHAiOjE4MTg2MTM1MTAsImlzcyI6Imh0dHA6Ly93d3cuZ29vZ2xlLmNvbSIsImF1ZCI6Imh0dHA6Ly93d3cuZ29vZ2xlLmNvbSJ9.tlSWVkfu8i87ZKrHrK1AV9e7nAQseoTLK7k3WFHypuk",
+            // "Authorization":
+            //     "Bearer ${UserLocalServices().getUserData()?.token}",
           },
         ),
       );
