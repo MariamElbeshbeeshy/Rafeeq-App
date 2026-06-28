@@ -12,14 +12,14 @@ class ChildCubit extends Cubit<ChildState> {
   final String baseUrl = "https://api-rafiq.runasp.net/api/v1";
   final Dio dio = Dio();
 
-  Future<void> getChildData(String childId) async {
+  Future<void> getChildData() async {
     try {
       final response = await dio.get(
         "$baseUrl/Profile",
         options: Options(
           headers: {
             "Authorization":
-                "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjYzNDJkMjg3LTllNmYtNDBlNy1hNjA5LTI3NzE4ZjA0M2U5ZiIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWUiOiLZitin2LPZitmGIiwidHlwZVVzZXIiOiJQYXJlbnQiLCJleHAiOjE4MTg2MTM1MTAsImlzcyI6Imh0dHA6Ly93d3cuZ29vZ2xlLmNvbSIsImF1ZCI6Imh0dHA6Ly93d3cuZ29vZ2xlLmNvbSJ9.tlSWVkfu8i87ZKrHrK1AV9e7nAQseoTLK7k3WFHypuk",
+                "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjRhYjk2YjdiLTc3MDQtNGE4Zi04Y2ZmLTI1ZDk3MjI0MjRiMCIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWUiOiLYo9it2YXYryIsInR5cGVVc2VyIjoiUGFyZW50IiwiZXhwIjoxODE4NjU5NjQzLCJpc3MiOiJodHRwOi8vd3d3Lmdvb2dsZS5jb20iLCJhdWQiOiJodHRwOi8vd3d3Lmdvb2dsZS5jb20ifQ.2q-VARy7wsNJqZL8e5UzoZxyDFTuAo94JvCZTKJEbBo",
             //"Authorization": "Bearer ${UserLocalServices().getToken()}",
             "Accept-Language": "ar",
           },
@@ -41,7 +41,9 @@ class ChildCubit extends Cubit<ChildState> {
         "$baseUrl/Portfolio",
         options: Options(
           headers: {
-            "Authorization": "Bearer ${UserLocalServices().getToken()}",
+            //"Authorization": "Bearer ${UserLocalServices().getToken()}",
+            "Authorization":
+                "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjRhYjk2YjdiLTc3MDQtNGE4Zi04Y2ZmLTI1ZDk3MjI0MjRiMCIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWUiOiLYo9it2YXYryIsInR5cGVVc2VyIjoiUGFyZW50IiwiZXhwIjoxODE4NjU5NjQzLCJpc3MiOiJodHRwOi8vd3d3Lmdvb2dsZS5jb20iLCJhdWQiOiJodHRwOi8vd3d3Lmdvb2dsZS5jb20ifQ.2q-VARy7wsNJqZL8e5UzoZxyDFTuAo94JvCZTKJEbBo",
             "accept": "text/plain",
             "Accept-Language": "ar",
           },
