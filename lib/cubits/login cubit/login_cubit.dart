@@ -20,7 +20,6 @@ class LoginCubit extends Cubit<LoginState> {
         nationalityId: nationalId,
         deviceId: "123",
         deviceName: "iphone",
-        projectName: "Rafiq",
       );
       if (authLogInResponse!.key == "success") {
         emit(LoginSuccess(message: authLogInResponse!.message));

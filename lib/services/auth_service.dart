@@ -7,14 +7,13 @@ import 'package:rafeeq_app/models/auth_response_model.dart';
 class AuthService {
   final Dio dio = Dio();
 
-  String baseUrl = "https://api-rafiq.premiumasp.net/api/v1";
+  String baseUrl = "https://api-rafiq.runasp.net/api/v1";
 
   Future logIn({
     String? id,
     String? nationalityId,
     required String deviceId,
     required String deviceName,
-    required String projectName,
   }) async {
     try {
       final Response response = await dio.post(
@@ -22,11 +21,7 @@ class AuthService {
         data: {
           "id": id,
           "nationalityId": nationalityId,
-          "device": {
-            "deviceId": deviceId,
-            "deviceName": deviceName,
-            "projectName": projectName,
-          },
+          "device": {"deviceId": deviceId, "deviceName": deviceName},
         },
 
         options: Options(headers: {"Content-Type": "application/json"}),
@@ -42,7 +37,6 @@ class AuthService {
     String? nationalityId,
     required String deviceId,
     required String deviceName,
-    required String projectName,
   }) async {
     try {
       final Response response = await dio.post(
@@ -50,11 +44,7 @@ class AuthService {
         data: {
           "id": id,
           "nationalityId": nationalityId,
-          "device": {
-            "deviceId": deviceId,
-            "deviceName": deviceName,
-            "projectName": projectName,
-          },
+          "device": {"deviceId": deviceId, "deviceName": deviceName},
         },
 
         options: Options(headers: {"Content-Type": "application/json"}),
