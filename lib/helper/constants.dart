@@ -7,6 +7,14 @@ const Color kRedColor = Color(0xffF41A1A);
 const Color kGreenColor = Color(0xff80BD52);
 const Color kGrayColor = Color(0xffD9D9D9);
 const Color kShadowColor = Color.fromARGB(61, 0, 0, 0);
+
+final List<Color> cardColors = [
+  const Color(0xFFE2F0D9), 
+  const Color(0xFFFCE4D6), 
+  const Color(0xFFFFF2CC), 
+  const Color(0xFFEDEDED),
+];
+
 const List<DropdownMenuEntry<String>> kFontOptions = [
   DropdownMenuEntry(
     value: 'Cairo',
