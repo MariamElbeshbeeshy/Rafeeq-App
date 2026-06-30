@@ -38,14 +38,16 @@ class _LogInFormState extends State<LogInForm> {
     nationalId.addListener(checkFormFilled);
   }
 
-  @override
- void dispose() {
-  nationalId.dispose();
-  super.dispose();
-  }
+ 
 
  void _submitForm() {
     context.read<LoginCubit>().nationalIdLogin(nationalId: nationalId.text);
+  }
+  
+   @override
+ void dispose() {
+  nationalId.dispose();
+  super.dispose();
   }
 
   @override
@@ -72,7 +74,7 @@ class _LogInFormState extends State<LogInForm> {
               wrongNationalId = null;
             });
           }
-        },
+        } ,
         builder: (context, state) {
           bool isLoading = state is LoginLoading;
           return Column(

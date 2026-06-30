@@ -15,7 +15,7 @@ final class LoginSuccess extends LoginState {
 
 final class LoginFailure extends LoginState {
 
-  final String errorMessage ;
+  final dynamic errorMessage ;
 
   LoginFailure({required this.errorMessage});
 

@@ -15,12 +15,27 @@ import 'package:rafeeq_app/views/otp_view.dart';
 import 'package:rafeeq_app/views/profile_view.dart';
 import 'package:rafeeq_app/views/qr_scan_view.dart';
 import 'package:rafeeq_app/widgets/app_theme.dart';
+import 'package:rafeeq_app/models/HomeModel/home_model.dart';
+
+import 'dart:io';
+
+ 
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
   Hive.registerAdapter(UserDataModelAdapter());
+  Hive.registerAdapter(HomeModelAdapter());
+  Hive.registerAdapter(HomeDataModelAdapter());
+  Hive.registerAdapter(HeaderInfoAdapter());
+  Hive.registerAdapter(LevelsListAdapter());
+  Hive.registerAdapter(StreakInfoAdapter());
   await Hive.openBox<UserDataModel>('userBox');
+  await Hive.openBox<HomeModel>('home info');
+
+
+ 
+
   runApp(
     BlocProvider(
       create: (context) => FontSettingsCubit(),
@@ -70,10 +85,10 @@ class MainApp extends StatelessWidget {
                   child: child!,
                 );
               },
-              //initialRoute: OcrCameraView.id,
-              initialRoute: userLocalServices.getUserData() == null
-                  ? LoginView.id
-                  : NavigationView.id,
+             initialRoute:  LoginView.id,
+              // initialRoute: userLocalServices.getUserData() == null
+              //     ? LoginView.id
+              //     : NavigationView.id,
             );
           },
         );

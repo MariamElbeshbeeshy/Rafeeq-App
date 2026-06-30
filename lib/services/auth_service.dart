@@ -2,29 +2,33 @@
 import 'package:dio/dio.dart';
 import 'package:rafeeq_app/models/auth_response_model.dart';
 
-/// 3032158777
-
 class AuthService {
-  final Dio dio = Dio();
-
-  String baseUrl = "https://api-rafiq.runasp.net/api/v1";
+ final dio = Dio();
+ 
+  String baseUrl = 'https://api-rafiq.runasp.net/api/v1';
 
   Future logIn({
     String? id,
     String? nationalityId,
     required String deviceId,
-    required String deviceName,
+    required int deviceType,
   }) async {
     try {
       final Response response = await dio.post(
-        "$baseUrl/Login",
+        '$baseUrl/Login',
         data: {
           "id": id,
           "nationalityId": nationalityId,
-          "device": {"deviceId": deviceId, "deviceName": deviceName},
+          "device": {"deviceId": deviceId, "deviceType": deviceType},
         },
+        
 
-        options: Options(headers: {"Content-Type": "application/json"}),
+        options: Options(
+          headers: {"Content-Type": "application/json"},
+          connectTimeout: Duration(minutes: 1),
+          sendTimeout: Duration(minutes: 1),
+          receiveTimeout: Duration(minutes: 1)
+          ),
       );
       return AuthResponseModel.logInResponse(response.data);
     } on DioException {
@@ -33,22 +37,18 @@ class AuthService {
   }
 
   Future nationalIdLogIn({
-    String? id,
     String? nationalityId,
     required String deviceId,
-    required String deviceName,
+    required int deviceType,
   }) async {
     try {
       final Response response = await dio.post(
-        "$baseUrl/Login",
+         'https://api-rafiq.runasp.net/api/v1/Login',
         data: {
-          "id": id,
           "nationalityId": nationalityId,
-          "device": {"deviceId": deviceId, "deviceName": deviceName},
+          "device": {"deviceId": deviceId, "deviceType": deviceType},
         },
-
-        options: Options(headers: {"Content-Type": "application/json"}),
-      );
+       );
       return AuthResponseModel.logInResponse(response.data);
     } on DioException {
       rethrow;
