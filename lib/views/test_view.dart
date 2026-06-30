@@ -6,6 +6,8 @@ import 'package:rafeeq_app/widgets/background_widget.dart';
 class TestView extends StatelessWidget {
   const TestView({super.key});
 
+  static String id = "Test view";
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

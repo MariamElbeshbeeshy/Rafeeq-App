@@ -64,6 +64,13 @@ class AuthService {
       final Response response = await dio.post(
         "$baseUrl/ConfirmCode",
         data: {"id": id, "nationalityId": nationalityId, "code": otpCode},
+        options: Options(
+          headers: {
+            "accept": 'text/plain',
+            "Accept-Language": 'ar',
+            "Content-Type": "application/json",
+          },
+        ),
       );
       return AuthResponseModel.confirmCodeResponse(response.data);
     } on DioException {
