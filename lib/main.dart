@@ -49,7 +49,6 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    UserLocalServices userLocalServices = UserLocalServices();
     return BlocBuilder<FontSettingsCubit, FontSettingsState>(
       builder: (context, state) {
         return ScreenUtilInit(
@@ -85,7 +84,8 @@ class MainApp extends StatelessWidget {
                   child: child!,
                 );
               },
-             initialRoute:  LoginView.id,
+              home: NavigationView(),
+              //initialRoute: OcrCameraView.id,
               // initialRoute: userLocalServices.getUserData() == null
               //     ? LoginView.id
               //     : NavigationView.id,
