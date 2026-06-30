@@ -14,6 +14,7 @@ import 'package:rafeeq_app/views/OCR/ocr_camera_view.dart';
 import 'package:rafeeq_app/views/otp_view.dart';
 import 'package:rafeeq_app/views/profile_view.dart';
 import 'package:rafeeq_app/views/qr_scan_view.dart';
+import 'package:rafeeq_app/views/test_view.dart';
 import 'package:rafeeq_app/widgets/app_theme.dart';
 
 void main() async {
@@ -56,8 +57,9 @@ class MainApp extends StatelessWidget {
                 OtpView.id: (context) => OtpView(),
                 ProfileView.id: (context) => ProfileView(),
                 OcrView.id: (context) => OcrView(),
-               NavigationView.id: (context) =>  NavigationView(),
+                NavigationView.id: (context) => NavigationView(),
                 OcrCameraView.id: (context) => OcrCameraView(),
+                TestView.id: (context) => TestView(),
               },
               builder: (context, child) {
                 return MediaQuery(
@@ -69,11 +71,10 @@ class MainApp extends StatelessWidget {
                   child: child!,
                 );
               },
-              home: NavigationView(),
               //initialRoute: OcrCameraView.id,
-              // initialRoute: userLocalServices.getUserData() == null
-              //     ? LoginView.id
-              //     : NavigationView.id,
+              initialRoute: UserLocalServices().getUserData() == null
+                  ? LoginView.id
+                  : NavigationView.id, 
             );
           },
         );
