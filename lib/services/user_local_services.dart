@@ -24,4 +24,31 @@ class UserLocalServices {
   final user = getUserData();
   return user?.token;
 }
+
+Future<UserDataModel?> updateUserData(Map<String, dynamic> json) async {
+  final box = Hive.box<UserDataModel>('userBox');
+  
+  final oldData = box.get('user_data');
+
+  if (oldData != null) {
+    final updatedData = UserDataModel(
+      id: json['id'] ?? oldData.id,
+      firstName: json['firstName'] ?? oldData.firstName,
+      lastName: json['lastName'] ?? oldData.lastName,
+      birthDate: json['birthDate'] ?? oldData.birthDate,
+      gender: json['gender'] ?? oldData.gender,
+      nationalityId: json['nationalityId'] ?? oldData.nationalityId,
+      image: json['image'] ?? oldData.image,
+      level: json['level'] ?? oldData.level,
+      token: json['token'] ?? oldData.token, 
+      points: json['points'] ?? oldData.points,
+      fontSize: json['fontSize'] ?? oldData.fontSize,
+      fontType: json['fontType'] ?? oldData.fontType,
+    );
+    saveUserData(updatedData);
+  } else {
+    saveUserData(UserDataModel.fromJson(json));
+  }
+  return getUserData();
+}
 }
