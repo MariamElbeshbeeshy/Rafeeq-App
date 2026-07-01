@@ -7,9 +7,9 @@ class LetterPositionsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final String first = letterData[0] ?? '';
-    final String middle = letterData[1] ?? '';
-    final String last = letterData[2] ?? '';
+    final String first = letterData[0];
+    final String middle = letterData[1];
+    final String last = letterData[2];
 
     return Container(
       padding: const EdgeInsets.all(16),
