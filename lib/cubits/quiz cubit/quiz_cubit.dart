@@ -98,15 +98,6 @@ class QuizCubit extends Cubit<QuizState> {
           await _finalizeCurrentStage();
         }
       }
-      // if (response.statusCode == 400 &&
-      //     response.data['message'] == "تمت الإجابة على هذا السؤال بالفعل") {
-      //   if (_currentQuestionIndex < _allStageQuestions.length - 1) {
-      //     _currentQuestionIndex++;
-      //     _emitCurrentQuestion();
-      //   } else {
-      //     await _finalizeCurrentStage();
-      //   }
-      // }
     } on DioException catch (e) {
       debugPrint("Submit Error: ${e.message}");
       if (e.response != null &&
