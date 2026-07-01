@@ -1,4 +1,6 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:bloc/bloc.dart';
+import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 import 'package:rafeeq_app/models/finalize_stage_response.dart';
 import 'package:rafeeq_app/models/questions_model.dart';
@@ -13,6 +15,9 @@ class QuizCubit extends Cubit<QuizState> {
   String baseUrl = "https://api-rafiq.runasp.net/api/v1/placement-test";
   late final String token;
 
+  final AudioPlayer _audioPlayer = AudioPlayer();
+  bool _isPlaying = false;
+
   QuizCubit() : super(QuizInitial()) {
     token = UserLocalServices().getToken() ?? "";
   }
@@ -22,16 +27,28 @@ class QuizCubit extends Cubit<QuizState> {
   List<QuestionModel> _allStageQuestions = [];
   String _skillName = "";
 
+  Future<void> toggleAudio(String url) async {
+    try {
+      if (_isPlaying) {
+        await _audioPlayer.pause();
+        _isPlaying = false;
+      } else {
+        await _audioPlayer.play(UrlSource(url));
+        _isPlaying = true;
+      }
+      emit(AudioPlayingState(_isPlaying));
+    } catch (e) {
+      print("Error playing audio: $e");
+    }
+  }
+
   Future<void> fetchStageQuestions() async {
     emit(QuizLoadingStage());
     try {
       final response = await _dio.get(
         "$baseUrl/questions",
         options: Options(
-          headers: {
-            "Accept-Language": "ar",
-            "Authorization": "Bearer $token",
-          },
+          headers: {"Accept-Language": "ar", "Authorization": "Bearer $token"},
         ),
       );
 
@@ -63,10 +80,7 @@ class QuizCubit extends Cubit<QuizState> {
       final response = await _dio.post(
         "$baseUrl/submit",
         options: Options(
-          headers: {
-            "Accept-Language": "ar",
-            "Authorization": "Bearer $token",
-          },
+          headers: {"Accept-Language": "ar", "Authorization": "Bearer $token"},
         ),
         data: {
           "sessionId": _sessionId,
@@ -74,6 +88,7 @@ class QuizCubit extends Cubit<QuizState> {
           "selectedAnswerId": selectedAnswerId,
         },
       );
+      debugPrint("Submit Response: ${response.data}");
 
       if (response.statusCode == 200) {
         if (_currentQuestionIndex < _allStageQuestions.length - 1) {
@@ -83,12 +98,33 @@ class QuizCubit extends Cubit<QuizState> {
           await _finalizeCurrentStage();
         }
       }
+      // if (response.statusCode == 400 &&
+      //     response.data['message'] == "تمت الإجابة على هذا السؤال بالفعل") {
+      //   if (_currentQuestionIndex < _allStageQuestions.length - 1) {
+      //     _currentQuestionIndex++;
+      //     _emitCurrentQuestion();
+      //   } else {
+      //     await _finalizeCurrentStage();
+      //   }
+      // }
     } on DioException catch (e) {
-      String errorMsg = "فشل في تسليم الإجابة";
-      if (e.response != null && e.response!.data != null) {
-        errorMsg = e.response!.data['message'] ?? errorMsg;
+      debugPrint("Submit Error: ${e.message}");
+      if (e.response != null &&
+          e.response!.data != null &&
+          e.response!.data['message'] == "تمت الإجابة على هذا السؤال بالفعل") {
+        if (_currentQuestionIndex < _allStageQuestions.length - 1) {
+          _currentQuestionIndex++;
+          _emitCurrentQuestion();
+        } else {
+          await _finalizeCurrentStage();
+        }
+      } else {
+        String errorMsg = "فشل في تسليم الإجابة";
+        if (e.response != null && e.response!.data != null) {
+          errorMsg = e.response!.data['message'] ?? errorMsg;
+        }
+        emit(QuizError(errorMsg));
       }
-      emit(QuizError(errorMsg));
     }
   }
 
@@ -132,5 +168,11 @@ class QuizCubit extends Cubit<QuizState> {
         skillName: _skillName,
       ),
     );
+  }
+
+  @override
+  Future<void> close() {
+    _audioPlayer.dispose();
+    return super.close();
   }
 }

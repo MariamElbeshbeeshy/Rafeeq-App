@@ -64,33 +64,36 @@ class McqView extends StatelessWidget {
                 final currentQuestion =
                     state.stageQuestions[state.currentQuestionIndex];
                 final options = currentQuestion.options;
-                
 
-                return Padding(
-                  padding: EdgeInsets.all(16.w),
-                  child: Column(
-                    spacing: 10,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "مهارة ${state.skillName}",
-                        style: TextStyle(
-                          fontSize: 20.sp,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
+                return SingleChildScrollView(
+                  child: Padding(
+                    padding: EdgeInsets.all(16.w),
+                    child: Column(
+                      spacing: 10,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "مهارة ${state.skillName}",
+                          style: TextStyle(
+                            fontSize: 20.sp,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                          ),
                         ),
-                      ),
-                      QuizProgressBar(
-                        currentQuestionIndex: state.currentQuestionIndex + 1,
-                        totalQuestions: state.stageQuestions.length,
-                      ),
-                      SizedBox(height: 20.h),
-                      Mcq(options: options, question: currentQuestion),
-                    ],
+                        QuizProgressBar(
+                          currentQuestionIndex: state.currentQuestionIndex + 1,
+                          totalQuestions: state.stageQuestions.length,
+                        ),
+                        SizedBox(height: 20.h),
+                        Mcq(options: options, question: currentQuestion),
+                      ],
+                    ),
                   ),
                 );
               }
-              return CircularProgressIndicator(color: kPrimaryColor);
+              return Center(
+                child: CircularProgressIndicator(color: kPrimaryColor),
+              );
             },
           ),
         ),

@@ -23,6 +23,7 @@ void main() async {
   await Hive.initFlutter();
   Hive.registerAdapter(UserDataModelAdapter());
   await Hive.openBox<UserDataModel>('userBox');
+  //UserLocalServices().clearUserData();
   runApp(
     BlocProvider(
       create: (context) => FontSettingsCubit(),
@@ -73,10 +74,10 @@ class MainApp extends StatelessWidget {
                   child: child!,
                 );
               },
-              //initialRoute: OcrCameraView.id,
+              //initialRoute: TestView.id,
               initialRoute: UserLocalServices().getUserData() == null
                   ? LoginView.id
-                  : NavigationView.id, 
+                  : TestView.id,
             );
           },
         );

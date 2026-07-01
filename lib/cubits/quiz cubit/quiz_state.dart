@@ -8,8 +8,8 @@ final class QuizInitial extends QuizState {}
 class QuizLoadingStage extends QuizState {}
 
 class QuizDisplayQuestion extends QuizState {
-  final List<QuestionModel> stageQuestions; 
-  final int currentQuestionIndex; 
+  final List<QuestionModel> stageQuestions;
+  final int currentQuestionIndex;
   final String sessionId;
   final String skillName;
 
@@ -28,4 +28,9 @@ class QuizSuccessFinished extends QuizState {}
 class QuizError extends QuizState {
   final String message;
   QuizError(this.message);
+}
+
+class AudioPlayingState extends QuizState {
+  final bool isPlaying;
+  AudioPlayingState(this.isPlaying);
 }
