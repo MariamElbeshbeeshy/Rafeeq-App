@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 import 'package:rafeeq_app/models/level_model.dart';
 import 'package:rafeeq_app/models/user_data_model.dart';
@@ -26,6 +27,7 @@ class ChildCubit extends Cubit<ChildState> {
       if (response.statusCode == 200 && response.data != null) {
         final UserDataModel? childData = await UserLocalServices()
             .updateUserData(response.data!["data"]);
+        debugPrint("Child Data: ${childData?.toString()}");
         emit(ChildDataLoaded(childData!));
       }
     } on DioException catch (e) {
