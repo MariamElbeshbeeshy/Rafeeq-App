@@ -13,13 +13,13 @@ part 'quiz_state.dart';
 class QuizCubit extends Cubit<QuizState> {
   final Dio _dio = Dio();
   String baseUrl = "https://api-rafiq.runasp.net/api/v1/placement-test";
-  late final String token;
+  late final String? token;
 
   final AudioPlayer _audioPlayer = AudioPlayer();
   bool _isPlaying = false;
 
   QuizCubit() : super(QuizInitial()) {
-    token = UserLocalServices().getToken() ?? "";
+    token = UserLocalServices().getToken();
   }
 
   int _currentQuestionIndex = 0;

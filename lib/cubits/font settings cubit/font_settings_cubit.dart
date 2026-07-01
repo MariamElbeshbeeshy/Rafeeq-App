@@ -27,8 +27,8 @@ class FontSettingsCubit extends Cubit<FontSettingsState> {
   }
 
   Future<void> updateFontOnBackend() async {
-    int fontId =
-        kFontToIdMap[state.fontSettings.fontFamily] ?? 1; // 1 هو الـ default
+    debugPrint("Bearer ${UserLocalServices().getToken()}");
+    int fontId = kFontToIdMap[state.fontSettings.fontFamily] ?? 1;
     final Dio dio = Dio();
     try {
       dio.patch(

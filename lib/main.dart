@@ -23,7 +23,6 @@ void main() async {
   await Hive.initFlutter();
   Hive.registerAdapter(UserDataModelAdapter());
   await Hive.openBox<UserDataModel>('userBox');
-  //UserLocalServices().clearUserData();
   runApp(
     BlocProvider(
       create: (context) => FontSettingsCubit(),
@@ -74,7 +73,7 @@ class MainApp extends StatelessWidget {
                   child: child!,
                 );
               },
-              initialRoute: UserLocalServices().getUserData() == null
+              initialRoute: UserLocalServices().getToken() == null
                   ? LoginView.id
                   : NavigationView.id,
             );
