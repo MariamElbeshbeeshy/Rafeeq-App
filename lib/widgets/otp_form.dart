@@ -8,6 +8,7 @@ import 'package:rafeeq_app/helper/show_alert_dialog.dart';
 import 'package:rafeeq_app/views/otp_view.dart';
 import 'package:rafeeq_app/views/profile_view.dart';
 import 'package:rafeeq_app/views/test_view.dart';
+import 'package:rafeeq_app/views/quistions/mcq_view.dart';
 
 class OtpForm extends StatefulWidget {
   const OtpForm({super.key});

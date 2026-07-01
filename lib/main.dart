@@ -15,6 +15,7 @@ import 'package:rafeeq_app/views/otp_view.dart';
 import 'package:rafeeq_app/views/profile_view.dart';
 import 'package:rafeeq_app/views/qr_scan_view.dart';
 import 'package:rafeeq_app/views/test_view.dart';
+import 'package:rafeeq_app/views/quistions/mcq_view.dart';
 import 'package:rafeeq_app/widgets/app_theme.dart';
 
 void main() async {
@@ -22,6 +23,7 @@ void main() async {
   await Hive.initFlutter();
   Hive.registerAdapter(UserDataModelAdapter());
   await Hive.openBox<UserDataModel>('userBox');
+  //UserLocalServices().clearUserData();
   runApp(
     BlocProvider(
       create: (context) => FontSettingsCubit(),
@@ -60,6 +62,7 @@ class MainApp extends StatelessWidget {
                 NavigationView.id: (context) => NavigationView(),
                 OcrCameraView.id: (context) => OcrCameraView(),
                 TestView.id: (context) => TestView(),
+                McqView.id: (context) => McqView(),
               },
               builder: (context, child) {
                 return MediaQuery(
@@ -71,10 +74,9 @@ class MainApp extends StatelessWidget {
                   child: child!,
                 );
               },
-              //initialRoute: OcrCameraView.id,
               initialRoute: UserLocalServices().getUserData() == null
                   ? LoginView.id
-                  : NavigationView.id, 
+                  : NavigationView.id,
             );
           },
         );
