@@ -14,6 +14,7 @@ import 'package:rafeeq_app/views/OCR/ocr_camera_view.dart';
 import 'package:rafeeq_app/views/otp_view.dart';
 import 'package:rafeeq_app/views/profile_view.dart';
 import 'package:rafeeq_app/views/qr_scan_view.dart';
+import 'package:rafeeq_app/views/test_view.dart';
 import 'package:rafeeq_app/views/quistions/mcq_view.dart';
 import 'package:rafeeq_app/widgets/app_theme.dart';
 
@@ -35,7 +36,6 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    UserLocalServices userLocalServices = UserLocalServices();
     return BlocBuilder<FontSettingsCubit, FontSettingsState>(
       builder: (context, state) {
         return ScreenUtilInit(
@@ -60,6 +60,7 @@ class MainApp extends StatelessWidget {
                 OcrView.id: (context) => OcrView(),
                 NavigationView.id: (context) => NavigationView(),
                 OcrCameraView.id: (context) => OcrCameraView(),
+                TestView.id: (context) => TestView(),
                 McqView.id: (context) => McqView(),
               },
               builder: (context, child) {
@@ -72,11 +73,10 @@ class MainApp extends StatelessWidget {
                   child: child!,
                 );
               },
-              //home: McqView(),
-              initialRoute: LoginView.id,
-              // userLocalServices.getUserData() == null
-              //     ? LoginView.id
-              //     : NavigationView.id,
+              //initialRoute: OcrCameraView.id,
+              initialRoute: UserLocalServices().getUserData() == null
+                  ? LoginView.id
+                  : NavigationView.id, 
             );
           },
         );

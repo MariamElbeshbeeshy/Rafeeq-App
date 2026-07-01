@@ -14,7 +14,6 @@ class AuthService {
     String? nationalityId,
     required String deviceId,
     required String deviceName,
-    
   }) async {
     try {
       final Response response = await dio.post(
@@ -22,10 +21,7 @@ class AuthService {
         data: {
           "id": id,
           "nationalityId": nationalityId,
-          "device": {
-            "deviceId": deviceId,
-            "deviceName": deviceName,
-          },
+          "device": {"deviceId": deviceId, "deviceName": deviceName},
         },
 
         options: Options(headers: {"Content-Type": "application/json"}),
@@ -41,7 +37,6 @@ class AuthService {
     String? nationalityId,
     required String deviceId,
     required String deviceName,
-    required String projectName,
   }) async {
     try {
       final Response response = await dio.post(
@@ -49,11 +44,7 @@ class AuthService {
         data: {
           "id": id,
           "nationalityId": nationalityId,
-          "device": {
-            "deviceId": deviceId,
-            "deviceName": deviceName,
-            "projectName": projectName,
-          },
+          "device": {"deviceId": deviceId, "deviceName": deviceName},
         },
 
         options: Options(headers: {"Content-Type": "application/json"}),
@@ -73,6 +64,13 @@ class AuthService {
       final Response response = await dio.post(
         "$baseUrl/ConfirmCode",
         data: {"id": id, "nationalityId": nationalityId, "code": otpCode},
+        options: Options(
+          headers: {
+            "accept": 'text/plain',
+            "Accept-Language": 'ar',
+            "Content-Type": "application/json",
+          },
+        ),
       );
       return AuthResponseModel.confirmCodeResponse(response.data);
     } on DioException {
