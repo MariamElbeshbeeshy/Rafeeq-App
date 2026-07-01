@@ -15,29 +15,25 @@ class ImageBoard extends StatelessWidget {
       runSpacing: 0.h,
       children: List.generate(
         images.length,
-        (index) => Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 6.0),
-          child: Container(
-            width: 90.w,
-            height: 90.h,
-            margin: const EdgeInsets.only(bottom: 35),
-            decoration: BoxDecoration(
-              color: kPrimaryColor.withValues(alpha: 0.07),
-              borderRadius: BorderRadius.circular(16),
-              border: Border.all(
-                color: kPrimaryColor.withValues(alpha: 0.3),
-                width: 1.5,
-              ),
+        (index) => Container(
+          // width: 90.w,
+          // height: 90.h,
+          margin: const EdgeInsets.only(bottom: 35),
+          padding: const EdgeInsets.all(8),
+          decoration: BoxDecoration(
+            color: kPrimaryColor.withValues(alpha: 0.07),
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(
+              color: kPrimaryColor.withValues(alpha: 0.3),
+              width: 1.5,
             ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(14),
-              child: Center(
-                child: Text(
-                  images[index],
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 40.sp, color: Colors.black),
-                ),
-              ),
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(14),
+            child: Text(
+              images[index],
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 40.sp, color: Colors.black),
             ),
           ),
         ),

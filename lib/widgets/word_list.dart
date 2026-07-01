@@ -18,8 +18,6 @@ class WordList extends StatelessWidget {
         (index) => Padding(
           padding: const EdgeInsets.symmetric(horizontal: 6.0),
           child: Container(
-            width: 100.w,
-            height: 40.h,
             margin: const EdgeInsets.only(bottom: 35),
             decoration: BoxDecoration(
               color: kPrimaryColor.withValues(alpha: 0.07),
@@ -31,7 +29,12 @@ class WordList extends StatelessWidget {
             ),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(14),
-              child: Center(
+
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 40.0,
+                  vertical: 5.0,
+                ),
                 child: Text(
                   words[index],
                   textAlign: TextAlign.center,

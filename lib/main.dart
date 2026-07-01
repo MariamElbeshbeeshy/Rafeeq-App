@@ -74,10 +74,9 @@ class MainApp extends StatelessWidget {
                   child: child!,
                 );
               },
-              //initialRoute: TestView.id,
               initialRoute: UserLocalServices().getUserData() == null
                   ? LoginView.id
-                  : TestView.id,
+                  : NavigationView.id,
             );
           },
         );

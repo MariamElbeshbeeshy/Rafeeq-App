@@ -7,6 +7,7 @@ import 'package:rafeeq_app/models/option_model.dart';
 import 'package:rafeeq_app/models/questions_model.dart';
 import 'package:rafeeq_app/widgets/audio_bar.dart';
 import 'package:rafeeq_app/widgets/image_board.dart';
+import 'package:rafeeq_app/widgets/letter_positions_widget.dart';
 import 'package:rafeeq_app/widgets/passage_content.dart';
 import 'package:rafeeq_app/widgets/word_list.dart';
 
@@ -30,17 +31,37 @@ class _McqState extends State<Mcq> {
       children: [
         if (widget.question.type == QuestionContentType.passage)
           PassageContent(content: widget.question.content.first),
-        Text(
-          widget.question.text,
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontSize: 22,
-            fontWeight: FontWeight.bold,
-            color: Colors.black,
+        ListTile(
+          contentPadding: EdgeInsets.zero,
+          title: Text(
+            widget.question.text,
+            textAlign: TextAlign.start,
+            maxLines: 2,
+            style: TextStyle(
+              fontSize: 22,
+              fontWeight: FontWeight.bold,
+              color: Colors.black,
+            ),
+          ),
+          trailing: Container(
+            width: 40.w,
+            height: 40.h,
+            decoration: BoxDecoration(
+              color: kPrimaryColor,
+              borderRadius: BorderRadius.circular(50.sp),
+            ),
+            child: Center(
+              child: IconButton(
+                onPressed: () {},
+                icon: Icon(Icons.volume_up, color: kSecondaryColor, size: 25),
+              ),
+            ),
           ),
         ),
         SizedBox(height: 35.h),
         _buildContent(),
+        if (widget.question.audioUrl != null)
+          AudioPlayerBar(audioUrl: widget.question.audioUrl ?? ''),
         ListView.builder(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
@@ -116,6 +137,7 @@ class _McqState extends State<Mcq> {
             );
           },
         ),
+        SizedBox(height: 35.h),
 
         ElevatedButton(
           onPressed: selectedIndex != null
@@ -142,9 +164,13 @@ class _McqState extends State<Mcq> {
       case QuestionContentType.emoji:
         return ImageBoard(images: widget.question.content);
       case QuestionContentType.wordList:
+      case QuestionContentType.word:
+      case QuestionContentType.wordIncomplete:
+      case QuestionContentType.confusedPair:
+      case QuestionContentType.wordDisplay:
         return WordList(words: widget.question.content);
-      case QuestionContentType.audio:
-        return AudioPlayerBar(audioUrl: widget.question.audioUrl??'');
+      case QuestionContentType.letterPositions:
+        return LetterPositionsWidget(letterData: widget.question.content);
       default:
         return SizedBox.shrink();
     }

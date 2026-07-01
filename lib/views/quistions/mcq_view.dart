@@ -25,7 +25,7 @@ class McqView extends StatelessWidget {
                   context,
                   "لقد أكملت الاختبار بنجاح وتم وضع خطة مناسبة لمستواك!",
                   [
-                    TextButton(
+                    ElevatedButton(
                       onPressed: () {
                         Navigator.pushNamedAndRemoveUntil(
                           context,
@@ -34,9 +34,6 @@ class McqView extends StatelessWidget {
                               route.settings.name == McqView.id,
                         );
                       },
-                      style: TextButton.styleFrom(
-                        foregroundColor: kPrimaryColor,
-                      ),
                       child: Text("ابدأ رحلتك مع رفيق"),
                     ),
                   ],
@@ -44,11 +41,10 @@ class McqView extends StatelessWidget {
               }
               if (state is QuizError) {
                 ShowMessage(context, state.message, [
-                  TextButton(
+                  ElevatedButton(
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
-                    style: TextButton.styleFrom(foregroundColor: kPrimaryColor),
                     child: Text("حاول مرة أخرى"),
                   ),
                 ]);

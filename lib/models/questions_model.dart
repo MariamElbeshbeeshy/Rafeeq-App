@@ -1,6 +1,16 @@
 import 'package:rafeeq_app/models/option_model.dart';
 
-enum QuestionContentType { direct, passage, word, emoji, wordList, audio }
+enum QuestionContentType {
+  none,  //0
+  passage,    //1
+  word,   //2
+  emoji,  //3
+  wordList, //4
+  confusedPair, //5
+  wordIncomplete, //6
+  letterPositions, //7
+  wordDisplay, //8
+}
 
 class QuestionModel {
   final String id;
