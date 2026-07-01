@@ -17,7 +17,7 @@ class McqView extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: BlocProvider(
-          create: (context) => QuizCubit(),
+          create: (context) => QuizCubit()..fetchStageQuestions(),
           child: BlocConsumer<QuizCubit, QuizState>(
             listener: (context, state) {
               if (state is QuizSuccessFinished) {
@@ -81,17 +81,7 @@ class McqView extends StatelessWidget {
                   ),
                 );
               }
-              return Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Center(
-                  child: ElevatedButton(
-                    onPressed: () {
-                      context.read<QuizCubit>().fetchStageQuestions();
-                    },
-                    child: const Text("ابدأ اختبار تحديد المستوى"),
-                  ),
-                ),
-              );
+              return CircularProgressIndicator(color: kPrimaryColor);
             },
           ),
         ),
