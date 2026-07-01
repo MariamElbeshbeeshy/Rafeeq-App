@@ -11,16 +11,16 @@ part 'quiz_state.dart';
 class QuizCubit extends Cubit<QuizState> {
   final Dio _dio = Dio();
   String baseUrl = "https://api-rafiq.runasp.net/api/v1/placement-test";
-  UserLocalServices userLocalServices = UserLocalServices();
   late final String token;
 
   QuizCubit() : super(QuizInitial()) {
-    token = userLocalServices.getToken() ?? "";
+    token = UserLocalServices().getToken() ?? "";
   }
 
   int _currentQuestionIndex = 0;
   String _sessionId = "";
   List<QuestionModel> _allStageQuestions = [];
+  String _skillName = "";
 
   Future<void> fetchStageQuestions() async {
     emit(QuizLoadingStage());
@@ -42,7 +42,7 @@ class QuizCubit extends Cubit<QuizState> {
         _allStageQuestions = quizData.questions;
         _sessionId = quizData.sessionId;
         _currentQuestionIndex = 0;
-
+        _skillName = quizData.skillName;
         _emitCurrentQuestion();
       }
     } on DioException catch (e) {
@@ -129,6 +129,7 @@ class QuizCubit extends Cubit<QuizState> {
         stageQuestions: _allStageQuestions,
         currentQuestionIndex: _currentQuestionIndex,
         sessionId: _sessionId,
+        skillName: _skillName,
       ),
     );
   }

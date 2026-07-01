@@ -11,11 +11,13 @@ class QuizDisplayQuestion extends QuizState {
   final List<QuestionModel> stageQuestions; 
   final int currentQuestionIndex; 
   final String sessionId;
+  final String skillName;
 
   QuizDisplayQuestion({
     required this.stageQuestions,
     required this.currentQuestionIndex,
     required this.sessionId,
+    required this.skillName,
   });
 }
 
