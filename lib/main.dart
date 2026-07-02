@@ -14,6 +14,8 @@ import 'package:rafeeq_app/views/OCR/ocr_camera_view.dart';
 import 'package:rafeeq_app/views/otp_view.dart';
 import 'package:rafeeq_app/views/profile_view.dart';
 import 'package:rafeeq_app/views/qr_scan_view.dart';
+import 'package:rafeeq_app/views/test_view.dart';
+import 'package:rafeeq_app/views/quistions/mcq_view.dart';
 import 'package:rafeeq_app/widgets/app_theme.dart';
 import 'package:rafeeq_app/models/HomeModel/home_model.dart';
 
@@ -32,10 +34,7 @@ void main() async {
   Hive.registerAdapter(StreakInfoAdapter());
   await Hive.openBox<UserDataModel>('userBox');
   await Hive.openBox<HomeModel>('home info');
-
-
- 
-
+  //UserLocalServices().clearUserData();
   runApp(
     BlocProvider(
       create: (context) => FontSettingsCubit(),
@@ -72,8 +71,10 @@ class MainApp extends StatelessWidget {
                 OtpView.id: (context) => OtpView(),
                 ProfileView.id: (context) => ProfileView(),
                 OcrView.id: (context) => OcrView(),
-               NavigationView.id: (context) =>  NavigationView(),
+                NavigationView.id: (context) => NavigationView(),
                 OcrCameraView.id: (context) => OcrCameraView(),
+                TestView.id: (context) => TestView(),
+                McqView.id: (context) => McqView(),
               },
               builder: (context, child) {
                 return MediaQuery(
@@ -85,11 +86,9 @@ class MainApp extends StatelessWidget {
                   child: child!,
                 );
               },
-               home: NavigationView(),
-              // initialRoute: OtpView.id,
-              //initialRoute: userLocalServices.getUserData() == null
-              //     ? LoginView.id
-              //     : NavigationView.id,
+              initialRoute: UserLocalServices().getUserData() == null
+                  ? LoginView.id
+                  : NavigationView.id,
             );
           },
         );

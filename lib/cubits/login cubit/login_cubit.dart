@@ -11,32 +11,25 @@ class LoginCubit extends Cubit<LoginState> {
 
   final AuthService authService = AuthService();
   AuthResponseModel? authLogInResponse;
+  static String? nationalityId;
 
-  Future <void> nationalIdLogin({required String nationalId}) async {
-
+  Future<void> nationalIdLogin({required String nationalId}) async {
+    nationalityId = nationalId;
     emit(LoginLoading());
- 
-    
-      try {
-        authLogInResponse = await authService.nationalIdLogIn(
-          nationalityId:nationalId,
-          deviceId: "string",
-          deviceType: 1,
-        );
-        if (authLogInResponse!.key == "success") {
-          emit(LoginSuccess(message: authLogInResponse!.message));
-        }  
-      } 
-      on DioException catch (e) {
-
-        //final String errorMessage = e.response?.data["message"];
-         print('${e.error} and ${e.type} and ${e.message}');
-         emit(LoginFailure(errorMessage:"heeelll ${e.error} and ${e.type} and ${e.message}"));
-      }catch (e) {
-        emit(LoginFailure(errorMessage:"خطأ غير متوقع ${e.toString()}"));
+    try {
+      authLogInResponse = await authService.nationalIdLogIn(
+        nationalityId: nationalId,
+        deviceId: "123",
+        deviceName: "iphone",
+      );
+      if (authLogInResponse!.key == "success") {
+        emit(LoginSuccess(message: authLogInResponse!.message));
       }
-  
-
-     
+    } on DioException catch (e) {
+      final String errorMessage = e.response?.data["message"];
+      emit(LoginFailure(errorMessage: errorMessage));
+    } catch (e) {
+      emit(LoginFailure(errorMessage: "خطأ غير متوقع ${e.toString()}"));
+    }
   }
 }

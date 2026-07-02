@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:meta/meta.dart';
 import 'package:rafeeq_app/cubits/Qr%20cubit/qr_cubit.dart';
+import 'package:rafeeq_app/cubits/login%20cubit/login_cubit.dart';
 import 'package:rafeeq_app/models/auth_response_model.dart';
 import 'package:rafeeq_app/services/auth_service.dart';
 import 'package:rafeeq_app/services/user_local_services.dart';
@@ -16,7 +17,7 @@ class OtpCubit extends Cubit<OtpState> {
 
   Future<void> otpVerify(String? otpCode) async {
     String? childId = QrCubit.childId;
-    String? nationalityId = QrCubit.nationalityId;
+    String? nationalityId = LoginCubit.nationalityId;
 
     try {
       final AuthResponseModel response = await authService.confirmCode(

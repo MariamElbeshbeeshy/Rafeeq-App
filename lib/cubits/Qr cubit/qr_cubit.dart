@@ -12,8 +12,6 @@ class QrCubit extends Cubit<QrState> {
   final AuthService authService = AuthService();
   QrCubit() : super(QrInitial());
   static String? childId;
-  static String? nationalityId = "3032158777";
-  //static String? nationalityId = "3032158777";
 
   Future<void> qrScanLogin(String? qrRawData) async {
     if (qrRawData != null) {

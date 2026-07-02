@@ -7,6 +7,8 @@ import 'package:rafeeq_app/cubits/otp%20cubit/otp_cubit.dart';
 import 'package:rafeeq_app/helper/show_alert_dialog.dart';
 import 'package:rafeeq_app/views/otp_view.dart';
 import 'package:rafeeq_app/views/profile_view.dart';
+import 'package:rafeeq_app/views/test_view.dart';
+import 'package:rafeeq_app/views/quistions/mcq_view.dart';
 
 class OtpForm extends StatefulWidget {
   const OtpForm({super.key});
@@ -56,16 +58,26 @@ class _OtpFormState extends State<OtpForm> {
           setState(() {
             isCorrectOtp = true;
           });
-          ShowMessage(context, state.message, [
-            ElevatedButton(
-              onPressed: () => Navigator.pushNamedAndRemoveUntil(
+          Future.delayed(const Duration(milliseconds: 500), () {
+            if (context.mounted) {
+              Navigator.pushNamedAndRemoveUntil(
                 context,
-                ProfileView.id,
+                TestView.id,
                 (Route<dynamic> route) => route.settings.name == OtpView.id,
-              ),
-              child: Text("التالي"),
-            ),
-          ]);
+              );
+            }
+          });
+
+          // ShowMessage(context, state.message, [
+          //   ElevatedButton(
+          //     onPressed: () => Navigator.pushNamedAndRemoveUntil(
+          //       context,
+          //       TestView.id,
+          //       (Route<dynamic> route) => route.settings.name == OtpView.id,
+          //     ),
+          //     child: Text("التالي"),
+          //   ),
+          //]);
         } else if (state is OtpVervicationError) {
           setState(() {
             isCorrectOtp = false;
