@@ -15,6 +15,8 @@ class AnimatedBottomFeedback extends StatelessWidget {
           current is QuestionsWrongAnswer ||
           current is GamePlayDisplayQuestion,
       builder: (context, state) {
+        final bool isFeedback =
+            state is QuestionsCorrectAnswer || state is QuestionsWrongAnswer;
         Color barColor = Colors.white;
         String feedbackText = "";
         IconData? feedbackIcon;
@@ -26,7 +28,7 @@ class AnimatedBottomFeedback extends StatelessWidget {
         }
 
         if (state is QuestionsCorrectAnswer) {
-          barColor = kSecondaryColor;
+          barColor = const Color.fromARGB(255, 219, 255, 228);
           feedbackText = state.feedbackMessage.isNotEmpty
               ? state.feedbackMessage
               : "إجابة رائعة يا بطل! 🌟";
@@ -42,9 +44,9 @@ class AnimatedBottomFeedback extends StatelessWidget {
         }
 
         return AnimatedContainer(
-          duration: const Duration(milliseconds: 350),
+          duration: const Duration(milliseconds: 200),
           width: double.infinity,
-          height: 100.h,
+          height: isFeedback ? 90.h : 76.h,
           padding: EdgeInsets.symmetric(vertical: 18.h, horizontal: 24.w),
           decoration: BoxDecoration(
             color: barColor,
@@ -80,7 +82,8 @@ class AnimatedBottomFeedback extends StatelessWidget {
                       ),
                     ],
                   )
-                : Center(
+                : (state is GamePlayDisplayQuestion)
+                ? Center(
                     child: SizedBox(
                       height: 50,
                       child: ElevatedButton(
@@ -94,7 +97,8 @@ class AnimatedBottomFeedback extends StatelessWidget {
                         child: Text("تأكيد الإجابة"),
                       ),
                     ),
-                  ),
+                  )
+                : SizedBox.shrink(),
           ),
         );
       },

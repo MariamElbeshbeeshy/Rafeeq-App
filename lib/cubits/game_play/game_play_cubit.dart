@@ -19,6 +19,7 @@ class GamePlayCubit extends Cubit<GamePlayState> {
   int? _currentSelectedIndex;
   late String _sessionId;
   List<QuestionModel> _gamePlayQuestions = [];
+  int _wrongAttemptsCount = 0;
 
   void selectAnswer(int index) {
     _currentSelectedIndex = index;
@@ -88,6 +89,7 @@ class GamePlayCubit extends Cubit<GamePlayState> {
             .toList();
         _currentQuestionIndex = 0;
         _currentSelectedIndex = null;
+        _wrongAttemptsCount = 0;
         _emitCurrentQuestion();
       }
     } on DioException catch (e) {
@@ -129,21 +131,21 @@ class GamePlayCubit extends Cubit<GamePlayState> {
         final SubmitQuestionResponse submitResponse =
             SubmitQuestionResponse.fromJson(response.data['data']);
 
-        if(submitResponse.isCorrect) {
+        if (submitResponse.isCorrect) {
           emit(QuestionsCorrectAnswer(submitResponse.feedbackMessage));
+          await Future.delayed(const Duration(seconds: 3));
+          _moveToNextOrComplete();
         } else {
+          _wrongAttemptsCount++;
           emit(QuestionsWrongAnswer(submitResponse.feedbackMessage));
-        }
+          await Future.delayed(const Duration(seconds: 3));
 
-        await Future.delayed(const Duration(seconds: 3));
-
-        /// Move to the next question or complete the stage
-        if (_currentQuestionIndex < _gamePlayQuestions.length - 1) {
-          _currentQuestionIndex++;
-          _currentSelectedIndex = null;
-          _emitCurrentQuestion();
-        } else {
-          await completeStage(levelId);
+          if (_wrongAttemptsCount == 1) {
+            _currentSelectedIndex = null;
+            _emitCurrentQuestion();
+          } else {
+            _moveToNextOrComplete();
+          }
         }
       }
     } on DioException catch (e) {
@@ -157,6 +159,16 @@ class GamePlayCubit extends Cubit<GamePlayState> {
     }
   }
 
+  void _moveToNextOrComplete() async {
+    if (_currentQuestionIndex < _gamePlayQuestions.length - 1) {
+      _currentQuestionIndex++;
+      _currentSelectedIndex = null;
+      _wrongAttemptsCount = 0; 
+      _emitCurrentQuestion();
+    } else {
+      await completeStage(levelId);
+    }
+  }
 
   void _emitCurrentQuestion() {
     emit(
