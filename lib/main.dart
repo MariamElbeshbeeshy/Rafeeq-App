@@ -85,7 +85,7 @@ class MainApp extends StatelessWidget {
                 );
               },
               home: NavigationView(),
-              //initialRoute: OcrCameraView.id,
+              //initialRoute: OtpView.id,
               // initialRoute: userLocalServices.getUserData() == null
               //     ? LoginView.id
               //     : NavigationView.id,
