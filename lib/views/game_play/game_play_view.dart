@@ -25,24 +25,55 @@ class GamePlayView extends StatelessWidget {
           child: BlocConsumer<GamePlayCubit, GamePlayState>(
             listener: (context, state) {
               if (state is GamePlayFinished) {
-                ShowMessage(
-                  context,
-                  "لقد أنهيت المستوى الأول وحصلت على 10 نقاط",
-                  [],
-                );
+                ShowMessage(context, [
+                  Text(
+                    "لقد أنهيت المستوى الأول",
+                    style: TextStyle(fontWeight: FontWeight.w700, fontSize: 24),
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        "وحصلت على نسبة",
+                        style: TextStyle(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 24,
+                        ),
+                      ),
+                      Text(
+                        "${state.score}",
+                        style: TextStyle(
+                          color: kPrimaryColor,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                ], []);
                 context.read<ChildCubit>().getChildData();
                 Future.delayed(const Duration(seconds: 10), () {
                   Navigator.pop(context);
                 });
               } else if (state is GamePlayError) {
-                ShowMessage(context, state.message, [
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: Text("حاول مرة أخرى"),
-                  ),
-                ]);
+                ShowMessage(
+                  context,
+                  [
+                    Text(
+                      "state.message",
+                      style: TextStyle(
+                        fontWeight: FontWeight.w700,
+                        fontSize: 24,
+                      ),
+                    ),
+                  ],
+                  [
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: Text("حاول مرة أخرى"),
+                    ),
+                  ],
+                );
               }
             },
             listenWhen: (previous, current) =>

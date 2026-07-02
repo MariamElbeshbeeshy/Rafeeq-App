@@ -36,4 +36,7 @@ class QuestionsWrongAnswer extends GamePlayState {
   QuestionsWrongAnswer(this.feedbackMessage);
 }
 
-final class GamePlayFinished extends GamePlayState {}
+final class GamePlayFinished extends GamePlayState {
+  final double score;
+  GamePlayFinished(this.score);
+}

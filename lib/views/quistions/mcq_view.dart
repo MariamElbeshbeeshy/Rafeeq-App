@@ -23,7 +23,16 @@ class McqView extends StatelessWidget {
               if (state is QuizSuccessFinished) {
                 ShowMessage(
                   context,
-                  "لقد أكملت الاختبار بنجاح وتم وضع خطة مناسبة لمستواك!",
+                  [
+                    Text(
+                      "لقد أكملت الاختبار بنجاح وتم وضع خطة مناسبة لمستواك!",
+                      style: TextStyle(
+                        fontWeight: FontWeight.w700,
+                        fontSize: 24,
+                      ),
+                    ),
+                  ],
+
                   [
                     ElevatedButton(
                       onPressed: () {
@@ -40,14 +49,26 @@ class McqView extends StatelessWidget {
                 );
               }
               if (state is QuizError) {
-                ShowMessage(context, state.message, [
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: Text("حاول مرة أخرى"),
-                  ),
-                ]);
+                ShowMessage(
+                  context,
+                  [
+                    Text(
+                      state.message,
+                      style: TextStyle(
+                        fontWeight: FontWeight.w700,
+                        fontSize: 24,
+                      ),
+                    ),
+                  ],
+                  [
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: Text("حاول مرة أخرى"),
+                    ),
+                  ],
+                );
               }
             },
             builder: (context, state) {

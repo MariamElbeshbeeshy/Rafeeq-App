@@ -19,7 +19,7 @@ class _LogInFormState extends State<LogInForm> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController nationalId = TextEditingController();
   bool isButtonEnabled = false;
-  String? wrongNationalId ;
+  String? wrongNationalId;
 
   void checkFormFilled() {
     setState(() {
@@ -39,12 +39,12 @@ class _LogInFormState extends State<LogInForm> {
   }
 
   @override
- void dispose() {
-  nationalId.dispose();
-  super.dispose();
+  void dispose() {
+    nationalId.dispose();
+    super.dispose();
   }
 
- void _submitForm() {
+  void _submitForm() {
     context.read<LoginCubit>().nationalIdLogin(nationalId: nationalId.text);
   }
 
@@ -54,19 +54,20 @@ class _LogInFormState extends State<LogInForm> {
       key: _formKey,
 
       child: BlocConsumer<LoginCubit, LoginState>(
-
         listener: (context, state) {
           if (state is LoginSuccess) {
-
             ScaffoldMessenger.of(
               context,
             ).showSnackBar(SnackBar(content: Text(state.message)));
 
             Navigator.pushNamed(context, OtpView.id);
-
-          } 
-          else if (state is LoginFailure) {
-            ShowMessage(context, state.errorMessage, []);
+          } else if (state is LoginFailure) {
+            ShowMessage(context, [
+              Text(
+                state.errorMessage,
+                style: TextStyle(fontWeight: FontWeight.w700, fontSize: 24),
+              ),
+            ], []);
           } else if (state is LoginLoading) {
             setState(() {
               wrongNationalId = null;
@@ -117,7 +118,9 @@ class _LogInFormState extends State<LogInForm> {
                         height: 20,
                         child: CircularProgressIndicator(
                           strokeWidth: 2,
-                          valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                            Colors.white,
+                          ),
                         ),
                       )
                     : Text('تسجيل الدخول'),

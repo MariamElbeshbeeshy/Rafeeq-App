@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:meta/meta.dart';
+import 'package:rafeeq_app/models/level_result_model.dart';
 import 'package:rafeeq_app/models/questions_model.dart';
 import 'package:rafeeq_app/models/submit_question_response.dart';
 import 'package:rafeeq_app/services/user_local_services.dart';
@@ -163,7 +164,7 @@ class GamePlayCubit extends Cubit<GamePlayState> {
     if (_currentQuestionIndex < _gamePlayQuestions.length - 1) {
       _currentQuestionIndex++;
       _currentSelectedIndex = null;
-      _wrongAttemptsCount = 0; 
+      _wrongAttemptsCount = 0;
       _emitCurrentQuestion();
     } else {
       await completeStage(levelId);
@@ -191,10 +192,11 @@ class GamePlayCubit extends Cubit<GamePlayState> {
       );
 
       if (response.statusCode == 200 && response.data != null) {
-        if (response.data['data']['leveledUp'] == true) {
-          emit(GamePlayFinished());
+        final LevelResultModel result = response.data["data"];
+        if (result.leveledUp == true) {
+          emit(GamePlayFinished(result.scorePercentage));
         } else {
-          emit(GamePlayError("لم يتم إكمال المرحلة بنجاح."));
+          emit(GamePlayError("لم يتم إكمال المرحلة بنجاح.\nحاول مرة أخرى."));
         }
       }
     } on DioException catch (e) {
