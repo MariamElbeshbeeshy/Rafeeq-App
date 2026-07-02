@@ -55,6 +55,7 @@ class MainApp extends StatelessWidget {
           designSize: const Size(375, 812),
           minTextAdapt: true,
           builder: (context, child) {
+            
             return MaterialApp(
               locale: const Locale('ar'),
               supportedLocales: const [Locale('ar')],
@@ -84,9 +85,9 @@ class MainApp extends StatelessWidget {
                   child: child!,
                 );
               },
-              home: NavigationView(),
-              //initialRoute: OtpView.id,
-              // initialRoute: userLocalServices.getUserData() == null
+               home: NavigationView(),
+              // initialRoute: OtpView.id,
+              //initialRoute: userLocalServices.getUserData() == null
               //     ? LoginView.id
               //     : NavigationView.id,
             );

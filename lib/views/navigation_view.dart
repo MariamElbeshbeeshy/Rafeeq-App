@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rafeeq_app/helper/constants.dart';
+import 'package:rafeeq_app/views/Home/home_page.dart';
 import 'package:rafeeq_app/views/Home/home_view.dart';
 import 'package:rafeeq_app/views/OCR/ocr_view.dart';
 import 'package:rafeeq_app/views/profile_view.dart';
@@ -20,7 +21,7 @@ class _NavigationViewState extends State<NavigationView> {
   final List<Widget> _pages=[
     Center(child: Text("welcome in library"),) ,
     Center(child: Text("welcome in achievments"),) ,
-    HomeView() ,
+    HomePage() ,
     OcrView() ,
     ProfileView() ,
 

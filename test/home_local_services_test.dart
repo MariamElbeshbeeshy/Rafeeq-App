@@ -31,6 +31,42 @@ void main() {
             isCompleted: true,
             isToday: false,
           ),
+          StreakInfo(
+            date: DateTime(2024, 1, 1),
+            dayName: 'Mon',
+            isCompleted: true,
+            isToday: false,
+          ),
+          StreakInfo(
+            date: DateTime(2024, 1, 1),
+            dayName: 'Mon',
+            isCompleted: true,
+            isToday: false,
+          ),
+          StreakInfo(
+            date: DateTime(2024, 1, 1),
+            dayName: 'Mon',
+            isCompleted: true,
+            isToday: false,
+          ),
+          StreakInfo(
+            date: DateTime(2024, 1, 1),
+            dayName: 'Mon',
+            isCompleted: true,
+            isToday: false,
+          ),
+          StreakInfo(
+            date: DateTime(2024, 1, 1),
+            dayName: 'Mon',
+            isCompleted: true,
+            isToday: false,
+          ),
+          StreakInfo(
+            date: DateTime(2024, 1, 1),
+            dayName: 'Mon',
+            isCompleted: true,
+            isToday: false,
+          ),
         ],
         levelsList: [
           LevelsList(
