@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:meta/meta.dart';
 import 'package:rafeeq_app/models/questions_model.dart';
+import 'package:rafeeq_app/models/submit_question_response.dart';
 import 'package:rafeeq_app/services/user_local_services.dart';
 
 part 'game_play_state.dart';
@@ -125,6 +126,18 @@ class GamePlayCubit extends Cubit<GamePlayState> {
       );
 
       if (response.statusCode == 200 && response.data != null) {
+        final SubmitQuestionResponse submitResponse =
+            SubmitQuestionResponse.fromJson(response.data['data']);
+
+        if(submitResponse.isCorrect) {
+          emit(QuestionsCorrectAnswer(submitResponse.feedbackMessage));
+        } else {
+          emit(QuestionsWrongAnswer(submitResponse.feedbackMessage));
+        }
+
+        await Future.delayed(const Duration(seconds: 3));
+
+        /// Move to the next question or complete the stage
         if (_currentQuestionIndex < _gamePlayQuestions.length - 1) {
           _currentQuestionIndex++;
           _currentSelectedIndex = null;
@@ -143,6 +156,7 @@ class GamePlayCubit extends Cubit<GamePlayState> {
       emit(GamePlayError("حدث خطأ غير متوقع: ${e.toString()}"));
     }
   }
+
 
   void _emitCurrentQuestion() {
     emit(

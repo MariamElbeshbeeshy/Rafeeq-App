@@ -6,6 +6,7 @@ import 'package:rafeeq_app/cubits/game_play/game_play_cubit.dart';
 import 'package:rafeeq_app/helper/constants.dart';
 import 'package:rafeeq_app/helper/show_alert_dialog.dart';
 import 'package:rafeeq_app/views/navigation_view.dart';
+import 'package:rafeeq_app/widgets/animated_bottom_feedback.dart';
 import 'package:rafeeq_app/widgets/mcq.dart';
 import 'package:rafeeq_app/widgets/questions_header.dart';
 import 'package:rafeeq_app/widgets/quiz_progress_bar.dart';
@@ -33,8 +34,7 @@ class GamePlayView extends StatelessWidget {
                 Future.delayed(const Duration(seconds: 10), () {
                   Navigator.pop(context);
                 });
-              }
-              if (state is GamePlayError) {
+              } else if (state is GamePlayError) {
                 ShowMessage(context, state.message, [
                   ElevatedButton(
                     onPressed: () {
@@ -45,47 +45,63 @@ class GamePlayView extends StatelessWidget {
                 ]);
               }
             },
+            listenWhen: (previous, current) =>
+                current is GamePlayError || current is GamePlayFinished,
+            buildWhen: (previous, current) =>
+                current is GamePlayDisplayQuestion ||
+                current is GamePlayLoadingStage,
             builder: (context, state) {
               if (state is GamePlayLoadingStage) {
                 return const Center(
                   child: CircularProgressIndicator(color: kPrimaryColor),
                 );
-              }
-              if (state is GamePlayDisplayQuestion) {
+              } else if (state is GamePlayDisplayQuestion) {
                 final currentQuestion =
                     state.stageQuestions[state.currentQuestionIndex];
                 final options = currentQuestion.options;
 
-                return SingleChildScrollView(
-                  child: Padding(
-                    padding: EdgeInsets.all(16.w),
-                    child: Column(
-                      spacing: 10,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        QuestionHeader(),
-                        QuizProgressBar(
-                          currentQuestionIndex: state.currentQuestionIndex + 1,
-                          totalQuestions: state.stageQuestions.length,
+                return Column(
+                  children: [
+                    Expanded(
+                      child: SingleChildScrollView(
+                        child: Padding(
+                          padding: EdgeInsets.all(16.w),
+                          child: Column(
+                            spacing: 10,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              QuestionHeader(),
+                              QuizProgressBar(
+                                currentQuestionIndex:
+                                    state.currentQuestionIndex + 1,
+                                totalQuestions: state.stageQuestions.length,
+                              ),
+                              SizedBox(height: 20.h),
+                              Mcq(
+                                options: options,
+                                question: currentQuestion,
+                                selectedIndex: state.currentSelectedIndex,
+                                onSelect: (index) {
+                                  context.read<GamePlayCubit>().selectAnswer(
+                                    index,
+                                  );
+                                },
+                                submit: () {
+                                  context
+                                      .read<GamePlayCubit>()
+                                      .submitAnswerAndNext();
+                                },
+                              ),
+                            ],
+                          ),
                         ),
-                        SizedBox(height: 20.h),
-                        Mcq(
-                          options: options,
-                          question: currentQuestion,
-                          selectedIndex: state.currentSelectedIndex,
-                          onSelect: (index) {
-                            context.read<GamePlayCubit>().selectAnswer(index);
-                          },
-                          submit: () {
-                            context.read<GamePlayCubit>().submitAnswerAndNext();
-                          },
-                        ),
-                      ],
+                      ),
                     ),
-                  ),
+                    AnimatedBottomFeedback(),
+                  ],
                 );
               }
-              return NavigationView();
+              return const Text("Unhandled state");
             },
           ),
         ),

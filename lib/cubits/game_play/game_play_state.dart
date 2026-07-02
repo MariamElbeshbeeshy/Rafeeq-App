@@ -26,4 +26,14 @@ final class GamePlayDisplayQuestion extends GamePlayState {
   });
 }
 
+class QuestionsCorrectAnswer extends GamePlayState {
+  final String feedbackMessage;
+  QuestionsCorrectAnswer(this.feedbackMessage);
+}
+
+class QuestionsWrongAnswer extends GamePlayState {
+  final String feedbackMessage;
+  QuestionsWrongAnswer(this.feedbackMessage);
+}
+
 final class GamePlayFinished extends GamePlayState {}
