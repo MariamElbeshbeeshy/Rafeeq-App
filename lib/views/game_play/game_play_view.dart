@@ -26,22 +26,25 @@ class GamePlayView extends StatelessWidget {
             listener: (context, state) {
               if (state is GamePlayFinished) {
                 ShowMessage(context, [
+                  Image.asset("assets/images/emojione_fire.png", height: 106.h),
                   Text(
                     "لقد أنهيت المستوى الأول",
-                    style: TextStyle(fontWeight: FontWeight.w700, fontSize: 24),
+                    style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20),
                   ),
                   Row(
                     children: [
                       Text(
-                        "وحصلت على نسبة",
+                        " وحصلت على نسبة",
                         style: TextStyle(
                           fontWeight: FontWeight.w700,
-                          fontSize: 24,
+                          fontSize: 20,
                         ),
                       ),
+                      SizedBox(width: 8),
                       Text(
-                        "${state.score}",
+                        "${state.score.toInt()}",
                         style: TextStyle(
+                          fontSize: 28,
                           color: kPrimaryColor,
                           fontWeight: FontWeight.bold,
                         ),
@@ -51,14 +54,18 @@ class GamePlayView extends StatelessWidget {
                 ], []);
                 context.read<ChildCubit>().getChildData();
                 Future.delayed(const Duration(seconds: 10), () {
-                  Navigator.pop(context);
+                  Navigator.popUntil(
+                    context,
+                    ModalRoute.withName(NavigationView.id),
+                  );
                 });
               } else if (state is GamePlayError) {
                 ShowMessage(
                   context,
                   [
                     Text(
-                      "state.message",
+                      state.message,
+                      textAlign: TextAlign.center,
                       style: TextStyle(
                         fontWeight: FontWeight.w700,
                         fontSize: 24,
@@ -68,7 +75,7 @@ class GamePlayView extends StatelessWidget {
                   [
                     ElevatedButton(
                       onPressed: () {
-                        Navigator.of(context).pop();
+                        Navigator.of(context, rootNavigator: true).pop();
                       },
                       child: Text("حاول مرة أخرى"),
                     ),

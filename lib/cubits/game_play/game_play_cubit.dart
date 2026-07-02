@@ -134,12 +134,12 @@ class GamePlayCubit extends Cubit<GamePlayState> {
 
         if (submitResponse.isCorrect) {
           emit(QuestionsCorrectAnswer(submitResponse.feedbackMessage));
-          await Future.delayed(const Duration(seconds: 3));
+          await Future.delayed(const Duration(milliseconds: 100));
           _moveToNextOrComplete();
         } else {
           _wrongAttemptsCount++;
           emit(QuestionsWrongAnswer(submitResponse.feedbackMessage));
-          await Future.delayed(const Duration(seconds: 3));
+          await Future.delayed(const Duration(milliseconds: 100));
 
           if (_wrongAttemptsCount == 1) {
             _currentSelectedIndex = null;
@@ -192,7 +192,9 @@ class GamePlayCubit extends Cubit<GamePlayState> {
       );
 
       if (response.statusCode == 200 && response.data != null) {
-        final LevelResultModel result = response.data["data"];
+        final LevelResultModel result = LevelResultModel.fromJson(
+          response.data["data"],
+        );
         if (result.leveledUp == true) {
           emit(GamePlayFinished(result.scorePercentage));
         } else {
