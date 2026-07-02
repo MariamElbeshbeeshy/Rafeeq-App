@@ -3,9 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:rafeeq_app/cubits/child%20cubit/child_cubit.dart';
 import 'package:rafeeq_app/cubits/font%20settings%20cubit/font_settings_cubit.dart';
 import 'package:rafeeq_app/models/user_data_model.dart';
 import 'package:rafeeq_app/services/user_local_services.dart';
+import 'package:rafeeq_app/views/game_play/game_play_view.dart';
 import 'package:rafeeq_app/views/navigation_view.dart';
 import 'package:rafeeq_app/views/login_view.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -23,9 +25,17 @@ void main() async {
   await Hive.initFlutter();
   Hive.registerAdapter(UserDataModelAdapter());
   await Hive.openBox<UserDataModel>('userBox');
+  //UserLocalServices().clearUserData();
   runApp(
-    BlocProvider(
-      create: (context) => FontSettingsCubit(),
+    MultiBlocProvider(
+      providers: [
+        BlocProvider<FontSettingsCubit>(
+          create: (context) => FontSettingsCubit(),
+        ),
+        BlocProvider<ChildCubit>(
+          create: (context) => ChildCubit()..getChildData(),
+        ),
+      ],
       child: const MainApp(),
     ),
   );
@@ -36,6 +46,7 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    debugPrint("Token: ${UserLocalServices().getToken()}");
     return BlocBuilder<FontSettingsCubit, FontSettingsState>(
       builder: (context, state) {
         return ScreenUtilInit(

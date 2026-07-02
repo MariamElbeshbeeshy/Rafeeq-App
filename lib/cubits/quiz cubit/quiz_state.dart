@@ -12,12 +12,14 @@ class QuizDisplayQuestion extends QuizState {
   final int currentQuestionIndex;
   final String sessionId;
   final String skillName;
+  final int? currentSelectedIndex;
 
   QuizDisplayQuestion({
     required this.stageQuestions,
     required this.currentQuestionIndex,
     required this.sessionId,
     required this.skillName,
+    this.currentSelectedIndex,
   });
 }
 

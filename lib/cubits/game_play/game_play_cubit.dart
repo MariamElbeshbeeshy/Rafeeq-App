@@ -2,7 +2,6 @@ import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:meta/meta.dart';
 import 'package:rafeeq_app/models/questions_model.dart';
-import 'package:rafeeq_app/models/quiz_stage_response_model.dart';
 import 'package:rafeeq_app/services/user_local_services.dart';
 
 part 'game_play_state.dart';
@@ -14,11 +13,16 @@ class GamePlayCubit extends Cubit<GamePlayState> {
 
   GamePlayCubit() : super(GamePlayInitial());
 
-  int levelId = 1;
+  late int levelId;
   int _currentQuestionIndex = 0;
-  String _sessionId = "";
+  int? _currentSelectedIndex;
+  late String _sessionId;
   List<QuestionModel> _gamePlayQuestions = [];
-  String _skillName = "";
+
+  void selectAnswer(int index) {
+    _currentSelectedIndex = index;
+    _emitCurrentQuestion();
+  }
 
   Future<void> toggleAudio(String url) async {
     // try {
@@ -35,10 +39,11 @@ class GamePlayCubit extends Cubit<GamePlayState> {
     // }
   }
 
-  Future<void> startSession() async {
+  Future<void> startSession(int levelId) async {
+    this.levelId = levelId;
     emit(GamePlayLoadingStage());
     try {
-      final response = await dio.get(
+      final response = await dio.post(
         "$baseUrl/levels/$levelId/start",
         options: Options(
           headers: {
@@ -51,7 +56,7 @@ class GamePlayCubit extends Cubit<GamePlayState> {
 
       if (response.statusCode == 200 && response.data != null) {
         _sessionId = response.data['data']['sessionId'] ?? '';
-        fetchQuestions();
+        fetchQuestions(levelId);
       }
     } on DioException catch (e) {
       emit(
@@ -62,7 +67,7 @@ class GamePlayCubit extends Cubit<GamePlayState> {
     }
   }
 
-  Future<void> fetchQuestions() async {
+  Future<void> fetchQuestions(int levelId) async {
     emit(GamePlayLoadingStage());
     try {
       final response = await dio.get(
@@ -72,18 +77,17 @@ class GamePlayCubit extends Cubit<GamePlayState> {
         ),
       );
       if (response.statusCode == 200 && response.data != null) {
-        final Map<String, dynamic> responseData = response.data['data'];
-        _gamePlayQuestions = (responseData as List)
-            .map((questionJson) => QuestionModel.fromJson(questionJson))
+        final List<dynamic> responseData =
+            response.data['data'] as List<dynamic>;
+        _gamePlayQuestions = responseData
+            .map(
+              (questionJson) =>
+                  QuestionModel.fromJson(questionJson as Map<String, dynamic>),
+            )
             .toList();
         _currentQuestionIndex = 0;
-        emit(
-          GamePlayDisplayQuestion(
-            stageQuestions: _gamePlayQuestions,
-            currentQuestionIndex: _currentQuestionIndex,
-            sessionId: _sessionId,
-          ),
-        );
+        _currentSelectedIndex = null;
+        _emitCurrentQuestion();
       }
     } on DioException catch (e) {
       emit(
@@ -96,10 +100,17 @@ class GamePlayCubit extends Cubit<GamePlayState> {
     }
   }
 
-  Future<void> submitAnswerAndNext(String selectedAnswerId) async {
+  Future<void> submitAnswerAndNext() async {
+    if (_currentSelectedIndex == null) {
+      emit(GamePlayError("اختر إجابة قبل المتابعة."));
+      return;
+    }
+
     try {
       final QuestionModel currentQuestion =
           _gamePlayQuestions[_currentQuestionIndex];
+      final selectedAnswerId =
+          currentQuestion.options[_currentSelectedIndex!].id;
 
       Response response = await dio.post(
         "$baseUrl/answers/submit",
@@ -116,15 +127,10 @@ class GamePlayCubit extends Cubit<GamePlayState> {
       if (response.statusCode == 200 && response.data != null) {
         if (_currentQuestionIndex < _gamePlayQuestions.length - 1) {
           _currentQuestionIndex++;
-          emit(
-            GamePlayDisplayQuestion(
-              stageQuestions: _gamePlayQuestions,
-              currentQuestionIndex: _currentQuestionIndex,
-              sessionId: _sessionId,
-            ),
-          );
+          _currentSelectedIndex = null;
+          _emitCurrentQuestion();
         } else {
-          //await finalizeCurrentStage();
+          await completeStage(levelId);
         }
       }
     } on DioException catch (e) {
@@ -138,18 +144,32 @@ class GamePlayCubit extends Cubit<GamePlayState> {
     }
   }
 
-  Future<void> completeStage() async {
+  void _emitCurrentQuestion() {
+    emit(
+      GamePlayDisplayQuestion(
+        stageQuestions: _gamePlayQuestions,
+        currentQuestionIndex: _currentQuestionIndex,
+        sessionId: _sessionId,
+        currentSelectedIndex: _currentSelectedIndex,
+      ),
+    );
+  }
+
+  Future<void> completeStage(int levelId) async {
     try {
       final response = await dio.post(
-        "$baseUrl/levels/$levelId/complete",
-        data: {"sessionId": _sessionId},
+        "$baseUrl/levels/$levelId/complete?sessionId=$_sessionId",
         options: Options(
           headers: {"Accept-Language": "ar", "Authorization": "Bearer $token"},
         ),
       );
 
       if (response.statusCode == 200 && response.data != null) {
-        emit(GamePlayFinished());
+        if (response.data['data']['leveledUp'] == true) {
+          emit(GamePlayFinished());
+        } else {
+          emit(GamePlayError("لم يتم إكمال المرحلة بنجاح."));
+        }
       }
     } on DioException catch (e) {
       emit(

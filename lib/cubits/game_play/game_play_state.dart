@@ -16,11 +16,13 @@ final class GamePlayDisplayQuestion extends GamePlayState {
   final List<QuestionModel> stageQuestions;
   final int currentQuestionIndex;
   final String sessionId;
+  final int? currentSelectedIndex;
 
   GamePlayDisplayQuestion({
     required this.stageQuestions,
     required this.currentQuestionIndex,
     required this.sessionId,
+    this.currentSelectedIndex,
   });
 }
 

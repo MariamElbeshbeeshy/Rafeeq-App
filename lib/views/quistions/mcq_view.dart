@@ -81,7 +81,17 @@ class McqView extends StatelessWidget {
                           totalQuestions: state.stageQuestions.length,
                         ),
                         SizedBox(height: 20.h),
-                        Mcq(options: options, question: currentQuestion),
+                        Mcq(
+                          options: options,
+                          question: currentQuestion,
+                          selectedIndex: state.currentSelectedIndex,
+                          onSelect: (index) {
+                            context.read<QuizCubit>().selectAnswer(index);
+                          },
+                          submit: () {
+                            context.read<QuizCubit>().submitAnswerAndNext();
+                          },
+                        ),
                       ],
                     ),
                   ),

@@ -23,9 +23,15 @@ class QuizCubit extends Cubit<QuizState> {
   }
 
   int _currentQuestionIndex = 0;
+  int? _currentSelectedIndex;
   String _sessionId = "";
   List<QuestionModel> _allStageQuestions = [];
   String _skillName = "";
+
+  void selectAnswer(int index) {
+    _currentSelectedIndex = index;
+    _emitCurrentQuestion();
+  }
 
   Future<void> toggleAudio(String url) async {
     try {
@@ -59,6 +65,7 @@ class QuizCubit extends Cubit<QuizState> {
         _allStageQuestions = quizData.questions;
         _sessionId = quizData.sessionId;
         _currentQuestionIndex = 0;
+        _currentSelectedIndex = null;
         _skillName = quizData.skillName;
         _emitCurrentQuestion();
       }
@@ -73,9 +80,16 @@ class QuizCubit extends Cubit<QuizState> {
     }
   }
 
-  Future<void> submitAnswerAndNext(String selectedAnswerId) async {
+  Future<void> submitAnswerAndNext() async {
+    if (_currentSelectedIndex == null) {
+      emit(QuizError("اختر إجابة قبل المتابعة."));
+      return;
+    }
+
     try {
       final currentQuestion = _allStageQuestions[_currentQuestionIndex];
+      final selectedAnswerId =
+          currentQuestion.options[_currentSelectedIndex!].id;
 
       final response = await _dio.post(
         "$baseUrl/submit",
@@ -93,6 +107,7 @@ class QuizCubit extends Cubit<QuizState> {
       if (response.statusCode == 200) {
         if (_currentQuestionIndex < _allStageQuestions.length - 1) {
           _currentQuestionIndex++;
+          _currentSelectedIndex = null;
           _emitCurrentQuestion();
         } else {
           await _finalizeCurrentStage();
@@ -157,6 +172,7 @@ class QuizCubit extends Cubit<QuizState> {
         currentQuestionIndex: _currentQuestionIndex,
         sessionId: _sessionId,
         skillName: _skillName,
+        currentSelectedIndex: _currentSelectedIndex,
       ),
     );
   }
