@@ -61,40 +61,55 @@ class McqView extends StatelessWidget {
                     state.stageQuestions[state.currentQuestionIndex];
                 final options = currentQuestion.options;
 
-                return SingleChildScrollView(
-                  child: Padding(
-                    padding: EdgeInsets.all(16.w),
-                    child: Column(
-                      spacing: 10,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "مهارة ${state.skillName}",
-                          style: TextStyle(
-                            fontSize: 20.sp,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black,
+                return Column(
+                  children: [
+                    Expanded(
+                      child: SingleChildScrollView(
+                        child: Padding(
+                          padding: EdgeInsets.all(16.w),
+                          child: Column(
+                            spacing: 10,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "مهارة ${state.skillName}",
+                                style: TextStyle(
+                                  fontSize: 20.sp,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                ),
+                              ),
+                              QuizProgressBar(
+                                currentQuestionIndex:
+                                    state.currentQuestionIndex + 1,
+                                totalQuestions: state.stageQuestions.length,
+                              ),
+                              SizedBox(height: 20.h),
+                              Mcq(
+                                options: options,
+                                question: currentQuestion,
+                                selectedIndex: state.currentSelectedIndex,
+                                onSelect: (index) {
+                                  context.read<QuizCubit>().selectAnswer(index);
+                                },
+                              ),
+                            ],
                           ),
                         ),
-                        QuizProgressBar(
-                          currentQuestionIndex: state.currentQuestionIndex + 1,
-                          totalQuestions: state.stageQuestions.length,
-                        ),
-                        SizedBox(height: 20.h),
-                        Mcq(
-                          options: options,
-                          question: currentQuestion,
-                          selectedIndex: state.currentSelectedIndex,
-                          onSelect: (index) {
-                            context.read<QuizCubit>().selectAnswer(index);
-                          },
-                          submit: () {
+                      ),
+                    ),
+                    SafeArea(
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: ElevatedButton(
+                          onPressed: () {
                             context.read<QuizCubit>().submitAnswerAndNext();
                           },
+                          child: Text("التالي"),
                         ),
-                      ],
+                      ),
                     ),
-                  ),
+                  ],
                 );
               }
               return Center(

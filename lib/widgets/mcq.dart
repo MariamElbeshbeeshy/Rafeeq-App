@@ -14,7 +14,6 @@ class Mcq extends StatelessWidget {
   final QuestionModel question;
   final int? selectedIndex;
   final ValueChanged<int> onSelect;
-  final VoidCallback submit;
 
   const Mcq({
     super.key,
@@ -22,7 +21,6 @@ class Mcq extends StatelessWidget {
     required this.question,
     required this.selectedIndex,
     required this.onSelect,
-    required this.submit,
   });
 
   @override
@@ -138,11 +136,6 @@ class Mcq extends StatelessWidget {
           },
         ),
         SizedBox(height: 35.h),
-
-        ElevatedButton(
-          onPressed: selectedIndex != null ? submit : null,
-          child: Text("التالي"),
-        ),
       ],
     );
   }

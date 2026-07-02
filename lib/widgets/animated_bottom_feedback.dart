@@ -80,35 +80,18 @@ class AnimatedBottomFeedback extends StatelessWidget {
                       ),
                     ],
                   )
-                : SizedBox(
-                    width: double.infinity,
-                    height: 52.h,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: kPrimaryColor,
-                        disabledBackgroundColor: Colors.grey.shade300,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                        elevation: 0,
-                      ),
-                      onPressed: selectedIndex == null
-                          ? null
-                          : () {
-                              context
-                                  .read<GamePlayCubit>()
-                                  .submitAnswerAndNext();
-                            },
-                      child: Text(
-                        "تأكيد الإجابة",
-                        style: TextStyle(
-                          fontFamily: 'Cairo',
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.bold,
-                          color: selectedIndex == null
-                              ? Colors.grey.shade500
-                              : Colors.white,
-                        ),
+                : Center(
+                    child: SizedBox(
+                      height: 50,
+                      child: ElevatedButton(
+                        onPressed: selectedIndex == null
+                            ? null
+                            : () {
+                                context
+                                    .read<GamePlayCubit>()
+                                    .submitAnswerAndNext();
+                              },
+                        child: Text("تأكيد الإجابة"),
                       ),
                     ),
                   ),

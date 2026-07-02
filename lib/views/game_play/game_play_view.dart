@@ -86,11 +86,6 @@ class GamePlayView extends StatelessWidget {
                                     index,
                                   );
                                 },
-                                submit: () {
-                                  context
-                                      .read<GamePlayCubit>()
-                                      .submitAnswerAndNext();
-                                },
                               ),
                             ],
                           ),
