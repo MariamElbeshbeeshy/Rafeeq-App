@@ -23,7 +23,7 @@ class QrCubit extends Cubit<QrState> {
         //id: childId,
         id: childId,
         deviceId: "11-22-33",
-        deviceName: "Android",
+        deviceType: 1,
       );
       emit(QrSuccess(response.message));
     } on DioException catch (e) {

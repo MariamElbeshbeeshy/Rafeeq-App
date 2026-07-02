@@ -17,12 +17,23 @@ import 'package:rafeeq_app/views/qr_scan_view.dart';
 import 'package:rafeeq_app/views/test_view.dart';
 import 'package:rafeeq_app/views/quistions/mcq_view.dart';
 import 'package:rafeeq_app/widgets/app_theme.dart';
+import 'package:rafeeq_app/models/HomeModel/home_model.dart';
+
+import 'dart:io';
+
+ 
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
   Hive.registerAdapter(UserDataModelAdapter());
+  Hive.registerAdapter(HomeModelAdapter());
+  Hive.registerAdapter(HomeDataModelAdapter());
+  Hive.registerAdapter(HeaderInfoAdapter());
+  Hive.registerAdapter(LevelsListAdapter());
+  Hive.registerAdapter(StreakInfoAdapter());
   await Hive.openBox<UserDataModel>('userBox');
+  await Hive.openBox<HomeModel>('home info');
   //UserLocalServices().clearUserData();
   runApp(
     BlocProvider(
@@ -43,6 +54,7 @@ class MainApp extends StatelessWidget {
           designSize: const Size(375, 812),
           minTextAdapt: true,
           builder: (context, child) {
+            
             return MaterialApp(
               locale: const Locale('ar'),
               supportedLocales: const [Locale('ar')],
