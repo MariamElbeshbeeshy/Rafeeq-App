@@ -10,7 +10,7 @@ class HomeLoading extends HomeState {}
 class HomeSuccess extends HomeState {
   HomeSuccess({required this.homeModel});
 
-  final HomeModel homeModel;
+  final HomeDataModel homeModel;
 }
 
 class HomeError extends HomeState {

@@ -22,58 +22,61 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        actions: [
-          Padding(
-            padding: EdgeInsetsGeometry.symmetric(horizontal: 50),
-            child: CoinsWidget(coins: userInfo?.points ?? 0),
+    return BlocProvider(
+      create: (context) => HomeCubit()..getHomeData(),
+      child: Scaffold(
+        appBar: AppBar(
+          actions: [
+            Padding(
+              padding: EdgeInsetsGeometry.symmetric(horizontal: 50),
+              child: CoinsWidget(coins: userInfo?.points ?? 0),
+            ),
+          ],
+          title: Padding(
+            padding: EdgeInsetsGeometry.symmetric(horizontal: 16),
+            child: LevelWidget(level: userInfo?.level ?? 1),
           ),
-        ],
-        title: Padding(
-          padding: EdgeInsetsGeometry.symmetric(horizontal: 16),
-          child: LevelWidget(level: userInfo?.level ?? 1),
         ),
-      ),
-      body: BlocBuilder<HomeCubit, HomeState>(
-        builder: (context, state) {
-          if (state is HomeError) {
-            return _buildErrorState(state.message);
-          }
+        body: BlocBuilder<HomeCubit, HomeState>(
+          builder: (context, state) {
+            if (state is HomeError) {
+              return _buildErrorState(state.message);
+            }
 
-          if (state is HomeSuccess) {
-            final homeModel = state.homeModel;
+            if (state is HomeSuccess) {
+              final homeModel = state.homeModel;
 
-            return Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  StreakList(streakInfo: homeModel.data.streakInfo),
-                  SizedBox(height: 32.h),
-                  Text(
-                    'الأنشطة',
-                    style: TextStyle(
-                      fontSize: 26.sp,
-                      fontWeight: FontWeight.w700,
+              return Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    StreakList(streakInfo: homeModel.streakInfo),
+                    SizedBox(height: 32.h),
+                    Text(
+                      'الأنشطة',
+                      style: TextStyle(
+                        fontSize: 26.sp,
+                        fontWeight: FontWeight.w700,
+                      ),
                     ),
-                  ),
-                  SizedBox(height: 16.h),
-                  Expanded(
-                    child: ListView.builder(
-                      itemCount: homeModel.data.levelsList.length,
-                      itemBuilder: (context, index) {
-                        final level = homeModel.data.levelsList[index];
-                        return ActivityWidget(level: level);
-                      },
+                    SizedBox(height: 16.h),
+                    Expanded(
+                      child: ListView.builder(
+                        itemCount: homeModel.levelsList.length,
+                        itemBuilder: (context, index) {
+                          final level = homeModel.levelsList[index];
+                          return ActivityWidget(level: level);
+                        },
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            );
-          }
-          return _buildLoadingState();
-        },
+                  ],
+                ),
+              );
+            }
+            return _buildLoadingState();
+          },
+        ),
       ),
     );
   }
@@ -161,17 +164,17 @@ class _HomeViewState extends State<HomeView> {
             ),
             SizedBox(height: 20.h),
             ElevatedButton.icon(
-              onPressed: () => context.read<HomeCubit>().loadHomeData(),
+              onPressed: () => context.read<HomeCubit>().getHomeData(),
               icon: const Icon(Icons.refresh_rounded),
               label: const Text('إعادة المحاولة'),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xffFEC108),
-                foregroundColor: Colors.white,
-                padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16.r),
-                ),
-              ),
+              // style: ElevatedButton.styleFrom(
+              //   backgroundColor: const Color(0xffFEC108),
+              //   foregroundColor: Colors.white,
+              //   padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
+              //   shape: RoundedRectangleBorder(
+              //     borderRadius: BorderRadius.circular(16.r),
+              //   ),
+              // ),
             ),
           ],
         ),

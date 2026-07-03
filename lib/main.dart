@@ -7,7 +7,6 @@ import 'package:rafeeq_app/cubits/child%20cubit/child_cubit.dart';
 import 'package:rafeeq_app/cubits/font%20settings%20cubit/font_settings_cubit.dart';
 import 'package:rafeeq_app/models/user_data_model.dart';
 import 'package:rafeeq_app/services/user_local_services.dart';
-import 'package:rafeeq_app/views/game_play/game_play_view.dart';
 import 'package:rafeeq_app/views/navigation_view.dart';
 import 'package:rafeeq_app/views/login_view.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -21,9 +20,6 @@ import 'package:rafeeq_app/views/quistions/mcq_view.dart';
 import 'package:rafeeq_app/widgets/app_theme.dart';
 import 'package:rafeeq_app/models/HomeModel/home_model.dart';
 
-import 'dart:io';
-
- 
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -64,7 +60,6 @@ class MainApp extends StatelessWidget {
           designSize: const Size(375, 812),
           minTextAdapt: true,
           builder: (context, child) {
-            
             return MaterialApp(
               locale: const Locale('ar'),
               supportedLocales: const [Locale('ar')],
