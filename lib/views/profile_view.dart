@@ -23,26 +23,23 @@ class _ProfileViewState extends State<ProfileView> {
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: BlocProvider(
-            create: (context) => ChildCubit()..getChildData(),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children:
-                  [
-                        SizedBox(height: 80.h),
-                        UserInfo(),
-                        SizedBox(height: 16.h),
-                        HeadingText(text: "إعدادات الحساب"),
-                        FontOptions(),
-                        SizedBox(height: 16.h),
-                        HeadingText(text: "الإنجازات"),
-                        AchievementList(),
-                        LogoutButton(),
-                      ]
-                      .expand((widget) => [widget, SizedBox(height: 16.h)])
-                      .toList()
-                    ..removeLast(),
-            ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children:
+                [
+                      SizedBox(height: 80.h),
+                      UserInfo(),
+                      SizedBox(height: 16.h),
+                      HeadingText(text: "إعدادات الحساب"),
+                      FontOptions(),
+                      SizedBox(height: 16.h),
+                      HeadingText(text: "الإنجازات"),
+                      AchievementList(),
+                      LogoutButton(),
+                    ]
+                    .expand((widget) => [widget, SizedBox(height: 16.h)])
+                    .toList()
+                  ..removeLast(),
           ),
         ),
       ),

@@ -4,6 +4,7 @@ import 'package:meta/meta.dart';
 import 'package:rafeeq_app/models/HomeModel/home_model.dart';
 import 'package:rafeeq_app/services/home_local_services.dart';
 import 'package:rafeeq_app/services/home_remote_service.dart';
+import 'package:rafeeq_app/services/user_local_services.dart';
 
 part 'home_state.dart';
 
@@ -25,30 +26,48 @@ class HomeCubit extends Cubit<HomeState> {
       emit(HomeLoading());
     }
     try {
-      final cachedData = await _localService.getHomeData();
-      if (cachedData != null) {
-        emit(HomeSuccess(homeModel: cachedData));
-      }
-
       final remoteData = await _remoteService.getHomeInfo();
       await _localService.saveHomeData(remoteData);
       emit(HomeSuccess(homeModel: remoteData));
     } on DioException catch (e) {
-      final cachedData = await _localService.getHomeData();
-      if (cachedData != null) {
-        emit(HomeSuccess(homeModel: cachedData));
-        return;
+      if (cachedData == null) {
+        emit(HomeError(message: e.message ?? 'تعذر تحميل البيانات الآن'));
       }
-
       emit(HomeError(message: e.message ?? 'تعذر تحميل البيانات الآن'));
     } catch (e) {
-      final cachedData = await _localService.getHomeData();
-      if (cachedData != null) {
-        emit(HomeSuccess(homeModel: cachedData));
-        return;
+      if (cachedData == null) {
+        emit(HomeError(message: 'حدث خطأ غير متوقع'));
       }
-
-      emit(HomeError(message: 'حدث خطأ غير متوقع'));
     }
   }
 }
+
+// class HomeCubit extends Cubit<HomeState> {
+//   HomeCubit() : super(HomeInitial());
+
+//   final dio = Dio(BaseOptions(baseUrl: 'https://api-rafiq.runasp.net/api/v1'));
+
+//   Future<dynamic> getHomeData() async {
+//     try {
+//       final response = await dio.get(
+//         '/Home',
+//         options: Options(
+//           headers: {
+//             'Authorization': 'Bearer ${UserLocalServices().getToken()}',
+//           },
+//         ),
+//       );
+//       if (response.statusCode == 200 && response.data != null) {
+//         HomeDataModel homeData = HomeDataModel.fromJson(response.data["data"]);
+//         emit(HomeSuccess(homeModel: homeData));
+//       }
+//     } on DioException catch (e) {
+//       emit(
+//         HomeError(
+//           message:
+//               "${e.response?.data['message'] ?? "حدث خطأ عند فتح المستوى، حاول مرة أخرى."}",
+//         ),
+//       );
+//     }
+//   }
+// }

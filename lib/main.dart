@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:rafeeq_app/cubits/child%20cubit/child_cubit.dart';
 import 'package:rafeeq_app/cubits/font%20settings%20cubit/font_settings_cubit.dart';
 import 'package:rafeeq_app/models/user_data_model.dart';
 import 'package:rafeeq_app/services/user_local_services.dart';
@@ -19,9 +20,6 @@ import 'package:rafeeq_app/views/quistions/mcq_view.dart';
 import 'package:rafeeq_app/widgets/app_theme.dart';
 import 'package:rafeeq_app/models/HomeModel/home_model.dart';
 
-import 'dart:io';
-
- 
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -36,8 +34,15 @@ void main() async {
   await Hive.openBox<HomeModel>('home info');
   //UserLocalServices().clearUserData();
   runApp(
-    BlocProvider(
-      create: (context) => FontSettingsCubit(),
+    MultiBlocProvider(
+      providers: [
+        BlocProvider<FontSettingsCubit>(
+          create: (context) => FontSettingsCubit(),
+        ),
+        BlocProvider<ChildCubit>(
+          create: (context) => ChildCubit()..getChildData(),
+        ),
+      ],
       child: const MainApp(),
     ),
   );
@@ -48,13 +53,13 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    debugPrint("Token: ${UserLocalServices().getToken()}");
     return BlocBuilder<FontSettingsCubit, FontSettingsState>(
       builder: (context, state) {
         return ScreenUtilInit(
           designSize: const Size(375, 812),
           minTextAdapt: true,
           builder: (context, child) {
-            
             return MaterialApp(
               locale: const Locale('ar'),
               supportedLocales: const [Locale('ar')],
@@ -86,7 +91,7 @@ class MainApp extends StatelessWidget {
                   child: child!,
                 );
               },
-              initialRoute: UserLocalServices().getUserData() == null
+              initialRoute: UserLocalServices().getToken() == null
                   ? LoginView.id
                   : NavigationView.id,
             );

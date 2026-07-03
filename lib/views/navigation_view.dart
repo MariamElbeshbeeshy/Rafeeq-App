@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:rafeeq_app/helper/constants.dart';
-import 'package:rafeeq_app/views/Home/home_page.dart';
 import 'package:rafeeq_app/views/Home/home_view.dart';
 import 'package:rafeeq_app/views/OCR/ocr_view.dart';
 import 'package:rafeeq_app/views/profile_view.dart';
 import 'package:rafeeq_app/widgets/app_theme.dart';
 
 class NavigationView extends StatefulWidget {
-
   const NavigationView({super.key});
   static String id = "navigation view";
 
@@ -17,14 +15,13 @@ class NavigationView extends StatefulWidget {
 
 class _NavigationViewState extends State<NavigationView> {
   int _selectedIndex = 2;
-  
-  final List<Widget> _pages=[
-    Center(child: Text("welcome in library"),) ,
-    Center(child: Text("welcome in achievments"),) ,
-    HomePage() ,
-    OcrView() ,
-    ProfileView() ,
 
+  final List<Widget> _pages = [
+    Center(child: Text("welcome in library")),
+    Center(child: Text("welcome in achievments")),
+    HomeView(),
+    OcrView(),
+    ProfileView(),
   ];
 
   void _onNavItemTapped(int index) {
@@ -36,19 +33,17 @@ class _NavigationViewState extends State<NavigationView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-       
-
       body: _pages[_selectedIndex],
 
       //////////////////////////////////////
-      
       bottomNavigationBar: Container(
         margin: EdgeInsets.symmetric(horizontal: 16, vertical: 11),
         decoration: BoxDecoration(
-          
           borderRadius: BorderRadius.circular(40),
           border: BoxBorder.all(color: kPrimaryColor),
-          boxShadow: [BoxShadow(color:Color.fromRGBO(254, 193, 8, 0.12), blurRadius: 5)],
+          boxShadow: [
+            BoxShadow(color: Color.fromRGBO(254, 193, 8, 0.12), blurRadius: 5),
+          ],
         ),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(40),

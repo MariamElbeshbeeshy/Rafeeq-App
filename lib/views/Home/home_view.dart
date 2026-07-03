@@ -18,66 +18,79 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
+  late final HomeCubit _homeCubit;
   UserDataModel? userInfo = UserLocalServices().getUserData();
 
-   
+  @override
+  void initState() {
+    super.initState();
+    _homeCubit = HomeCubit();
+    _homeCubit.loadHomeData();
+  }
+
+  @override
+  void dispose() {
+    _homeCubit.close();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        actions: [
-          Padding(
-            padding: EdgeInsetsGeometry.symmetric(horizontal: 50),
-            child: CoinsWidget(coins: userInfo?.points ?? 0),
-          ),
-        ],
-        title: Padding(
-          padding: EdgeInsetsGeometry.symmetric(horizontal: 16),
-          child: LevelWidget(level: userInfo?.level ?? 1),
-        ),
-      ),
-      body: BlocBuilder<HomeCubit, HomeState>(
-        builder: (context, state) {
-    
-          if (state is HomeError) {
-            return _buildErrorState(state.message);
-          }
-    
-          if(state is HomeSuccess){
-            final homeModel = state.homeModel;
-    
-          return Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                StreakList(streakInfo: homeModel.data.streakInfo),
-                SizedBox(height: 32.h),
-                Text(
-                  'الأنشطة',
-                  style: TextStyle(
-                    fontSize: 36.sp,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-                SizedBox(height: 16.h),
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: homeModel.data.levelsList.length,
-                    itemBuilder: (context, index) {
-                      final level = homeModel.data.levelsList[index];
-                      return ActivityWidget(level: level);
-                    },
-                  ),
-                ),
-              ],
+    return BlocProvider.value(
+      value: _homeCubit,
+      child: Scaffold(
+        appBar: AppBar(
+          actions: [
+            Padding(
+              padding: EdgeInsetsGeometry.symmetric(horizontal: 50),
+              child: CoinsWidget(coins: userInfo?.points ?? 0),
             ),
-          );
-          }
-          return _buildLoadingState();
-          
-        },
+          ],
+          title: Padding(
+            padding: EdgeInsetsGeometry.symmetric(horizontal: 16),
+            child: LevelWidget(level: userInfo?.level ?? 1),
+          ),
+        ),
+        body: BlocBuilder<HomeCubit, HomeState>(
+          builder: (context, state) {
+            if (state is HomeError) {
+              return _buildErrorState(state.message);
+            }
+
+            if (state is HomeSuccess) {
+              final homeModel = state.homeModel;
+
+              return Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    StreakList(streakInfo: homeModel.data.streakInfo),
+                    SizedBox(height: 32.h),
+                    Text(
+                      'الأنشطة',
+                      style: TextStyle(
+                        fontSize: 26.sp,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    SizedBox(height: 16.h),
+                    Expanded(
+                      child: ListView.builder(
+                        itemCount: homeModel.data.levelsList.length,
+                        itemBuilder: (context, index) {
+                          final level = homeModel.data.levelsList[index];
+                          return ActivityWidget(level: level);
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            }
+            return _buildLoadingState();
+          },
+        ),
       ),
     );
   }

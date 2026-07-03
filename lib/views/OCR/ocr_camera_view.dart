@@ -20,7 +20,12 @@ class OcrCameraView extends StatelessWidget {
         body: BlocConsumer<CameraCubit, CameraState>(
           listener: (context, state) {
             if (state is CameraError) {
-              ShowMessage(context, state.message, []);
+              ShowMessage(context, [
+                Text(
+                  state.message,
+                  style: TextStyle(fontWeight: FontWeight.w700, fontSize: 24),
+                ),
+              ], []);
             }
             if (state is CameraCaptured) {
               File file = File(state.image.path);
