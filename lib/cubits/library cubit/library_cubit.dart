@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
+import 'package:rafeeq_app/models/Library/library_model.dart';
 import 'package:rafeeq_app/services/user_local_services.dart';
 
 part 'library_state.dart';
@@ -26,7 +27,14 @@ class LibraryCubit extends Cubit<LibraryState> {
         ),
       );
       if (response.statusCode == 200 && response.data != null) {
-        List<dynamic> libraryItems = response.data;
+        final List<dynamic> responseData =
+            response.data['data'] as List<dynamic>;
+        List<LibraryItemModel> libraryItems = responseData
+            .map(
+              (questionJson) =>
+                  LibraryItemModel.fromJson(response.data["data"]),
+            )
+            .toList();
         emit(LibraryLoaded(libraryItems));
       }
     } on DioException catch (e) {
@@ -71,7 +79,6 @@ class LibraryCubit extends Cubit<LibraryState> {
         ),
       );
       if (response.statusCode == 200) {
-        
         emit(LibraryUpdated());
       }
     } on DioException catch (e) {
