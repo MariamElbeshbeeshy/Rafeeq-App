@@ -23,7 +23,7 @@ class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => HomeCubit()..getHomeData(),
+      create: (context) => HomeCubit()..loadHomeData(),
       child: Scaffold(
         appBar: AppBar(
           actions: [
@@ -51,7 +51,7 @@ class _HomeViewState extends State<HomeView> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    StreakList(streakInfo: homeModel.streakInfo),
+                    StreakList(streakInfo: homeModel.data.streakInfo),
                     SizedBox(height: 32.h),
                     Text(
                       'الأنشطة',
@@ -63,9 +63,9 @@ class _HomeViewState extends State<HomeView> {
                     SizedBox(height: 16.h),
                     Expanded(
                       child: ListView.builder(
-                        itemCount: homeModel.levelsList.length,
+                        itemCount: homeModel.data.levelsList.length,
                         itemBuilder: (context, index) {
-                          final level = homeModel.levelsList[index];
+                          final level = homeModel.data.levelsList[index];
                           return ActivityWidget(level: level);
                         },
                       ),
@@ -164,17 +164,17 @@ class _HomeViewState extends State<HomeView> {
             ),
             SizedBox(height: 20.h),
             ElevatedButton.icon(
-              onPressed: () => context.read<HomeCubit>().getHomeData(),
+              onPressed: () => context.read<HomeCubit>().loadHomeData(),
               icon: const Icon(Icons.refresh_rounded),
               label: const Text('إعادة المحاولة'),
-              // style: ElevatedButton.styleFrom(
-              //   backgroundColor: const Color(0xffFEC108),
-              //   foregroundColor: Colors.white,
-              //   padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
-              //   shape: RoundedRectangleBorder(
-              //     borderRadius: BorderRadius.circular(16.r),
-              //   ),
-              // ),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xffFEC108),
+                foregroundColor: Colors.white,
+                padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16.r),
+                ),
+              ),
             ),
           ],
         ),
