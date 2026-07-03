@@ -1,5 +1,13 @@
+import 'package:hive/hive.dart';
+
+part 'option_model.g.dart';
+
+@HiveType(typeId: 3)
 class OptionModel {
+  @HiveField(0)
   final String id;
+
+  @HiveField(1)
   final String text;
 
   OptionModel({

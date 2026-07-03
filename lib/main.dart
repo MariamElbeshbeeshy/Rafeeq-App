@@ -6,6 +6,10 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:rafeeq_app/cubits/child%20cubit/child_cubit.dart';
 import 'package:rafeeq_app/cubits/font%20settings%20cubit/font_settings_cubit.dart';
 import 'package:rafeeq_app/models/ChildModel/user_data_model.dart';
+import 'package:rafeeq_app/models/GamePlayModels/option_model.dart';
+import 'package:rafeeq_app/models/GamePlayModels/question_content_type.dart';
+import 'package:rafeeq_app/models/GamePlayModels/questions_model.dart';
+import 'package:rafeeq_app/models/Library/library_model.dart';
 import 'package:rafeeq_app/services/user_local_services.dart';
 import 'package:rafeeq_app/views/navigation_view.dart';
 import 'package:rafeeq_app/views/login_view.dart';
@@ -20,7 +24,6 @@ import 'package:rafeeq_app/views/quistions/mcq_view.dart';
 import 'package:rafeeq_app/widgets/app_theme.dart';
 import 'package:rafeeq_app/models/HomeModel/home_model.dart';
 
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
@@ -30,6 +33,15 @@ void main() async {
   Hive.registerAdapter(HeaderInfoAdapter());
   Hive.registerAdapter(LevelsListAdapter());
   Hive.registerAdapter(StreakInfoAdapter());
+  Hive.registerAdapter(
+    QuestionContentTypeAdapter(),
+  );
+  Hive.registerAdapter(OptionModelAdapter());
+  Hive.registerAdapter(QuestionModelAdapter());
+  Hive.registerAdapter(LibraryItemModelAdapter()); // محرك المكتبة
+
+  // فتح صندوق مخصص للمكتبة
+  await Hive.openBox<LibraryItemModel>('library_box');
   await Hive.openBox<UserDataModel>('userBox');
   await Hive.openBox<HomeModel>('home info');
   //UserLocalServices().clearUserData();
