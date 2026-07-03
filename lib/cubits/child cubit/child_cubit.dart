@@ -2,8 +2,8 @@ import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
-import 'package:rafeeq_app/models/level_model.dart';
-import 'package:rafeeq_app/models/user_data_model.dart';
+import 'package:rafeeq_app/models/GamePlayModels/level_model.dart';
+import 'package:rafeeq_app/models/ChildModel/user_data_model.dart';
 import 'package:rafeeq_app/services/user_local_services.dart';
 
 part 'child_state.dart';

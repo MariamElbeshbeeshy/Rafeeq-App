@@ -5,7 +5,7 @@ import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:rafeeq_app/cubits/child%20cubit/child_cubit.dart';
 import 'package:rafeeq_app/cubits/font%20settings%20cubit/font_settings_cubit.dart';
-import 'package:rafeeq_app/models/user_data_model.dart';
+import 'package:rafeeq_app/models/ChildModel/user_data_model.dart';
 import 'package:rafeeq_app/services/user_local_services.dart';
 import 'package:rafeeq_app/views/navigation_view.dart';
 import 'package:rafeeq_app/views/login_view.dart';

@@ -1,4 +1,4 @@
-import 'package:rafeeq_app/models/user_data_model.dart';
+import 'package:rafeeq_app/models/ChildModel/user_data_model.dart';
 
 class AuthResponseModel {
   final int statusCode;

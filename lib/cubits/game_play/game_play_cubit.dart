@@ -1,9 +1,9 @@
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:meta/meta.dart';
-import 'package:rafeeq_app/models/level_result_model.dart';
-import 'package:rafeeq_app/models/questions_model.dart';
-import 'package:rafeeq_app/models/submit_question_response.dart';
+import 'package:rafeeq_app/models/GamePlayModels/level_result_model.dart';
+import 'package:rafeeq_app/models/GamePlayModels/questions_model.dart';
+import 'package:rafeeq_app/models/GamePlayModels/submit_question_response.dart';
 import 'package:rafeeq_app/services/user_local_services.dart';
 
 part 'game_play_state.dart';

@@ -1,4 +1,4 @@
-import 'package:rafeeq_app/models/option_model.dart';
+import 'package:rafeeq_app/models/GamePlayModels/option_model.dart';
 
 enum QuestionContentType {
   none,  //0
