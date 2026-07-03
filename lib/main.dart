@@ -38,9 +38,8 @@ void main() async {
   );
   Hive.registerAdapter(OptionModelAdapter());
   Hive.registerAdapter(QuestionModelAdapter());
-  Hive.registerAdapter(LibraryItemModelAdapter()); // محرك المكتبة
+  Hive.registerAdapter(LibraryItemModelAdapter());
 
-  // فتح صندوق مخصص للمكتبة
   await Hive.openBox<LibraryItemModel>('library_box');
   await Hive.openBox<UserDataModel>('userBox');
   await Hive.openBox<HomeModel>('home info');

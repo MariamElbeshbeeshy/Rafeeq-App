@@ -33,7 +33,6 @@ class HomeCubit extends Cubit<HomeState> {
       if (cachedData == null) {
         emit(HomeError(message: e.message ?? 'تعذر تحميل البيانات الآن'));
       }
-      emit(HomeError(message: e.message ?? 'تعذر تحميل البيانات الآن'));
     } catch (e) {
       if (cachedData == null) {
         emit(HomeError(message: 'حدث خطأ غير متوقع'));

@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 import 'package:rafeeq_app/models/Library/library_model.dart';
+import 'package:rafeeq_app/services/library_data_services.dart';
 import 'package:rafeeq_app/services/user_local_services.dart';
 
 part 'library_state.dart';
@@ -13,15 +14,17 @@ class LibraryCubit extends Cubit<LibraryState> {
   String baseUrl = "https://api-rafiq.runasp.net/api/v1";
   final Dio dio = Dio();
 
-  getLibraryItems() async {
+  Future<void> getLibraryItems() async {
+    emit(LibraryLoading());
+    final List<LibraryItemModel>? cachedData = await LibraryLocalService()
+        .getCachedLibraryList();
+
     try {
       Response response = await dio.get(
         '$baseUrl/library',
         options: Options(
           headers: {
-            "Authorization":
-                "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjYzNDJkMjg3LTllNmYtNDBlNy1hNjA5LTI3NzE4ZjA0M2U5ZiIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWUiOiLZitin2LPZitmGIiwidHlwZVVzZXIiOiJQYXJlbnQiLCJleHAiOjE4MTg2MTM1MTAsImlzcyI6Imh0dHA6Ly93d3cuZ29vZ2xlLmNvbSIsImF1ZCI6Imh0dHA6Ly93d3cuZ29vZ2xlLmNvbSJ9.tlSWVkfu8i87ZKrHrK1AV9e7nAQseoTLK7k3WFHypuk",
-            //"Authorization": "Bearer ${UserLocalServices().getUserData()?.token}",
+            "Authorization": "Bearer ${UserLocalServices().getToken}",
             "Accept-Language": "ar",
           },
         ),
@@ -35,11 +38,22 @@ class LibraryCubit extends Cubit<LibraryState> {
                   LibraryItemModel.fromJson(response.data["data"]),
             )
             .toList();
+        await LibraryLocalService().saveLibraryList(libraryItems);
         emit(LibraryLoaded(libraryItems));
       }
     } on DioException catch (e) {
       debugPrint(e.response?.data ?? e.message);
-      emit(LibraryError("حدث خطأ أثناء جلب البيانات"));
+      if (cachedData != null) {
+        emit(LibraryLoaded(cachedData));
+      } else {
+        emit(LibraryError("حدث خطأ أثناء جلب البيانات"));
+      }
+    } catch (e) {
+      if (cachedData != null) {
+        emit(LibraryLoaded(cachedData));
+      } else {
+        emit(LibraryError("حدث خطأ أثناء جلب البيانات"));
+      }
     }
   }
 
@@ -49,15 +63,13 @@ class LibraryCubit extends Cubit<LibraryState> {
         '$baseUrl/library/$questionID',
         options: Options(
           headers: {
-            "Authorization":
-                "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjYzNDJkMjg3LTllNmYtNDBlNy1hNjA5LTI3NzE4ZjA0M2U5ZiIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWUiOiLZitin2LPZitmGIiwidHlwZVVzZXIiOiJQYXJlbnQiLCJleHAiOjE4MTg2MTM1MTAsImlzcyI6Imh0dHA6Ly93d3cuZ29vZ2xlLmNvbSIsImF1ZCI6Imh0dHA6Ly93d3cuZ29vZ2xlLmNvbSJ9.tlSWVkfu8i87ZKrHrK1AV9e7nAQseoTLK7k3WFHypuk",
-            //"Authorization": "Bearer ${UserLocalServices().getUserData()?.token}",
+            "Authorization": "Bearer ${UserLocalServices().getToken}",
             "Accept-Language": "ar",
           },
         ),
       );
       if (response.statusCode == 200) {
-        emit(LibraryUpdated());
+        emit(LibraryUpdated("تم حفظ السؤال في مكتبتك"));
       }
     } on DioException catch (e) {
       debugPrint(e.response?.data ?? e.message);
@@ -71,15 +83,13 @@ class LibraryCubit extends Cubit<LibraryState> {
         '$baseUrl/library/$questionID',
         options: Options(
           headers: {
-            "Authorization":
-                "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjYzNDJkMjg3LTllNmYtNDBlNy1hNjA5LTI3NzE4ZjA0M2U5ZiIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWUiOiLZitin2LPZitmGIiwidHlwZVVzZXIiOiJQYXJlbnQiLCJleHAiOjE4MTg2MTM1MTAsImlzcyI6Imh0dHA6Ly93d3cuZ29vZ2xlLmNvbSIsImF1ZCI6Imh0dHA6Ly93d3cuZ29vZ2xlLmNvbSJ9.tlSWVkfu8i87ZKrHrK1AV9e7nAQseoTLK7k3WFHypuk",
-            //"Authorization": "Bearer ${UserLocalServices().getUserData()?.token}",
+            "Authorization": "Bearer ${UserLocalServices().getToken}",
             "Accept-Language": "ar",
           },
         ),
       );
       if (response.statusCode == 200) {
-        emit(LibraryUpdated());
+        emit(LibraryUpdated("تم حذف السؤال من مكتبتك"));
       }
     } on DioException catch (e) {
       debugPrint(e.message);
