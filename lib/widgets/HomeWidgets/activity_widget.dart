@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:rafeeq_app/cubits/home%20cubit/home_cubit.dart';
 import 'package:rafeeq_app/helper/constants.dart';
 import 'package:rafeeq_app/models/HomeModel/level_list_model.dart';
 import 'package:rafeeq_app/views/game_play/game_play_view.dart';
@@ -38,7 +40,10 @@ class ActivityWidget extends StatelessWidget {
           MaterialPageRoute(
             builder: (context) => GamePlayView(levelId: level.id),
           ),
-        );
+        ).then((_) {
+          if (!context.mounted) return;
+          context.read<HomeCubit>().loadHomeData();
+        });
       },
       child: Container(
         width: 343.w,

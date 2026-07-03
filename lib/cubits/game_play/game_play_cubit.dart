@@ -134,7 +134,7 @@ class GamePlayCubit extends Cubit<GamePlayState> {
 
         if (submitResponse.isCorrect) {
           emit(QuestionsCorrectAnswer(submitResponse.feedbackMessage));
-          await Future.delayed(const Duration(milliseconds: 2));
+          await Future.delayed(const Duration(seconds: 2));
           _moveToNextOrComplete();
         } else {
           _wrongAttemptsCount++;

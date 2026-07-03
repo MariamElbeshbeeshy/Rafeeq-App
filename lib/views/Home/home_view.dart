@@ -18,12 +18,26 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
+  late final HomeCubit _homeCubit;
   UserDataModel? userInfo = UserLocalServices().getUserData();
 
   @override
+  void initState() {
+    super.initState();
+    _homeCubit = HomeCubit();
+    _homeCubit.loadHomeData();
+  }
+
+  @override
+  void dispose() {
+    _homeCubit.close();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => HomeCubit()..loadHomeData(),
+    return BlocProvider.value(
+      value: _homeCubit,
       child: Scaffold(
         appBar: AppBar(
           actions: [
