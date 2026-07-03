@@ -31,19 +31,34 @@ class _QRCameraPreviewState extends State<QRCameraPreview> {
     return BlocListener<QrCubit, QrState>(
       listener: (context, state) {
         if (state is QrSuccess) {
-          ShowMessage(context, state.message, [
-            ElevatedButton(
-              onPressed: () => Navigator.pushNamedAndRemoveUntil(
-                context,
-                OtpView.id,
-                (Route<dynamic> route) => route.settings.name == LoginView.id,
-                arguments: childId,
+          ShowMessage(
+            context,
+            [
+              Text(
+                state.message,
+                style: TextStyle(fontWeight: FontWeight.w700, fontSize: 24),
               ),
-              child: Text("التالي"),
-            ),
-          ]);
+            ],
+
+            [
+              ElevatedButton(
+                onPressed: () => Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  OtpView.id,
+                  (Route<dynamic> route) => route.settings.name == LoginView.id,
+                  arguments: childId,
+                ),
+                child: Text("التالي"),
+              ),
+            ],
+          );
         } else if (state is QrError) {
-          ShowMessage(context, state.message, []);
+          ShowMessage(context, [
+            Text(
+              state.message,
+              style: TextStyle(fontWeight: FontWeight.w700, fontSize: 24),
+            ),
+          ], []);
         }
       },
       child: Transform.scale(

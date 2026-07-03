@@ -12,8 +12,6 @@ class QrCubit extends Cubit<QrState> {
   final AuthService authService = AuthService();
   QrCubit() : super(QrInitial());
   static String? childId;
-  static String? nationalityId= "3032158777";
-  //static String? nationalityId = "3032158777";
 
   Future<void> qrScanLogin(String? qrRawData) async {
     if (qrRawData != null) {
@@ -25,8 +23,7 @@ class QrCubit extends Cubit<QrState> {
         //id: childId,
         id: childId,
         deviceId: "11-22-33",
-        deviceName: "Android",
-        projectName: "Rafiq",
+        deviceType: 1,
       );
       emit(QrSuccess(response.message));
     } on DioException catch (e) {

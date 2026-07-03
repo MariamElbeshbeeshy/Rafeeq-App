@@ -10,7 +10,7 @@ class UserLocalServices {
     box.put(_userKey, user);
   }
 
-    UserDataModel? getUserData() {
+  UserDataModel? getUserData() {
     var box = Hive.box<UserDataModel>(_userBoxName);
     return box.get(_userKey);
   }
@@ -21,7 +21,33 @@ class UserLocalServices {
   }
 
   String? getToken() {
-  final user = getUserData();
-  return user?.token;
-}
+    final user = getUserData();
+    return user?.token;
+  }
+
+  Future<UserDataModel?> updateUserData(Map<String, dynamic> json) async {
+    final box = Hive.box<UserDataModel>(_userBoxName);
+    final oldData = box.get(_userKey);
+
+    if (oldData != null) {
+      final updatedData = UserDataModel(
+        id: json['id'] ?? oldData.id,
+        firstName: json['firstName'] ?? oldData.firstName,
+        lastName: json['lastName'] ?? oldData.lastName,
+        birthDate: json['birthDate'] ?? oldData.birthDate,
+        gender: json['gender'] ?? oldData.gender,
+        nationalityId: json['nationalityId'] ?? oldData.nationalityId,
+        image: json['image'] ?? oldData.image,
+        level: json['level'] ?? oldData.level,
+        token: oldData.token,
+        points: json['points'] ?? oldData.points,
+        fontSize: json['fontSize'] ?? oldData.fontSize,
+        fontType: json['fontType'] ?? oldData.fontType,
+      );
+      saveUserData(updatedData);
+    } else {
+      saveUserData(UserDataModel.fromJson(json));
+    }
+    return getUserData();
+  }
 }

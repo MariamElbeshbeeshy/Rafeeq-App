@@ -22,7 +22,8 @@ class OcrView extends StatefulWidget {
 
 class _OcrViewState extends State<OcrView> {
   UserDataModel? userInfo = UserLocalServices().getUserData();
-
+  
+  
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
