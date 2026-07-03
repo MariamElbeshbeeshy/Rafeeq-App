@@ -28,7 +28,7 @@ class GamePlayView extends StatelessWidget {
                 ShowMessage(context, [
                   Image.asset("assets/images/emojione_fire.png", height: 106.h),
                   Text(
-                    "لقد أنهيت المستوى الأول",
+                    "لقد أنهيت المستوى الحالي",
                     style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20),
                   ),
                   Row(
@@ -53,7 +53,7 @@ class GamePlayView extends StatelessWidget {
                   ),
                 ], []);
                 context.read<ChildCubit>().getChildData();
-                Future.delayed(const Duration(seconds: 10), () {
+                Future.delayed(const Duration(seconds: 3), () {
                   Navigator.popUntil(
                     context,
                     ModalRoute.withName(NavigationView.id),
@@ -75,7 +75,11 @@ class GamePlayView extends StatelessWidget {
                   [
                     ElevatedButton(
                       onPressed: () {
-                        Navigator.of(context, rootNavigator: true).pop();
+                        Navigator.popUntil(
+                          context,
+                          ModalRoute.withName(NavigationView.id),
+                        );
+                        //Navigator.of(context, rootNavigator: true).pop();
                       },
                       child: Text("حاول مرة أخرى"),
                     ),
