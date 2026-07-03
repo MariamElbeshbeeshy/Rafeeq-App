@@ -20,7 +20,7 @@ class LoginCubit extends Cubit<LoginState> {
       authLogInResponse = await authService.nationalIdLogIn(
         nationalityId: nationalId,
         deviceId: "123",
-        deviceName: "iphone",
+        deviceType: 1,
       );
       if (authLogInResponse!.key == "success") {
         emit(LoginSuccess(message: authLogInResponse!.message));

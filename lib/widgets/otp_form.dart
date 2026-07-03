@@ -129,6 +129,7 @@ class _OtpFormState extends State<OtpForm> {
                   });
                 },
                 onCompleted: (pin) {
+                  print(pin);
                   BlocProvider.of<OtpCubit>(context).otpVerify(pin);
                 },
 

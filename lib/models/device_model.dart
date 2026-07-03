@@ -1,6 +1,6 @@
 class DeviceModel {
   final String deviceId;
-  final String deviceName;
+  final int deviceType;
 
-  DeviceModel({required this.deviceId, required this.deviceName});
+  DeviceModel({required this.deviceId, required this.deviceType});
 }

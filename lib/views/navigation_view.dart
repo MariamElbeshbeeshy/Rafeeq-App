@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rafeeq_app/cubits/child%20cubit/child_cubit.dart';
 import 'package:rafeeq_app/helper/constants.dart';
+import 'package:rafeeq_app/views/Home/home_page.dart';
+import 'package:rafeeq_app/views/Home/home_view.dart';
 import 'package:rafeeq_app/services/user_local_services.dart';
 import 'package:rafeeq_app/views/OCR/ocr_view.dart';
 import 'package:rafeeq_app/views/game_play/home_view_helper.dart';
@@ -18,13 +20,14 @@ class NavigationView extends StatefulWidget {
 
 class _NavigationViewState extends State<NavigationView> {
   int _selectedIndex = 2;
+  
+  final List<Widget> _pages=[
+    Center(child: Text("welcome in library"),) ,
+    Center(child: Text("welcome in achievments"),) ,
+    HomePage() ,
+    OcrView() ,
+    ProfileView() ,
 
-  final List<Widget> _pages = [
-    Center(child: Text("welcome in library")),
-    Center(child: Text("welcome in achievments")),
-    HomeViewHelper(),
-    OcrView(),
-    ProfileView(),
   ];
 
   void _onNavItemTapped(int index) {
