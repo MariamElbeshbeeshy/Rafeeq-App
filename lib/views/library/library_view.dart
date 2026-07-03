@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:rafeeq_app/cubits/library%20cubit/library_cubit.dart';
 import 'package:rafeeq_app/helper/constants.dart';
+import 'package:rafeeq_app/views/library/library_question_display.dart';
 import 'package:rafeeq_app/widgets/library_card.dart';
 
 class LibraryView extends StatefulWidget {
@@ -30,54 +33,71 @@ class _LibraryViewState extends State<LibraryView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          "مكتبتك",
-          style: TextStyle(fontSize: 24.sp, fontWeight: FontWeight.bold),
+    return BlocProvider(
+      create: (context) => LibraryCubit()..getLibraryItems(),
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(
+            "مكتبتك",
+            style: TextStyle(fontSize: 24.sp, fontWeight: FontWeight.bold),
+          ),
+          centerTitle: true,
+          backgroundColor: Colors.white,
+          elevation: 0,
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back, color: Colors.black),
+            onPressed: () => Navigator.pop(context),
+          ),
         ),
-        centerTitle: true,
-        backgroundColor: Colors.white,
-        elevation: 0,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () => Navigator.pop(context),
-        ),
-      ),
-      body: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16.w),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              SizedBox(height: 16.h),
-              SizedBox(
-                height: 44.h,
-                child: ListView(
-                  scrollDirection: Axis.horizontal,
-                  children: [
-                    _buildFilterChip("الكل", 0),
-                    _buildFilterChip("المحفوظات", 1),
-                    _buildFilterChip("حل مرة أخرى", 2),
-                  ],
-                ),
-              ),
-              SizedBox(height: 20.h),
+        body: SafeArea(
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16.w),
+            child: BlocConsumer<LibraryCubit, LibraryState>(
+              listener: (context, state) {
+                // TODO: implement listener
+              },
+              builder: (context, state) {
+                if (state is LibraryLoaded) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      SizedBox(height: 16.h),
+                      SizedBox(
+                        height: 44.h,
+                        child: ListView(
+                          scrollDirection: Axis.horizontal,
+                          children: [
+                            _buildFilterChip("الكل", 0),
+                            _buildFilterChip("المحفوظات", 1),
+                            _buildFilterChip("حل مرة أخرى", 2),
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: 20.h),
 
-              Expanded(
-                child: ListView.builder(
-                  itemCount: libraryItems.length,
-                  padding: EdgeInsets.only(bottom: 16.h),
-                  itemBuilder: (context, index) {
-                    final item = libraryItems[index];
-                    final Color dynamicColor =
-                        cardColors[index % cardColors.length];
+                      Expanded(
+                        child: ListView.builder(
+                          itemCount: state.libraryItems.length,
+                          padding: EdgeInsets.only(bottom: 16.h),
+                          itemBuilder: (context, index) {
+                            final item = state.libraryItems[index];
+                            final Color dynamicColor =
+                                cardColors[index % cardColors.length];
 
-                    return LibraryCard(dynamicColor: dynamicColor, item: item, index: index);
-                  },
-                ),
-              ),
-            ],
+                            return LibraryCard(
+                              dynamicColor: dynamicColor,
+                              item: item,
+                              index: index,
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  );
+                }
+                return SizedBox.shrink();
+              },
+            ),
           ),
         ),
       ),
@@ -87,7 +107,9 @@ class _LibraryViewState extends State<LibraryView> {
   Widget _buildFilterChip(String label, int index) {
     bool isSelected = selectedTab == index;
     return GestureDetector(
-      onTap: () => setState(() => selectedTab = index),
+      onTap: () {
+        setState(() => selectedTab = index);
+      },
       child: Container(
         margin: EdgeInsets.only(left: 10.w),
         padding: EdgeInsets.symmetric(horizontal: 20.w),
@@ -114,5 +136,3 @@ class _LibraryViewState extends State<LibraryView> {
     );
   }
 }
-
-

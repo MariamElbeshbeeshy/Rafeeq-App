@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:rafeeq_app/helper/constants.dart';
+import 'package:rafeeq_app/models/Library/library_model.dart';
 
 class LibraryCard extends StatelessWidget {
   const LibraryCard({
@@ -12,7 +13,7 @@ class LibraryCard extends StatelessWidget {
 
   final int index;
   final Color dynamicColor;
-  final Map<String, dynamic> item;
+  final LibraryItemModel item;
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +71,7 @@ class LibraryCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      item["title"],
+                      item.question.text,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
@@ -81,7 +82,7 @@ class LibraryCard extends StatelessWidget {
                     ),
                     SizedBox(height: 4.h),
                     Text(
-                      item["level"],
+                      item.levelTitle,
                       style: TextStyle(
                         fontSize: 13.sp,
                         color: Colors.grey.shade600,

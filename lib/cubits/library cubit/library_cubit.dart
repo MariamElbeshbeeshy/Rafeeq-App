@@ -20,24 +20,25 @@ class LibraryCubit extends Cubit<LibraryState> {
         .getCachedLibraryList();
 
     try {
+      debugPrint("${UserLocalServices().getToken}");
       Response response = await dio.get(
         '$baseUrl/library',
         options: Options(
           headers: {
-            "Authorization": "Bearer ${UserLocalServices().getToken}",
-            "Accept-Language": "ar",
+            "Authorization": "Bearer ${UserLocalServices().getToken()}",
           },
         ),
       );
       if (response.statusCode == 200 && response.data != null) {
-        final List<dynamic> responseData =
-            response.data['data'] as List<dynamic>;
+        final responseData = response.data['data'];
         List<LibraryItemModel> libraryItems = responseData
             .map(
-              (questionJson) =>
-                  LibraryItemModel.fromJson(response.data["data"]),
+              (questionJson) => LibraryItemModel.fromJson(
+                questionJson as Map<String, dynamic>,
+              ),
             )
-            .toList();
+            .toList()
+            .cast<LibraryItemModel>();
         await LibraryLocalService().saveLibraryList(libraryItems);
         emit(LibraryLoaded(libraryItems));
       }
