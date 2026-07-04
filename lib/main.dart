@@ -102,10 +102,9 @@ class MainApp extends StatelessWidget {
                   child: child!,
                 );
               },
-              initialRoute: TestView.id,
-              // initialRoute: UserLocalServices().getToken() == null
-              //     ? LoginView.id
-              //     : NavigationView.id,
+              initialRoute: UserLocalServices().getToken() == null
+                  ? LoginView.id
+                  : NavigationView.id,
             );
           },
         );
