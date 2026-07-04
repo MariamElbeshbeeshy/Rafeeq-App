@@ -112,7 +112,11 @@ class GamePlayView extends StatelessWidget {
                             spacing: 10,
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              QuestionHeader(),
+                              QuestionHeader(
+                                questionId: state
+                                    .stageQuestions[state.currentQuestionIndex]
+                                    .id,
+                              ),
                               QuizProgressBar(
                                 currentQuestionIndex:
                                     state.currentQuestionIndex + 1,
@@ -138,7 +142,7 @@ class GamePlayView extends StatelessWidget {
                   ],
                 );
               }
-              return const Text("Unhandled state");
+              return SizedBox.shrink();
             },
           ),
         ),
