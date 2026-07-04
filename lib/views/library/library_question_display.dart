@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:rafeeq_app/cubits/child%20cubit/child_cubit.dart';
-import 'package:rafeeq_app/cubits/game_play/game_play_cubit.dart';
+import 'package:rafeeq_app/cubits/library%20cubit/library_cubit.dart';
 import 'package:rafeeq_app/helper/constants.dart';
 import 'package:rafeeq_app/helper/show_alert_dialog.dart';
+import 'package:rafeeq_app/models/ChildModel/user_data_model.dart';
 import 'package:rafeeq_app/models/Library/library_model.dart';
-import 'package:rafeeq_app/views/navigation_view.dart';
-import 'package:rafeeq_app/widgets/animated_bottom_feedback.dart';
+import 'package:rafeeq_app/services/user_local_services.dart';
+import 'package:rafeeq_app/widgets/header_level_info.dart';
 import 'package:rafeeq_app/widgets/mcq.dart';
-import 'package:rafeeq_app/widgets/questions_header.dart';
-import 'package:rafeeq_app/widgets/quiz_progress_bar.dart';
 
 class LibraryQuestionDisplay extends StatelessWidget {
   final LibraryItemModel item;
@@ -18,53 +16,45 @@ class LibraryQuestionDisplay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    UserDataModel? userData = UserLocalServices().getUserData();
+    final currentQuestion = item.question;
+    final options = currentQuestion.options;
+
+    final int correctOptionIndex = options.indexWhere(
+      (option) => option.id == item.answerId,
+    );
+
+    final int targetIndex = correctOptionIndex != -1 ? correctOptionIndex : 0;
+
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SafeArea(
-        child: BlocConsumer<GamePlayCubit, GamePlayState>(
+        child: BlocConsumer<LibraryCubit, LibraryState>(
           listener: (context, state) {
-            if (state is GamePlayFinished) {
+            if (state is LibraryUpdated) {
               ShowMessage(context, [
                 Image.asset("assets/images/emojione_fire.png", height: 106.h),
+                SizedBox(height: 10.h),
                 Text(
-                  "لقد أنهيت المستوى الحالي",
-                  style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20),
-                ),
-                Row(
-                  children: [
-                    Text(
-                      " وحصلت على نسبة",
-                      style: TextStyle(
-                        fontWeight: FontWeight.w700,
-                        fontSize: 20,
-                      ),
-                    ),
-                    SizedBox(width: 8),
-                    Text(
-                      "${state.score.toInt()}",
-                      style: TextStyle(
-                        fontSize: 28,
-                        color: kPrimaryColor,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
+                  state.message,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 20,
+                  ),
                 ),
               ], []);
-              context.read<ChildCubit>().getChildData();
-              Future.delayed(const Duration(seconds: 3), () {
-                Navigator.popUntil(
-                  context,
-                  ModalRoute.withName(NavigationView.id),
-                );
+
+              Future.delayed(const Duration(seconds: 2), () {
+                Navigator.pop(context);
               });
-            } else if (state is GamePlayError) {
+            } else if (state is LibraryError) {
               ShowMessage(
                 context,
                 [
                   Text(
                     state.message,
                     textAlign: TextAlign.center,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontWeight: FontWeight.w700,
                       fontSize: 24,
                     ),
@@ -72,71 +62,104 @@ class LibraryQuestionDisplay extends StatelessWidget {
                 ],
                 [
                   ElevatedButton(
-                    onPressed: () {
-                      Navigator.popUntil(
-                        context,
-                        ModalRoute.withName(NavigationView.id),
-                      );
-                      //Navigator.of(context, rootNavigator: true).pop();
-                    },
-                    child: Text("حاول مرة أخرى"),
+                    onPressed: () => Navigator.pop(context),
+                    child: const Text("حاول مرة أخرى"),
                   ),
                 ],
               );
             }
           },
-          listenWhen: (previous, current) =>
-              current is GamePlayError || current is GamePlayFinished,
-          buildWhen: (previous, current) =>
-              current is GamePlayDisplayQuestion ||
-              current is GamePlayLoadingStage,
           builder: (context, state) {
-            if (state is GamePlayLoadingStage) {
+            if (state is LibraryLoading) {
               return const Center(
                 child: CircularProgressIndicator(color: kPrimaryColor),
               );
-            } else if (state is GamePlayDisplayQuestion) {
-              final currentQuestion =
-                  state.stageQuestions[state.currentQuestionIndex];
-              final options = currentQuestion.options;
-    
-              return Column(
-                children: [
-                  Expanded(
-                    child: SingleChildScrollView(
-                      child: Padding(
-                        padding: EdgeInsets.all(16.w),
-                        child: Column(
-                          spacing: 10,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            QuestionHeader(),
-                            QuizProgressBar(
-                              currentQuestionIndex:
-                                  state.currentQuestionIndex + 1,
-                              totalQuestions: state.stageQuestions.length,
+            }
+
+            return Column(
+              children: [
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Padding(
+                      padding: EdgeInsets.all(16.w),
+                      child: Column(
+                        spacing: 15,
+                        children: [
+                          Row(
+                            children: [
+                              IconButton(
+                                onPressed: () => Navigator.pop(context),
+                                icon: Icon(Icons.arrow_back_ios),
+                              ),
+                              Spacer(),
+                              Center(
+                                child: HeaderLevelInfo(userData: userData),
+                              ),
+                              //Spacer(),
+                            ],
+                          ),
+                          SizedBox(height: 5.h),
+                          Text(
+                            "مراجعة السؤال من ${item.levelTitle}",
+                            style: TextStyle(
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.grey[600],
                             ),
-                            SizedBox(height: 20.h),
-                            Mcq(
-                              options: options,
-                              question: currentQuestion,
-                              selectedIndex: state.currentSelectedIndex,
-                              onSelect: (index) {
-                                context.read<GamePlayCubit>().selectAnswer(
-                                  index,
-                                );
-                              },
-                            ),
-                          ],
+                          ),
+
+                          SizedBox(height: 10.h),
+
+                          // الـ MCQ widget
+                          Mcq(
+                            options: options,
+                            question: currentQuestion,
+                            selectedIndex: targetIndex,
+                            onSelect: (index) {},
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 20.w,
+                    vertical: 15.h,
+                  ),
+                  child: SizedBox(
+                    width: double.infinity,
+                    height: 56.h,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: kPrimaryColor,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16.r),
+                        ),
+                      ),
+                      onPressed: () async {
+                        context.read<LibraryCubit>().deleteLibraryItem(
+                          item.questionId,
+                        );
+                        await Future.delayed(Duration(seconds: 2));
+                        if (context.mounted) {
+                          Navigator.pop(context);
+                        }
+                      },
+                      child: Text(
+                        "تم إتقان السؤال",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18.sp,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
                   ),
-                  AnimatedBottomFeedback(),
-                ],
-              );
-            }
-            return const Text("Unhandled state");
+                ),
+              ],
+            );
           },
         ),
       ),

@@ -5,6 +5,7 @@ import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:rafeeq_app/cubits/child%20cubit/child_cubit.dart';
 import 'package:rafeeq_app/cubits/font%20settings%20cubit/font_settings_cubit.dart';
+import 'package:rafeeq_app/cubits/library%20cubit/library_cubit.dart';
 import 'package:rafeeq_app/models/ChildModel/user_data_model.dart';
 import 'package:rafeeq_app/models/GamePlayModels/option_model.dart';
 import 'package:rafeeq_app/models/GamePlayModels/question_content_type.dart';
@@ -33,9 +34,7 @@ void main() async {
   Hive.registerAdapter(HeaderInfoAdapter());
   Hive.registerAdapter(LevelsListAdapter());
   Hive.registerAdapter(StreakInfoAdapter());
-  Hive.registerAdapter(
-    QuestionContentTypeAdapter(),
-  );
+  Hive.registerAdapter(QuestionContentTypeAdapter());
   Hive.registerAdapter(OptionModelAdapter());
   Hive.registerAdapter(QuestionModelAdapter());
   Hive.registerAdapter(LibraryItemModelAdapter());
@@ -53,6 +52,7 @@ void main() async {
         BlocProvider<ChildCubit>(
           create: (context) => ChildCubit()..getChildData(),
         ),
+        BlocProvider<LibraryCubit>(create: (context) => LibraryCubit()),
       ],
       child: const MainApp(),
     ),

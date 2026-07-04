@@ -58,13 +58,13 @@ class LibraryCubit extends Cubit<LibraryState> {
     }
   }
 
-  addLibraryItem(String questionID) async {
+  Future<void> addLibraryItem(String questionID) async {
     try {
       Response response = await dio.post(
         '$baseUrl/library/$questionID',
         options: Options(
           headers: {
-            "Authorization": "Bearer ${UserLocalServices().getToken}",
+            "Authorization": "Bearer ${UserLocalServices().getToken()}",
             "Accept-Language": "ar",
           },
         ),
@@ -78,13 +78,13 @@ class LibraryCubit extends Cubit<LibraryState> {
     }
   }
 
-  deleteLibraryItem(String questionID) async {
+  Future<void> deleteLibraryItem(String questionID) async {
     try {
       Response response = await dio.delete(
         '$baseUrl/library/$questionID',
         options: Options(
           headers: {
-            "Authorization": "Bearer ${UserLocalServices().getToken}",
+            "Authorization": "Bearer ${UserLocalServices().getToken()}",
             "Accept-Language": "ar",
           },
         ),
@@ -94,7 +94,7 @@ class LibraryCubit extends Cubit<LibraryState> {
       }
     } on DioException catch (e) {
       debugPrint(e.message);
-      emit(LibraryError("${e.message}"));
+      emit(LibraryError("${e.response!.data["message"]}"));
     }
   }
 }

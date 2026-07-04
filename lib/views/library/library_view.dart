@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:rafeeq_app/cubits/library%20cubit/library_cubit.dart';
 import 'package:rafeeq_app/helper/constants.dart';
-import 'package:rafeeq_app/views/library/library_question_display.dart';
 import 'package:rafeeq_app/widgets/library_card.dart';
 
 class LibraryView extends StatefulWidget {
@@ -14,7 +13,21 @@ class LibraryView extends StatefulWidget {
 }
 
 class _LibraryViewState extends State<LibraryView> {
+  late final LibraryCubit _libraryCubit;
   int selectedTab = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _libraryCubit = LibraryCubit();
+    _libraryCubit.getLibraryItems();
+  }
+
+  @override
+  void dispose() {
+    _libraryCubit.close();
+    super.dispose();
+  }
 
   final List<Map<String, dynamic>> libraryItems = [
     {"title": "استيقظ مازن مبكرًا وذهب إلى المد...", "level": "المستوى الأول"},
@@ -33,8 +46,8 @@ class _LibraryViewState extends State<LibraryView> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => LibraryCubit()..getLibraryItems(),
+    return BlocProvider.value(
+      value: _libraryCubit,
       child: Scaffold(
         appBar: AppBar(
           title: Text(

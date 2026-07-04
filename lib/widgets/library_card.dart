@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:rafeeq_app/cubits/library%20cubit/library_cubit.dart';
 import 'package:rafeeq_app/helper/constants.dart';
 import 'package:rafeeq_app/models/Library/library_model.dart';
+import 'package:rafeeq_app/views/library/library_question_display.dart';
 
 class LibraryCard extends StatelessWidget {
   const LibraryCard({
@@ -19,7 +22,18 @@ class LibraryCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        //Navigation to Question Screen
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => BlocProvider.value(
+              value: context.read<LibraryCubit>(),
+              child: LibraryQuestionDisplay(item: item),
+            ),
+          ),
+        ).then((_) {
+          if (!context.mounted) return;
+          context.read<LibraryCubit>().getLibraryItems();
+        });
       },
       child: Container(
         margin: EdgeInsets.only(bottom: 16.h),
