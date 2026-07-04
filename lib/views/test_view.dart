@@ -21,7 +21,7 @@ class TestView extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  'أهلًا بك في رفيق',
+                  'أهلًا بك في',
                   style: TextStyle(
                     color: kPrimaryColor,
                     fontWeight: FontWeight.w900,
@@ -29,13 +29,15 @@ class TestView extends StatelessWidget {
                   ),
                 ),
 
-                SizedBox(height: 10.h),
+                SizedBox(height: 20.h),
+                Image.asset("assets/images/Rafeq Logo final.png", height: 150),
+                SizedBox(height: 20.h),
                 Text(
                   "المساعد الذكي لتطوير مهارات طفلك",
                   style: TextStyle(
                     color: kPrimaryColor,
                     fontWeight: FontWeight.w400,
-                    fontSize: 14.sp,
+                    fontSize: 18.sp,
                   ),
                 ),
 
