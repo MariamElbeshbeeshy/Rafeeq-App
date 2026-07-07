@@ -3,7 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 import 'package:rafeeq_app/helper/constants.dart';
-import 'package:rafeeq_app/models/font_settings_model.dart';
+import 'package:rafeeq_app/models/ChildModel/font_settings_model.dart';
 import 'package:rafeeq_app/services/user_local_services.dart';
 
 part 'font_settings_state.dart';
@@ -31,6 +31,7 @@ class FontSettingsCubit extends Cubit<FontSettingsState> {
     int fontId = kFontToIdMap[state.fontSettings.fontFamily] ?? 1;
     final Dio dio = Dio();
     try {
+      debugPrint("${UserLocalServices().getUserData()?.token}");
       dio.patch(
         "https://api-rafiq.runasp.net/api/v1/UpdateProfile",
         data: {
@@ -48,6 +49,8 @@ class FontSettingsCubit extends Cubit<FontSettingsState> {
         ),
       );
       debugPrint("تم إرسال ID الخط للباك إند: $fontId");
+    } on DioException catch (e) {
+      debugPrint("خطأ في الربط: ${e.response?.data ?? e.message}");
     } catch (e) {
       debugPrint("خطأ في الربط: $e");
     }

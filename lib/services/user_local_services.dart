@@ -1,5 +1,5 @@
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:rafeeq_app/models/user_data_model.dart';
+import 'package:rafeeq_app/models/ChildModel/user_data_model.dart';
 
 class UserLocalServices {
   static const String _userBoxName = 'userBox';

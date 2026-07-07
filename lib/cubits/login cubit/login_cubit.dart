@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:meta/meta.dart';
-import 'package:rafeeq_app/models/auth_response_model.dart';
+import 'package:rafeeq_app/models/AuthModels/auth_response_model.dart';
 import 'package:rafeeq_app/services/auth_service.dart';
 
 part 'login_state.dart';

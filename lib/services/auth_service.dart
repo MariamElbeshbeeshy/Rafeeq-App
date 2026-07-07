@@ -1,6 +1,6 @@
 //import 'dart:nativewrappers/_internal/vm/lib/developer.dart';
 import 'package:dio/dio.dart';
-import 'package:rafeeq_app/models/auth_response_model.dart';
+import 'package:rafeeq_app/models/AuthModels/auth_response_model.dart';
 
 class AuthService {
  final dio = Dio();

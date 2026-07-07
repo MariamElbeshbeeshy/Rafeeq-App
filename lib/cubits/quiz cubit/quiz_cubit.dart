@@ -2,10 +2,10 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
-import 'package:rafeeq_app/models/finalize_stage_response.dart';
-import 'package:rafeeq_app/models/questions_model.dart';
+import 'package:rafeeq_app/models/GamePlayModels/finalize_stage_response.dart';
+import 'package:rafeeq_app/models/GamePlayModels/questions_model.dart';
 import 'package:dio/dio.dart';
-import 'package:rafeeq_app/models/quiz_stage_response_model.dart';
+import 'package:rafeeq_app/models/GamePlayModels/quiz_stage_response_model.dart';
 import 'package:rafeeq_app/services/user_local_services.dart';
 
 part 'quiz_state.dart';

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:rafeeq_app/helper/constants.dart';
 import 'package:rafeeq_app/views/Home/home_view.dart';
 import 'package:rafeeq_app/views/OCR/ocr_view.dart';
+import 'package:rafeeq_app/views/library/library_view.dart';
 import 'package:rafeeq_app/views/profile_view.dart';
 import 'package:rafeeq_app/widgets/app_theme.dart';
 
@@ -17,7 +18,7 @@ class _NavigationViewState extends State<NavigationView> {
   int _selectedIndex = 2;
 
   final List<Widget> _pages = [
-    Center(child: Text("welcome in library")),
+    LibraryView(),
     Center(child: Text("welcome in achievments")),
     HomeView(),
     OcrView(),

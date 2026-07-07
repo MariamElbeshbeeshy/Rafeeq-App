@@ -7,7 +7,7 @@ import 'package:rafeeq_app/widgets/HomeWidgets/streak_list.dart';
 import 'package:rafeeq_app/widgets/coins_widget.dart';
 import 'package:rafeeq_app/widgets/level_widget.dart';
 
-import '../../models/user_data_model.dart';
+import '../../models/ChildModel/user_data_model.dart';
 import '../../services/user_local_services.dart';
 
 class HomeView extends StatefulWidget {

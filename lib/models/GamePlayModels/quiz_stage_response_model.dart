@@ -1,4 +1,4 @@
-import 'package:rafeeq_app/models/questions_model.dart';
+import 'package:rafeeq_app/models/GamePlayModels/questions_model.dart';
 
 class QuizStageResponseModel {
   final String sessionId;

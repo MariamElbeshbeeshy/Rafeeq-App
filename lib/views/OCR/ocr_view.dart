@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:rafeeq_app/cubits/upload%20cubit/upload_cubit.dart';
 import 'package:rafeeq_app/helper/constants.dart';
-import 'package:rafeeq_app/models/user_data_model.dart';
+import 'package:rafeeq_app/models/ChildModel/user_data_model.dart';
 import 'package:rafeeq_app/services/user_local_services.dart';
 import 'package:rafeeq_app/views/OCR/take_image_view.dart';
 import 'package:rafeeq_app/views/OCR/upload_file_view.dart';
