@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:rafeeq_app/cubits/child%20cubit/child_cubit.dart';
 import 'package:rafeeq_app/cubits/font%20settings%20cubit/font_settings_cubit.dart';
 import 'package:rafeeq_app/models/user_data_model.dart';
 import 'package:rafeeq_app/services/user_local_services.dart';
@@ -14,16 +15,34 @@ import 'package:rafeeq_app/views/OCR/ocr_camera_view.dart';
 import 'package:rafeeq_app/views/otp_view.dart';
 import 'package:rafeeq_app/views/profile_view.dart';
 import 'package:rafeeq_app/views/qr_scan_view.dart';
+import 'package:rafeeq_app/views/test_view.dart';
+import 'package:rafeeq_app/views/quistions/mcq_view.dart';
 import 'package:rafeeq_app/widgets/app_theme.dart';
+import 'package:rafeeq_app/models/HomeModel/home_model.dart';
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
   Hive.registerAdapter(UserDataModelAdapter());
+  Hive.registerAdapter(HomeModelAdapter());
+  Hive.registerAdapter(HomeDataModelAdapter());
+  Hive.registerAdapter(HeaderInfoAdapter());
+  Hive.registerAdapter(LevelsListAdapter());
+  Hive.registerAdapter(StreakInfoAdapter());
   await Hive.openBox<UserDataModel>('userBox');
+  await Hive.openBox<HomeModel>('home info');
+  //UserLocalServices().clearUserData();
   runApp(
-    BlocProvider(
-      create: (context) => FontSettingsCubit(),
+    MultiBlocProvider(
+      providers: [
+        BlocProvider<FontSettingsCubit>(
+          create: (context) => FontSettingsCubit(),
+        ),
+        BlocProvider<ChildCubit>(
+          create: (context) => ChildCubit()..getChildData(),
+        ),
+      ],
       child: const MainApp(),
     ),
   );
@@ -34,7 +53,7 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    UserLocalServices userLocalServices = UserLocalServices();
+    debugPrint("Token: ${UserLocalServices().getToken()}");
     return BlocBuilder<FontSettingsCubit, FontSettingsState>(
       builder: (context, state) {
         return ScreenUtilInit(
@@ -57,8 +76,10 @@ class MainApp extends StatelessWidget {
                 OtpView.id: (context) => OtpView(),
                 ProfileView.id: (context) => ProfileView(),
                 OcrView.id: (context) => OcrView(),
-               NavigationView.id: (context) =>  NavigationView(),
+                NavigationView.id: (context) => NavigationView(),
                 OcrCameraView.id: (context) => OcrCameraView(),
+                TestView.id: (context) => TestView(),
+                McqView.id: (context) => McqView(),
               },
               builder: (context, child) {
                 return MediaQuery(
@@ -70,8 +91,7 @@ class MainApp extends StatelessWidget {
                   child: child!,
                 );
               },
-              //initialRoute: OcrCameraView.id,
-              initialRoute: userLocalServices.getUserData() == null
+              initialRoute: UserLocalServices().getToken() == null
                   ? LoginView.id
                   : NavigationView.id,
             );

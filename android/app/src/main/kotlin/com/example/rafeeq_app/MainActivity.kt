@@ -1,4 +1,4 @@
-package com.example.week6
+package com.example.rafeeq_app
 
 import io.flutter.embedding.android.FlutterActivity
 

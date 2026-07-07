@@ -1,0 +1,145 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:rafeeq_app/cubits/quiz%20cubit/quiz_cubit.dart';
+import 'package:rafeeq_app/helper/constants.dart';
+import 'package:rafeeq_app/helper/show_alert_dialog.dart';
+import 'package:rafeeq_app/views/navigation_view.dart';
+import 'package:rafeeq_app/widgets/mcq.dart';
+import 'package:rafeeq_app/widgets/quiz_progress_bar.dart';
+
+class McqView extends StatelessWidget {
+  const McqView({super.key});
+  static String id = "MCQ view";
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SafeArea(
+        child: BlocProvider(
+          create: (context) => QuizCubit()..fetchStageQuestions(),
+          child: BlocConsumer<QuizCubit, QuizState>(
+            listener: (context, state) {
+              if (state is QuizSuccessFinished) {
+                ShowMessage(
+                  context,
+                  [
+                    Text(
+                      "لقد أكملت الاختبار بنجاح وتم وضع خطة مناسبة لمستواك!",
+                      style: TextStyle(
+                        fontWeight: FontWeight.w700,
+                        fontSize: 24,
+                      ),
+                    ),
+                  ],
+
+                  [
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.pushNamedAndRemoveUntil(
+                          context,
+                          NavigationView.id,
+                          (Route<dynamic> route) =>
+                              route.settings.name == McqView.id,
+                        );
+                      },
+                      child: Text("ابدأ رحلتك مع رفيق"),
+                    ),
+                  ],
+                );
+              }
+              if (state is QuizError) {
+                ShowMessage(
+                  context,
+                  [
+                    Text(
+                      state.message,
+                      style: TextStyle(
+                        fontWeight: FontWeight.w700,
+                        fontSize: 24,
+                      ),
+                    ),
+                  ],
+                  [
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: Text("حاول مرة أخرى"),
+                    ),
+                  ],
+                );
+              }
+            },
+            builder: (context, state) {
+              if (state is QuizLoadingStage) {
+                return const Center(
+                  child: CircularProgressIndicator(color: kPrimaryColor),
+                );
+              }
+              if (state is QuizDisplayQuestion) {
+                final currentQuestion =
+                    state.stageQuestions[state.currentQuestionIndex];
+                final options = currentQuestion.options;
+
+                return Column(
+                  children: [
+                    Expanded(
+                      child: SingleChildScrollView(
+                        child: Padding(
+                          padding: EdgeInsets.all(16.w),
+                          child: Column(
+                            spacing: 10,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "مهارة ${state.skillName}",
+                                style: TextStyle(
+                                  fontSize: 20.sp,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                ),
+                              ),
+                              QuizProgressBar(
+                                currentQuestionIndex:
+                                    state.currentQuestionIndex + 1,
+                                totalQuestions: state.stageQuestions.length,
+                              ),
+                              SizedBox(height: 20.h),
+                              Mcq(
+                                options: options,
+                                question: currentQuestion,
+                                selectedIndex: state.currentSelectedIndex,
+                                onSelect: (index) {
+                                  context.read<QuizCubit>().selectAnswer(index);
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    SafeArea(
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: ElevatedButton(
+                          onPressed: () {
+                            context.read<QuizCubit>().submitAnswerAndNext();
+                          },
+                          child: Text("التالي"),
+                        ),
+                      ),
+                    ),
+                  ],
+                );
+              }
+              return Center(
+                child: CircularProgressIndicator(color: kPrimaryColor),
+              );
+            },
+          ),
+        ),
+      ),
+    );
+  }
+}

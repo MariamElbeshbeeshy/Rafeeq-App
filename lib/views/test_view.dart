@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:rafeeq_app/helper/constants.dart';
+import 'package:rafeeq_app/views/quistions/mcq_view.dart';
 import 'package:rafeeq_app/widgets/background_widget.dart';
 
 class TestView extends StatelessWidget {
   const TestView({super.key});
+
+  static String id = "Test view";
 
   @override
   Widget build(BuildContext context) {
@@ -87,7 +90,14 @@ class TestView extends StatelessWidget {
                       ),
                       SizedBox(height: 20.h),
                       ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pushNamedAndRemoveUntil(
+                            context,
+                            McqView.id,
+                            (Route<dynamic> route) =>
+                                route.settings.name == TestView.id,
+                          );
+                        },
                         child: Text("ابدأ الآن"),
                       ),
                     ],
