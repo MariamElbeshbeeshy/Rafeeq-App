@@ -12,7 +12,7 @@ class FontSettingsCubit extends Cubit<FontSettingsState> {
   FontSettingsCubit()
     : super(
         FontSettingsInitial(
-          fontSettings: FontSettingsModel(fontSize: 100, fontFamily: 'Cairo'),
+          fontSettings: FontSettingsModel(fontSize: 120, fontFamily: 'maqroo'),
         ),
       );
 

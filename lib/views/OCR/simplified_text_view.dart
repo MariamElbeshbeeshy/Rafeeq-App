@@ -4,7 +4,8 @@ import 'package:rafeeq_app/helper/constants.dart';
 import 'package:rafeeq_app/widgets/tts_audio_player.dart';
 
 class SimplifiedContentView extends StatelessWidget {
-  const SimplifiedContentView({super.key});
+  final String? text;
+  const SimplifiedContentView({super.key, this.text});
   static String id = "SimplifiedContentView";
 
   @override
@@ -49,7 +50,7 @@ class SimplifiedContentView extends StatelessWidget {
                       Expanded(
                         child: SingleChildScrollView(
                           child: Text(
-                            "هذا النص هو مثال على المحتوى المبسط الذي يمكن عرضه للطفل.\n\n تم تصميمه ليكون سهل القراءة والفهم، مع استخدام لغة بسيطة وجمل قصيرة.\n\n يمكن أن يحتوي هذا النص على معلومات تعليمية أو قصص قصيرة تساعد الطفل على التعلم بطريقة ممتعة.",
+                            text ?? 'حدث خطأ',
                             textAlign: TextAlign.right,
                             style: TextStyle(
                               fontSize: 18.sp,
@@ -61,7 +62,7 @@ class SimplifiedContentView extends StatelessWidget {
                           ),
                         ),
                       ),
-                      TTSAudioPlayer(),
+                      TTSAudioPlayer(text :'audio/reading.mp3'),
                     ],
                   ),
                 ),

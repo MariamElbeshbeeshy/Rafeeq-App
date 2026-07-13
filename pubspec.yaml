@@ -26,6 +26,7 @@ dependencies:
   camera: ^0.12.0+1
   percent_indicator: ^4.2.5
   audioplayers: ^6.7.1
+  path_provider: ^2.1.3
 
 dev_dependencies:
   flutter_test:
@@ -39,6 +40,7 @@ flutter:
   assets:
     - assets/fonts/
     - assets/images/
+    - assets/audio/
     - assets/images/achievements/
     - assets/images/levels/
   fonts:
@@ -59,3 +61,7 @@ flutter:
     - family: Poppins
       fonts:
         - asset: assets/fonts/Poppins-Regular.ttf
+
+    - family: maqroo
+      fonts:
+        - asset: assets/fonts/maqroo.ttf

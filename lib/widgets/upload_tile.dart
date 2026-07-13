@@ -2,16 +2,19 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:rafeeq_app/views/OCR/simplified_text_view.dart';
 
 class UploadTile extends StatelessWidget {
   final double progress;
   final File file;
   final bool isButtonEnabled;
+  final String? text;
   const UploadTile({
     super.key,
     required this.progress,
     required this.file,
     required this.isButtonEnabled,
+    this.text,
   });
 
   @override
@@ -87,7 +90,16 @@ class UploadTile extends StatelessWidget {
             SizedBox(
               width: 94.w,
               child: ElevatedButton(
-                onPressed: () => isButtonEnabled ? () {} : null,
+                onPressed: isButtonEnabled
+                    ? () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => SimplifiedContentView(text: text),
+                          ),
+                        );
+                      }
+                    : null,
                 child: Text("استمر"),
               ),
             ),

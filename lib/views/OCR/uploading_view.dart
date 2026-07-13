@@ -27,7 +27,7 @@ class _UploadScreenState extends State<UploadScreen> {
                 isButtonEnabled: false,
               )
             else if (state is UploadSuccess)
-              UploadTile(progress: 1.0, file: state.file, isButtonEnabled: true)
+              UploadTile(progress: 1.0, file: state.file, isButtonEnabled: true , text: state.text)
             else if (state is UploadFailure)
               Text(
                 "فشل الرفع: ${state.errorMessage}",

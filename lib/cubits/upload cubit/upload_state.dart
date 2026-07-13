@@ -13,8 +13,10 @@ final class UploadInProgress extends UploadState {
 }
 
 final class UploadSuccess extends UploadState {
-  final File file;
-  UploadSuccess({required this.file});
+   final String text;
+   final File file;
+    
+  UploadSuccess({required this.text, required this.file});
 }
 
 final class UploadFailure extends UploadState {

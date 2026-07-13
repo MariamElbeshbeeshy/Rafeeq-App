@@ -12,6 +12,7 @@ import 'package:rafeeq_app/models/GamePlayModels/question_content_type.dart';
 import 'package:rafeeq_app/models/GamePlayModels/questions_model.dart';
 import 'package:rafeeq_app/models/Library/library_model.dart';
 import 'package:rafeeq_app/services/user_local_services.dart';
+import 'package:rafeeq_app/views/OCR/simplified_text_view.dart';
 import 'package:rafeeq_app/views/navigation_view.dart';
 import 'package:rafeeq_app/views/login_view.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -91,6 +92,7 @@ class MainApp extends StatelessWidget {
                 OcrCameraView.id: (context) => OcrCameraView(),
                 TestView.id: (context) => TestView(),
                 McqView.id: (context) => McqView(),
+                SimplifiedContentView.id :(context) => SimplifiedContentView()
               },
               builder: (context, child) {
                 return MediaQuery(
@@ -102,9 +104,10 @@ class MainApp extends StatelessWidget {
                   child: child!,
                 );
               },
-              initialRoute: UserLocalServices().getToken() == null
-                  ? LoginView.id
-                  : NavigationView.id,
+             //home:LoginView(),
+               initialRoute: UserLocalServices().getToken() == null
+            ? LoginView.id
+             : NavigationView.id,
             );
           },
         );

@@ -75,8 +75,6 @@ class _OcrViewState extends State<OcrView> {
                     builder: (context, state) {
                       return TabBarView(
                         children: [
-                          if (state is UploadInProgress) UploadScreen(),
-
                           UploadFileView(),
                           TakeImageView(),
                           PasteTextView(),

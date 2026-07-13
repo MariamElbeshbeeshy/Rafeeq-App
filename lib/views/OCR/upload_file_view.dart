@@ -27,8 +27,7 @@ class _UploadFileViewState extends State<UploadFileView>
   Widget build(BuildContext context) {
     super.build(context);
 
-    return Column(
-      mainAxisSize: MainAxisSize.min,
+    return ListView(
       children: [
         /// upload container ///
         Container(

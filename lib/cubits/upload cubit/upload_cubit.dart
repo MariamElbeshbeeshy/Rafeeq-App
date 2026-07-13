@@ -2,34 +2,26 @@ import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
+import 'package:rafeeq_app/services/ocr_services.dart';
 
 part 'upload_state.dart';
 
 class UploadCubit extends Cubit<UploadState> {
   UploadCubit() : super(UploadInitial());
+   final ocrServices = OcrServices();
+   
 
   Future<void> uploadFile(File file) async {
     try {
-      emit(UploadInProgress(progress: 0.0, file: file));
-
-      // Simulate Upload Progress
-      Future.delayed(Duration(seconds: 2)); // Simulate upload delay
-      emit(UploadInProgress(progress: 0.5, file: file));
-
-      Future.delayed(Duration(seconds: 3)); // Simulate upload delay
-      emit(UploadInProgress(progress: 1.0, file: file));
-
-      //Upload logic here
-      // await Dio().post(
-      //   "YOUR_API_URL",
-      //   data: FormData.fromMap({"file": await MultipartFile.fromFile(file.path)}),
-      //   onSendProgress: (sent, total) {
-      //     double progress = sent / total;
-      //     emit(UploadInProgress(progress: progress, file: file)); // تحديث الـ UI بنسبة الرفع
-      //   },
-      // );
-
-      emit(UploadSuccess(file: file));
+      
+      final response = await ocrServices.uploadFile(
+       file: file , 
+        onProgress : (progress){
+          emit(UploadInProgress(progress: progress , file: file));
+           }
+      );
+     print("hii response:$response");
+      emit(UploadSuccess(text: response , file: file));
     } catch (e) {
       emit(UploadFailure("فشل الرفع: ${e.toString()}"));
     }

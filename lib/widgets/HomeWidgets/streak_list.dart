@@ -50,7 +50,7 @@ class StreakList extends StatelessWidget {
                             .map(
                               (entry) => StreakCard(
                                 dayNumber: entry.key + 1,
-                                completed: entry.value.isCompleted,
+                                completed: false,
                               ),
                             )
                             .toList(),

@@ -1,156 +1,194 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:rafeeq_app/helper/constants.dart';
 import 'package:audioplayers/audioplayers.dart';
-import 'dart:async';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'package:rafeeq_app/cubits/audio cubit/audio_cubit.dart';
+
+/// A comprehensive audio player UI for TTS (Text-to-Speech) playback.
+///
+/// Features:
+/// - Progress slider with millisecond precision for smooth movement
+/// - Current and total time display
+/// - Playback controls (rewind 5s, play/pause, forward 5s)
+/// - Real-time state updates via BLoC
+///
+/// This widget delegates all playback logic to [AudioCubit], maintaining
+/// clean separation between UI and business logic.
 class TTSAudioPlayer extends StatefulWidget {
-  const TTSAudioPlayer({super.key});
+  final String? text;
+
+  const TTSAudioPlayer({super.key, this.text});
 
   @override
   State<TTSAudioPlayer> createState() => _TTSAudioPlayerState();
 }
 
 class _TTSAudioPlayerState extends State<TTSAudioPlayer> {
-  late AudioPlayer audioPlayer;
-  Duration duration = Duration.zero;
-  Duration position = Duration.zero;
-
-  bool isPlaying = false;
+  late final AudioCubit _cubit;
 
   @override
   void initState() {
     super.initState();
-    audioPlayer = AudioPlayer();
 
-    audioPlayer.onDurationChanged.listen((d) {
-      if (mounted) {
-        setState(() => duration = d);
-      }
-    });
+    _cubit = AudioCubit();
 
-    audioPlayer.onPositionChanged.listen((p) {
-      if (mounted) {
-        setState(() => position = p);
-      }
-    });
-
-    audioPlayer.setSourceUrl(
-      "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
-    );
+    if ((widget.text ?? '').isNotEmpty) {
+      _cubit.loadAudio(widget.text!);
+    }
   }
 
   @override
   void dispose() {
-    audioPlayer.stop();
-    audioPlayer.dispose();
+    _cubit.close();
     super.dispose();
   }
 
+  /// Format duration to MM:SS format.
   String formatTime(Duration d) {
-    String twoDigits(int n) => n.toString().padLeft(2, "0");
+    String twoDigits(int n) => n.toString().padLeft(2, '0');
     final minutes = twoDigits(d.inMinutes.remainder(60));
     final seconds = twoDigits(d.inSeconds.remainder(60));
-    return "$minutes:$seconds";
+    return '$minutes:$seconds';
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        SliderTheme(
-          data: SliderThemeData(
-            trackHeight: 6.h,
-            thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 0),
-            overlayShape: const RoundSliderOverlayShape(overlayRadius: 0),
-          ),
-          child: Slider(
-            value: position.inSeconds.toDouble(),
-            min: 0,
-            max: duration.inSeconds > 0 ? duration.inSeconds.toDouble() : 100,
-            activeColor: kPrimaryColor,
-            inactiveColor: const Color(0xFFE2E8F0),
-            onChanged: (value) async {
-              final newPosition = Duration(seconds: value.toInt());
-              await audioPlayer.seek(newPosition);
-            },
-          ),
-        ),
-        SizedBox(height: 6.h),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              formatTime(position),
-              style: TextStyle(fontSize: 12.sp, color: Colors.grey),
-            ),
-            Text(
-              formatTime(duration),
-              style: TextStyle(fontSize: 12.sp, color: Colors.grey),
-            ),
-          ],
-        ),
-        SizedBox(height: 12.h),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            IconButton(
-              icon: const Icon(
-                Icons.forward_5_rounded,
-                size: 32,
-                color: Color(0xFF4A5568),
-              ),
-              onPressed: () async {
-                final newPosition = position - const Duration(seconds: 5);
-                if (newPosition > Duration.zero) {
-                  await audioPlayer.seek(newPosition);
-                } else {
-                  await audioPlayer.seek(Duration.zero);
-                }
-              },
-            ),
-            SizedBox(width: 24.w),
-            GestureDetector(
-              onTap: () async {
-                if (isPlaying) {
-                  await audioPlayer.pause();
-                } else {
-                  await audioPlayer.resume();
-                }
-                setState(() => isPlaying = !isPlaying);
-              },
+    return BlocProvider<AudioCubit>.value(
+      value: _cubit,
+      child: BlocBuilder<AudioCubit, AudioState>(
+        builder: (context, state) {
+          // Show loading indicator while fetching audio
+          if (state is AudioLoading || state is AudioInitial) {
+            return const Center(
+              child: CircularProgressIndicator(color: kPrimaryColor),
+            );
+          }
 
-              child: Container(
-                width: 54.r,
-                height: 54.r,
-                decoration: const BoxDecoration(
-                  color: kPrimaryColor,
-                  shape: BoxShape.circle,
+          // Show error message if audio loading failed
+          if (state is AudioError) {
+            return Text(
+              'حدث خطأ: ${state.message}',
+              style: const TextStyle(color: Colors.red),
+            );
+          }
+
+          // Show player UI when audio is ready
+          if (state is AudioReady) {
+            final duration = state.duration;
+            final position = state.position;
+            final isPlaying = state.isPlaying;
+
+            return Column(
+              children: [
+                // Progress slider with millisecond precision
+                SliderTheme(
+                  data: SliderThemeData(
+                    trackHeight: 6.h,
+                    thumbShape: const RoundSliderThumbShape(
+                      enabledThumbRadius: 0,
+                    ),
+                    overlayShape: const RoundSliderOverlayShape(
+                      overlayRadius: 0,
+                    ),
+                  ),
+                  child: Slider(
+                    // Use milliseconds for smooth slider movement
+                    value: position.inMilliseconds.toDouble(),
+                    min: 0,
+                    max: duration.inMilliseconds <= 0
+                        ? 1
+                        : duration.inMilliseconds.toDouble(),
+                    activeColor: kPrimaryColor,
+                    inactiveColor: const Color(0xFFE2E8F0),
+                    // Update position when user drags the slider
+                    onChanged: (value) {
+                      _cubit.seek(Duration(milliseconds: value.toInt()));
+                    },
+                  ),
                 ),
-                child: Icon(
-                  isPlaying ? Icons.pause_rounded : Icons.play_arrow_rounded,
-                  size: 36.r,
-                  color: Colors.white,
+                SizedBox(height: 6.h),
+
+                // Display current time and total duration
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      formatTime(position),
+                      style: TextStyle(fontSize: 12.sp, color: Colors.grey),
+                    ),
+                    Text(
+                      formatTime(duration),
+                      style: TextStyle(fontSize: 12.sp, color: Colors.grey),
+                    ),
+                  ],
                 ),
-              ),
-            ),
-            SizedBox(width: 24.w),
-            IconButton(
-              icon: const Icon(
-                Icons.replay_5_rounded,
-                size: 32,
-                color: Color(0xFF4A5568),
-              ),
-              onPressed: () async {
-                final newPosition = position + const Duration(seconds: 5);
-                if (newPosition < duration) {
-                  await audioPlayer.seek(newPosition);
-                }
-              },
-            ),
-          ],
-        ),
-      ],
+                SizedBox(height: 12.h),
+
+                // Playback controls: Rewind 5s, Play/Pause, Forward 5s
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    // Rewind 5 seconds button
+                    IconButton(
+                      icon:  Icon(
+                        Icons.forward_5_rounded,
+                        size: 32,
+                        color: Colors.grey[400],
+                      ),
+                      onPressed: () async {
+                        await context.read<AudioCubit>().rewind5();
+                      },
+                    ),
+                    
+                    SizedBox(width: 24.w),
+
+                    // Play/Pause button
+                    GestureDetector(
+                      onTap: _cubit.togglePlayPause,
+                      child: Container(
+                        width: 54.r,
+                        height: 54.r,
+                        decoration: const BoxDecoration(
+                          color: kPrimaryColor,
+                          shape: BoxShape.circle,
+                        ),
+                        child: Icon(
+                          isPlaying
+                              ? Icons.pause_rounded
+                              : Icons.play_arrow_rounded,
+                          size: 36.r,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: 24.w),
+
+                    // Forward 5 seconds button
+                    IconButton(
+                      icon:  Icon(
+                        Icons.replay_5,
+                        size: 32,
+                        color: Colors.grey[400],
+                      ),
+                      onPressed: () async {
+                        await context.read<AudioCubit>().forward5();
+                      },
+                    ),
+                    /////
+                    
+                  ],
+                ),
+              ],
+            );
+          }
+
+          return const SizedBox.shrink();
+        },
+      ),
     );
   }
 }

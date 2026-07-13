@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:rafeeq_app/cubits/audio%20cubit/audio_cubit.dart';
 import 'package:rafeeq_app/helper/constants.dart';
 import 'package:rafeeq_app/models/GamePlayModels/option_model.dart';
 import 'package:rafeeq_app/models/GamePlayModels/question_content_type.dart';
@@ -15,7 +17,7 @@ class Mcq extends StatelessWidget {
   final QuestionModel question;
   final int? selectedIndex;
   final ValueChanged<int> onSelect;
-
+   
   const Mcq({
     super.key,
     required this.options,
@@ -26,7 +28,9 @@ class Mcq extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     debugPrint("Question Type: ${question.type}");
+    final  AudioCubit _cubit = AudioCubit();
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -53,7 +57,10 @@ class Mcq extends StatelessWidget {
             ),
             child: Center(
               child: IconButton(
-                onPressed: () {},
+                onPressed: () async {
+                  await _cubit.loadAudio('audio/$question.mp3');
+                  _cubit.play();
+                },
                 icon: Icon(Icons.volume_up, color: kSecondaryColor, size: 25),
               ),
             ),
@@ -62,7 +69,7 @@ class Mcq extends StatelessWidget {
         SizedBox(height: 35.h),
         _buildContent(),
         if (question.audioUrl != null)
-          AudioPlayerBar(audioUrl: question.audioUrl ?? ''),
+          AudioPlayerBar(audioPath:'audio/a$question.mp3' ),
         ListView.builder(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
@@ -149,7 +156,7 @@ class Mcq extends StatelessWidget {
       case QuestionContentType.wordList:
       case QuestionContentType.word:
       case QuestionContentType.wordIncomplete:
-      case QuestionContentType.confusedPair:
+      //case QuestionContentType.confusedPair:
       case QuestionContentType.wordDisplay:
         return WordList(words: question.content);
       case QuestionContentType.letterPositions:
